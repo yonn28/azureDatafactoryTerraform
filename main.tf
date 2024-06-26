@@ -17,14 +17,6 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "storage" {
   depends_on = [ azurerm_data_factory.df ]
 }
 
-resource "azurerm_data_factory_dataset_azure_blob" "input_dataset" {
-  name                = "InputDataset"
-  data_factory_id   = azurerm_data_factory.df.id
-  linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.storage.name
-  path     = "data"
-  filename   = "movies.csv"
-  depends_on = [ azurerm_data_factory_linked_service_azure_blob_storage.storage ]
-}
 
 resource "azurerm_data_factory_linked_service_azure_sql_database" "sql" {
   name              = "sqlLinkedService"
@@ -34,6 +26,14 @@ resource "azurerm_data_factory_linked_service_azure_sql_database" "sql" {
 }
 
 
+resource "azurerm_data_factory_dataset_azure_blob" "input_dataset" {
+  name                = "InputDataset"
+  data_factory_id   = azurerm_data_factory.df.id
+  linked_service_name = azurerm_data_factory_linked_service_azure_blob_storage.storage.name
+  path     = "data"
+  filename   = "movies.csv"
+  depends_on = [ azurerm_data_factory_linked_service_azure_blob_storage.storage ]
+}
 
 resource "azurerm_data_factory_dataset_azure_sql_table" "output_dataset" {
   name                = "OutputDataset"

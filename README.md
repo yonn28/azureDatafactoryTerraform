@@ -2,7 +2,9 @@
 
 export from azure a resource
 
+``` 
 aztfexport resource --non-interactive --hcl-only **********
+```
 
 
 missing provider.tf file for integration with azure devops, look you need the azurerm for write the tfstate files into the storage account.
