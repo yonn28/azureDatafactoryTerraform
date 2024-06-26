@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Load CSV Data",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "BlobSource",
+            "recursive": true
+        },
+        "sink": {
+            "type": "AzureSqlSink",
+            "writeBehavior": "insert",
+            "sqlWriterUseTableLock": false
+        },
+        "enableStaging": false,
+        "translator": {
+            "type": "TabularTranslator",
+            "columnMappings": {
+                "Prop_0": "Film",
+                "Prop_1": "Genre",
+                "Prop_2": "LeadStudio",
+                "Prop_3": "AudienceScorePercent",
+                "Prop_4": "Profitability",
+                "Prop_5": "RottenTomatoesPercent",
+                "Prop_6": "WorldwideGross",
+                "Prop_7": "Year"
+            }
+        }
+    },
+    "inputs": [
+        {
+            "referenceName": "InputDataset",
+            "type": "DatasetReference"
+        }
+    ],
+    "outputs": [
+        {
+            "referenceName": "OutputDataset",
+            "type": "DatasetReference"
+        }
+    ]
+  }
+]
