@@ -1,6 +1,6 @@
 [
   {
-    "name": "Load CSV Data",
+    "name": "Load Excel Data",
     "type": "Copy",
     "dependsOn": [],
     "policy": {

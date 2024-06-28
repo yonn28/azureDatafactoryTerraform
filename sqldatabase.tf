@@ -16,6 +16,34 @@ data "http" "currentip" {
   url = "https://ipv4.icanhazip.com"
 }
 
+
+resource "random_string" "random" {
+  length = 6
+  special = false
+  upper = false
+}
+
+resource "azurerm_virtual_network" "netdb" {
+  name                = "${random_string.random.result}-network"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.appgrp.location
+  resource_group_name = azurerm_resource_group.appgrp.name
+    depends_on = [
+    azurerm_resource_group.appgrp
+  ]
+}
+
+resource "azurerm_subnet" "subnetdb" {
+  name                 = "${random_string.random.result}-subnet"
+  resource_group_name  = azurerm_resource_group.appgrp.name
+  virtual_network_name = azurerm_virtual_network.netdb.name
+  address_prefixes       = ["10.0.1.0/24"]
+  private_endpoint_network_policies  = "Enabled"
+    depends_on = [
+    azurerm_virtual_network.netdb
+  ]
+}
+
 resource "azurerm_mssql_server" "sqlserver" {
   name                         = "sqlserver400908"
   resource_group_name          = azurerm_resource_group.appgrp.name
@@ -26,6 +54,45 @@ resource "azurerm_mssql_server" "sqlserver" {
   depends_on = [
     azurerm_resource_group.appgrp
   ]
+}
+
+resource "azurerm_private_endpoint" "conectionPrivate" {
+  name                = "private-endpoint-sql"
+  location            = azurerm_resource_group.appgrp.location
+  resource_group_name = azurerm_resource_group.appgrp.name
+  subnet_id           = azurerm_subnet.subnetdb.id
+
+  private_service_connection {
+    name                           = "private-serviceconnection"
+    private_connection_resource_id = azurerm_mssql_server.sqlserver.id
+    subresource_names              = [ "sqlServer" ]
+    is_manual_connection           = false
+  }
+
+  private_dns_zone_group {
+    name                 = "dns-zone-group"
+    private_dns_zone_ids = [azurerm_private_dns_zone.my_terraform_dns_zone.id]
+  }
+
+  depends_on = [
+    azurerm_mssql_server.sqlserver,
+    azurerm_virtual_network.netdb
+  ]
+}
+
+
+# Create private DNS zone
+resource "azurerm_private_dns_zone" "my_terraform_dns_zone" {
+  name                = "privatelink.database.windows.net"
+  resource_group_name = azurerm_resource_group.appgrp.name
+}
+
+# Create virtual network link
+resource "azurerm_private_dns_zone_virtual_network_link" "my_terraform_vnet_link" {
+  name                  = "vnet-link"
+  resource_group_name   = azurerm_resource_group.appgrp.name
+  private_dns_zone_name = azurerm_private_dns_zone.my_terraform_dns_zone.name
+  virtual_network_id    = azurerm_virtual_network.netdb.id
 }
 
 resource "azurerm_mssql_database" "sqldatabase" {
@@ -44,7 +111,7 @@ resource "azurerm_mssql_database" "sqldatabase" {
   
   depends_on = [
     azurerm_mssql_server.sqlserver
-      ]
+  ]
   
 }
 

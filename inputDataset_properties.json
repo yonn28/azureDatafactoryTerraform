@@ -1,0 +1,10 @@
+{
+    "location": {
+      "type":"AzureBlobStorageLocation",
+      "fileName":"movies.xls",
+      "container":"data"
+    },
+    "encodingName":"UTF-8",
+    "sheetIndex": 0,
+    "firstRowAsHeader": true
+  }

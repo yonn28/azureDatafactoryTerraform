@@ -14,7 +14,7 @@ resource "azurerm_storage_account" "vmst25062024" {
 
 resource "azurerm_storage_container" "data" {
   name                  = "data"
-  storage_account_name  = "vmst25062024"
+  storage_account_name  = azurerm_storage_account.vmst25062024.name
   container_access_type = "blob"
   depends_on=[
     azurerm_storage_account.vmst25062024
@@ -24,11 +24,11 @@ resource "azurerm_storage_container" "data" {
 
 
 resource "azurerm_storage_blob" "moviesField" {
-  name                   = "movies.csv"
-  storage_account_name   = "vmst25062024"
-  storage_container_name = "data"
+  name                   = "movies.xlsx"
+  storage_account_name   = azurerm_storage_account.vmst25062024.name
+  storage_container_name = azurerm_storage_container.data.name
   type                   = "Block"
-  source                 = "movies.csv"
+  source                 = "movies.xlsx"
    depends_on=[azurerm_storage_container.data,
     azurerm_storage_account.vmst25062024]
 }

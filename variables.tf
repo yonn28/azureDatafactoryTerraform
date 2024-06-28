@@ -3,7 +3,7 @@ variable "resource_group_name" {
   default = "RG-factory"
 }
 variable "location" {
-  type        = string
+  type    = string
   default = "eastus"
 }
 
@@ -29,3 +29,27 @@ variable "administrator_login_password" {
     default = "Azure@3456"
 }
 
+variable "input_dataset" {
+  type = list(object({
+    name = string
+    properties_file_path = string
+    schema_file_path = string
+  }))
+  default = [ {
+    name = "InputDataset",
+    properties_file_path = "inputDataset_properties.json"
+    schema_file_path = "inputDataset_schema.json"
+  } ]
+}
+
+
+variable "pipelines" {
+  type = list(object({
+    name = string
+    activities_file_path = string
+  }))
+  default = [ {
+    name = "updateMoviesSQLPipeline"
+    activities_file_path = "pipeline.json"
+  } ]
+}

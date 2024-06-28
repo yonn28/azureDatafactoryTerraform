@@ -1,3 +1,4 @@
+-- schema for movies.csv
 CREATE TABLE Movies (
     Film VARCHAR(1000) NULL,
     Genre VARCHAR(1000) NULL,
@@ -8,3 +9,4 @@ CREATE TABLE Movies (
     WorldwideGross VARCHAR(1000) NULL,
     Year VARCHAR(1000) NULL
 );
+
