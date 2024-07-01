@@ -1,0 +1,115 @@
+[
+  {
+    "name": "Load Excel Data",
+    "type": "Copy",
+    "dependsOn": [],
+    "policy": {
+        "retry": 0,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "BlobSource",
+            "recursive": true
+        },
+        "sink": {
+            "type": "AzureSqlSink",
+            "writeBehavior": "insert",
+            "sqlWriterUseTableLock": false
+        },
+        "enableStaging": false,
+        "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+                {
+                    "source": {
+                        "name": "Film",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "Film"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Genre",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "Genre"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Lead Studio",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "LeadStudio"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Audience score %",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "AudienceScorePercent"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Profitability",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "Profitability"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Rotten Tomatoes %",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "RottenTomatoesPercent"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Worldwide Gross",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "WorldwideGross"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "Year",
+                        "type": "String"
+                    },
+                    "sink": {
+                        "name": "Year"
+                    }
+                }
+            ]
+        }
+    },
+    "inputs": [
+        {
+            "referenceName": "InputDataset",
+            "type": "DatasetReference"
+        }
+    ],
+    "outputs": [
+        {
+            "referenceName": "OutputDataset",
+            "type": "DatasetReference"
+        }
+    ]
+  }
+]

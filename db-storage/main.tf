@@ -9,6 +9,12 @@ in this terraform configuration file
 
 */
 
+resource "azurerm_resource_group" "appgrp" {
+  name     = var.resource_group_name
+  location = var.location  
+}
+
+
 data "azurerm_client_config" "current" {
 }
 
@@ -49,8 +55,8 @@ resource "azurerm_mssql_server" "sqlserver" {
   resource_group_name          = azurerm_resource_group.appgrp.name
   location                     = azurerm_resource_group.appgrp.location
   version                      = "12.0"
-  administrator_login          = "sqladmin"
-  administrator_login_password = "Azure@3456"  
+  administrator_login          = var.administrator_login
+  administrator_login_password = var.administrator_login_password 
   depends_on = [
     azurerm_resource_group.appgrp
   ]
@@ -145,4 +151,44 @@ resource "null_resource" "init_sql_db" {
     }
     command = "sqlcmd -U ${azurerm_mssql_server.sqlserver.administrator_login} -S ${azurerm_mssql_server.sqlserver.fully_qualified_domain_name} -d ${azurerm_mssql_database.sqldatabase.name} -i init_script.sql -o logsdb.txt"
   }
+}
+
+resource "azurerm_key_vault" "kv" {
+  name                        = var.kev_vault_name
+  location                    = azurerm_resource_group.appgrp.location
+  resource_group_name         = azurerm_resource_group.appgrp.name
+  enabled_for_disk_encryption = true
+  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = false
+
+  sku_name = "standard"
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_client_config.current.object_id
+
+    key_permissions = [
+      "Get",
+    ]
+
+    secret_permissions = [
+      "Set",
+      "Get",
+      "Delete",
+      "Purge",
+      "Recover",
+      "List"
+    ]
+
+    storage_permissions = [
+      "Get",
+    ]
+  }
+}
+
+resource "azurerm_key_vault_secret" "example" {
+  name         = "DbPassword"
+  value        = "Azure@3456"
+  key_vault_id = azurerm_key_vault.kv.id
 }
