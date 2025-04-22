@@ -1,0 +1,76 @@
+{
+	"name": "DF_ATOMOUAT_DimEjePalanca",
+	"properties": {
+		"description": "Data flows DIM SCDType1",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_EjePalanca",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelMaestroDimEjePalanca"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEjePalanca",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimEjePalanca"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEjePalanca",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimEjePalancaComodin"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEjePalanca",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoUpdateDimEjePalanca"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEjePalanca",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoInsertDimEjePalanca"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelDimEjePalanca"
+				},
+				{
+					"name": "DrcValidacionEspacios"
+				},
+				{
+					"name": "JoinDimEjePalanca"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AltDimEjePalanca"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "ConditionalSplit2",
+					"description": "Conditionally distributing the data in src_idEjePalanca groups, based on columns '{1}' "
+				}
+			],
+			"script": "source(output(\n\t\tID_PALANCA as string,\n\t\tEJE_PALANCA as string,\n\t\tDTM_VIGENCIA_DESDE as date,\n\t\tDTM_VIGENCIA_HASTA as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouExcelMaestroDimEjePalanca\nsource(output(\n\t\tgkEjePalanca as long,\n\t\tidEjePalanca as string,\n\t\tdescEjePalanca as string,\n\t\tdtmFechaIniVigenciaPalanca as timestamp,\n\t\tdtmFechaFinVigenciaPalanca as timestamp,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouDimEjePalanca\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT CAST(-999 AS VARCHAR(4000)) src_idEjePalanca,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descEjePalanca,\\nCAST(Null AS DATE) src_dtmFechaIniVigenciaPalanca,\\nCAST(Null AS DATE) src_dtmFechaFinVigenciaPalanca',\n\tformat: 'query') ~> SouDimEjePalancaComodin\nSouExcelMaestroDimEjePalanca select(mapColumn(\n\t\tsrc_idEjePalanca = ID_PALANCA,\n\t\tsrc_descEjePalanca = EJE_PALANCA,\n\t\tsrc_dtmFechaIniVigenciaPalanca = DTM_VIGENCIA_DESDE,\n\t\tsrc_dtmFechaFinVigenciaPalanca = DTM_VIGENCIA_HASTA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelDimEjePalanca\nUnion1 derive(src_descEjePalanca = trim(src_descEjePalanca),\n\t\tsrc_descOrigen = 'EXCEL:DMTD_Plantilla_Maestros:Eje_Palanca') ~> DrcValidacionEspacios\nConditionalSplit2@NOTNULL, SouDimEjePalanca join(src_idEjePalanca == idEjePalanca,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimEjePalanca\nJoinDimEjePalanca split(src_idEjePalanca==idEjePalanca,\n\tdisjoint: false) ~> ConditionalSplit1@(Match, NoMatch)\nConditionalSplit1@Match alterRow(updateIf(1==1)) ~> AltDimEjePalanca\nSouDimEjePalancaComodin, SltExcelDimEjePalanca union(byName: true)~> Union1\nDrcValidacionEspacios split(isNull(src_idEjePalanca),\n\tdisjoint: false) ~> ConditionalSplit2@(NULL, NOTNULL)\nAltDimEjePalanca sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkEjePalanca as long,\n\t\tidEjePalanca as string,\n\t\tdescEjePalanca as string,\n\t\tdtmFechaIniVigenciaPalanca as timestamp,\n\t\tdtmFechaFinVigenciaPalanca as timestamp,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['idEjePalanca'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidEjePalanca,\n\t\tdescEjePalanca = src_descEjePalanca,\n\t\tdtmFechaIniVigenciaPalanca = src_dtmFechaIniVigenciaPalanca,\n\t\tdtmFechaFinVigenciaPalanca = src_dtmFechaFinVigenciaPalanca,\n\t\tdescOrigen = src_descOrigen\n\t)) ~> SynAtomoUpdateDimEjePalanca\nConditionalSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkEjePalanca as long,\n\t\tidEjePalanca as string,\n\t\tdescEjePalanca as string,\n\t\tdtmFechaIniVigenciaPalanca as timestamp,\n\t\tdtmFechaFinVigenciaPalanca as timestamp,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidEjePalanca = src_idEjePalanca,\n\t\tdescEjePalanca = src_descEjePalanca,\n\t\tdtmFechaIniVigenciaPalanca = src_dtmFechaIniVigenciaPalanca,\n\t\tdtmFechaFinVigenciaPalanca = src_dtmFechaFinVigenciaPalanca,\n\t\tdescOrigen = src_descOrigen\n\t)) ~> SynAtomoInsertDimEjePalanca"
+		}
+	}
+}

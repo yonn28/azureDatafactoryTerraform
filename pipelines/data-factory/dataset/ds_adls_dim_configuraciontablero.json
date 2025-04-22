@@ -1,0 +1,120 @@
+{
+	"name": "ds_adls_dim_configuraciontablero",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "ConfiguracionTablero.parquet",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "GK_CONFIGURACION_TABLERO",
+				"type": "INT64"
+			},
+			{
+				"name": "DESC_ANNIO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_FECHA_REGISTRO",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_SIGLA_AREA",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TABLERO",
+				"type": "INT64"
+			},
+			{
+				"name": "DESC_VERSION",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_EJE_PALANCA",
+				"type": "INT64"
+			},
+			{
+				"name": "FK_OBJETIVO",
+				"type": "INT64"
+			},
+			{
+				"name": "DESC_HITO_INDICADOR",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_PARAM_INDICADOR",
+				"type": "INT64"
+			},
+			{
+				"name": "FK_INDICADOR",
+				"type": "INT64"
+			},
+			{
+				"name": "DESC_TIPO_TABLERO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_TBG",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_SECUENCIA_ORDEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_PESO_INDICADOR",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_CORTO_LARGO_PLAZO",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_LIMITE_INFERIOR",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_LIMITE_SUPERIOR",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_TABLERO_CVR",
+				"type": "UTF8"
+			}
+		]
+	}
+}

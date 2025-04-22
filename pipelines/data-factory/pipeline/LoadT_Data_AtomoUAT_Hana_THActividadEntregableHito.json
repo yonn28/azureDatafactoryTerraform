@@ -1,0 +1,184 @@
+{
+	"name": "LoadT_Data_AtomoUAT_Hana_THActividadEntregableHito",
+	"properties": {
+		"description": "flujo de datos que carga los datos de la plantilla de SQL_THHITO a HANA",
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_TH_ACTIVIDAD_ENTREGABLE_HITO",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [fkHito]\n      ,[fkParamIndicador]\n      ,[fkEntregable]\n      ,[fkActividad]\n      ,[fkPeriodo]\n      ,[indCumplimiento]\n      ,[descCorreoUsuario]\n      ,[dtmFechaEventoRegistro]\n      ,[dtmFechacarga]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n  FROM [TD].[THActividadEntregableHito] where fkPeriodo>=( convert(varchar,dateadd(YY,-2,getdate()),112)/100)",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "DELETE FROM \"DMTOMADEDECISIONES\".\"TH_ACTIVIDAD_ENTREGABLE_HITO\" WHERE FK_PERIODO>=LEFT(TO_VARCHAR( ADD_YEARS(  CURRENT_DATE,-2),'YYYYMMDD'),6)"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "fkHito",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkParamIndicador",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkEntregable",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_ENTREGABLE",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkActividad",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_ACTIVIDAD",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkPeriodo",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "indCumplimiento",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "IND_CUMPLIMIENTO",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoUsuario",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CORREO_USUARIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaEventoRegistro",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EVENTO_REGISTRO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_THActividadEntregableHito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_THActividadEntregableHito",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

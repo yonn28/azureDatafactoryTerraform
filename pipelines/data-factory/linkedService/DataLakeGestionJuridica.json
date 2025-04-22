@@ -1,0 +1,11 @@
+{
+	"name": "DataLakeGestionJuridica",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"serviceEndpoint": "https://dlaeuecpdevgestjur.blob.core.windows.net",
+			"accountKind": "StorageV2"
+		}
+	}
+}

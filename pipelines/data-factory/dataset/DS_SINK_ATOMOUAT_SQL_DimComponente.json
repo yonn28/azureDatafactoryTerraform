@@ -1,0 +1,152 @@
+{
+	"name": "DS_SINK_ATOMOUAT_SQL_DimComponente",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkComponente",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "idComponente",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "descNombreComponente",
+				"type": "varchar"
+			},
+			{
+				"name": "descDetalleComponente",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmAnnioVigencia",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descComponente",
+				"type": "varchar"
+			},
+			{
+				"name": "descResponsable",
+				"type": "varchar"
+			},
+			{
+				"name": "descNombreResponsable",
+				"type": "varchar"
+			},
+			{
+				"name": "descUnidadMedida",
+				"type": "varchar"
+			},
+			{
+				"name": "descVisualizaPeriodo",
+				"type": "varchar"
+			},
+			{
+				"name": "descFrecuencia",
+				"type": "varchar"
+			},
+			{
+				"name": "cantDecimalesCalculo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "cantDecimalesReporte",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descFuenteProyectada",
+				"type": "varchar"
+			},
+			{
+				"name": "descFuenteReal",
+				"type": "varchar"
+			},
+			{
+				"name": "descVersion",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmVigenciaDesde",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmVigenciaHasta",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioCreacion",
+				"type": "varchar"
+			},
+			{
+				"name": "descNombreUsuarioCreacion",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaModificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioModificacion",
+				"type": "varchar"
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "descEstadoComponente",
+				"type": "varchar"
+			},
+			{
+				"name": "descTipoComponente",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			},
+			{
+				"name": "idComponenteInicial",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "descNombreUsuarioModificacion",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimComponente"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

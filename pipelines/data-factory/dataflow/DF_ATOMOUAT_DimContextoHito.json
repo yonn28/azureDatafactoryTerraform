@@ -1,0 +1,82 @@
+{
+	"name": "DF_ATOMOUAT_DimContextoHito",
+	"properties": {
+		"description": "Data flows",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_ContextoHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelMaestroDimContextoHito"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimContextoHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimContextoHito"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimObjetivo",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimContextoHitoComodin"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimIndicador"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimContextoHito",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoUpdateDimContextoHito"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimContextoHito",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoInsertDimContextoHito"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelDimContextoHito"
+				},
+				{
+					"name": "DrcValidacionEspacios"
+				},
+				{
+					"name": "JoinDimContextoHito"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AltDimContextoHito"
+				},
+				{
+					"name": "JoinExcelDimIndicador"
+				},
+				{
+					"name": "DrcfkIndicador"
+				}
+			],
+			"script": "source(output(\n\t\t{Fecha Registro} as date,\n\t\t{Fecha usar} as date,\n\t\tHito as string,\n\t\t{ID Hito} as string,\n\t\tSponsor as string,\n\t\t{Correo Sponsor} as string,\n\t\t{Plan del Hito} as string,\n\t\t{Contexto y Motivación} as string,\n\t\tObjetivo as string,\n\t\t{Descripción del Impacto} as string,\n\t\tInterdependencias as string,\n\t\t{Riesgos Principales} as string,\n\t\t{Mitigantes del Riesgo} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouExcelMaestroDimContextoHito\nsource(output(\n\t\tgkContextoHito as long,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistroContexto as timestamp,\n\t\tdtmFechaUsar as timestamp,\n\t\tdescSponsor as string,\n\t\tdescCorreoSponsor as string,\n\t\tvlrPlanHito as decimal(30,10),\n\t\tdescContextoMotivacion as string,\n\t\tdescObjetivo as string,\n\t\tdescImpacto as string,\n\t\tdescInterdependencias as string,\n\t\tdescRiesgosPrincipales as string,\n\t\tdescMitigantesRiesgos as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tdescUsuarioCarga as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescEstadoContextoHito as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimContextoHito\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT \\nCAST(Null AS DATETIME) src_FechaRegistro,\\nCAST(Null AS DATETIME) src_FechaUsar,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_Hito,\\nCAST(\\'-999\\' AS VARCHAR(4000)) src_IDHito,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descSponsor,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_CorreoSponsor,\\nCAST(NULL AS VARCHAR(4000)) src_PlanHito,\\nCAST(\\'SIN CLASIFICAR\\'AS VARCHAR (4000)) src_ContextoMotivacion,\\nCAST(\\'SIN CLASIFICAR\\'AS VARCHAR (4000)) src_Objetivo,\\nCAST(\\'SIN CLASIFICAR\\'AS VARCHAR (4000)) src_Descripcion_Impacto,\\nCAST(\\'SIN CLASIFICAR\\'AS VARCHAR (4000)) src_Interdependencias,\\nCAST(\\'SIN CLASIFICAR\\'AS VARCHAR (4000)) src_RiesgosPrincipales,\\nCAST(\\'SIN CLASIFICAR\\'AS VARCHAR (4000)) src_MitigantesRiesgo',\n\tformat: 'query') ~> SouAtomoDimContextoHitoComodin\nsource(output(\n\t\tgkIndicador as integer,\n\t\tidIndicador as integer,\n\t\tdescNombreIndicador as string,\n\t\tdescIndicador as string,\n\t\tdescFormula as string,\n\t\tdescUnidadMedida as string,\n\t\tdescSentido as string,\n\t\tdescFrecuencia as string,\n\t\tcantDecimalesCalculo as integer,\n\t\tcantDecimalesReporte as integer,\n\t\tdescVisualizaPeriodo as string,\n\t\tdescVisualizaAcumulado as string,\n\t\tdescVisualizaAnnioCorrido as string,\n\t\tvlrLimiteInferior as decimal(30,10),\n\t\tvlrLimiteSuperior as decimal(30,10),\n\t\tvlrCumpSatisfaccion as decimal(30,10),\n\t\tdescFuenteProyectada as string,\n\t\tdescFuentereal as string,\n\t\tdescVersion as string,\n\t\tdtmVigenciaDesde as timestamp,\n\t\tdtmVigenciaHasta as timestamp,\n\t\tdescUsuarioRespCalculo as string,\n\t\tdescMetaNormalizada as string,\n\t\tcantComponentes as integer,\n\t\tdescReferente as string,\n\t\tidHojaVida as string,\n\t\tdescResponsableMeta as string,\n\t\tdescResponsableSeguimiento as string,\n\t\tdescResponsableReporteRes as string,\n\t\tdescAprobador as string,\n\t\tdescAprobadorCargo as string,\n\t\tdescCalculableAutomatizable as string,\n\t\tdescIndicadorHito as string,\n\t\tdescNombreResponsableDocumentarHV as string,\n\t\tdescCorreoResponsableDocumentarHV as string,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescCorreoUsuarioCarga as string,\n\t\tdtmFechaUltimaModificacion as timestamp,\n\t\tdescCorreoUsuarioUltimaModificacion as string,\n\t\tdescEstadoIndicador as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimIndicador\nSouExcelMaestroDimContextoHito select(mapColumn(\n\t\tsrc_FechaRegistro = {Fecha Registro},\n\t\tsrc_FechaUsar = {Fecha usar},\n\t\tsrc_Hito = Hito,\n\t\tsrc_IDHito = {ID Hito},\n\t\tsrc_descSponsor = Sponsor,\n\t\tsrc_CorreoSponsor = {Correo Sponsor},\n\t\tsrc_PlanHito = {Plan del Hito},\n\t\tsrc_ContextoMotivacion = {Contexto y Motivación},\n\t\tsrc_Objetivo = Objetivo,\n\t\tsrc_Descripcion_Impacto = {Descripción del Impacto},\n\t\tsrc_Interdependencias = Interdependencias,\n\t\tsrc_RiesgosPrincipales = {Riesgos Principales},\n\t\tsrc_MitigantesRiesgo = {Mitigantes del Riesgo}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelDimContextoHito\nSltExcelDimContextoHito derive(src_Hito = trim(src_Hito),\n\t\tsrc_IDHito = trim(src_IDHito),\n\t\tsrc_descSponsor = trim(src_descSponsor),\n\t\tsrc_CorreoSponsor = trim(src_CorreoSponsor),\n\t\tsrc_ContextoMotivacion = trim(left(src_ContextoMotivacion,2000)),\n\t\tsrc_Objetivo = trim(src_Objetivo),\n\t\tsrc_Descripcion_Impacto = trim(src_Descripcion_Impacto),\n\t\tsrc_Interdependencias = trim(src_Interdependencias),\n\t\tsrc_RiesgosPrincipales = trim(src_RiesgosPrincipales),\n\t\tsrc_MitigantesRiesgo = trim(src_MitigantesRiesgo),\n\t\tsrc_Origen = 'EXCEL:DMTD_Plantilla_Contexto_Hitos:Contexto_Hito',\n\t\tsrc_dtmFechaUsar = toTimestamp(src_FechaUsar),\n\t\tdescEstado = 'Activo') ~> DrcValidacionEspacios\nDrcfkIndicador, SouAtomoDimContextoHito join(src_dtmFechaUsar == dtmFechaUsar\n\t&& src_fkIndicador == fkIndicador,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimContextoHito\nJoinDimContextoHito split(and(src_dtmFechaUsar==dtmFechaUsar,src_fkIndicador==fkIndicador),\n\tdisjoint: false) ~> ConditionalSplit1@(Match, NoMatch)\nConditionalSplit1@Match alterRow(updateIf(1==1)) ~> AltDimContextoHito\nDrcValidacionEspacios, SouAtomoDimIndicador join(src_Hito == descNombreIndicador\n\t&& src_dtmFechaUsar >= dtmVigenciaDesde\n\t&& src_dtmFechaUsar <= dtmVigenciaHasta,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'both')~> JoinExcelDimIndicador\nJoinExcelDimIndicador derive(src_fkIndicador = iifNull(gkIndicador,1),\n\t\tsrc_descEstadoContexto = ' ',\n\t\tsrc_descUsuarioCarga = 'adminatomo@ecopetrol.com.co ',\n\t\tsrc_PlanHitodecimal = toDecimal(toDecimal(src_PlanHito, 30, 10) /100,30,10)) ~> DrcfkIndicador\nAltDimContextoHito sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkContextoHito as long,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistroContexto as timestamp,\n\t\tdtmFechaUsar as timestamp,\n\t\tdescSponsor as string,\n\t\tdescCorreoSponsor as string,\n\t\tvlrPlanHito as decimal(30,10),\n\t\tdescContextoMotivacion as string,\n\t\tdescObjetivo as string,\n\t\tdescImpacto as string,\n\t\tdescInterdependencias as string,\n\t\tdescRiesgosPrincipales as string,\n\t\tdescMitigantesRiesgos as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tdescUsuarioCarga as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescEstadoContextoHito as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['fkIndicador','dtmFechaUsar'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tdtmFechaRegistroContexto = src_FechaRegistro,\n\t\tdescSponsor = src_descSponsor,\n\t\tdescCorreoSponsor = src_CorreoSponsor,\n\t\tvlrPlanHito = src_PlanHitodecimal,\n\t\tdescContextoMotivacion = src_ContextoMotivacion,\n\t\tdescObjetivo = src_Objetivo,\n\t\tdescImpacto = src_Descripcion_Impacto,\n\t\tdescInterdependencias = src_Interdependencias,\n\t\tdescRiesgosPrincipales = src_RiesgosPrincipales,\n\t\tdescMitigantesRiesgos = src_MitigantesRiesgo,\n\t\tfkIndicador = src_fkIndicador,\n\t\tdtmFechaUsar = src_FechaUsar,\n\t\tdescUsuarioCarga = src_descUsuarioCarga\n\t)) ~> SynAtomoUpdateDimContextoHito\nConditionalSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkContextoHito as long,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistroContexto as timestamp,\n\t\tdtmFechaUsar as timestamp,\n\t\tdescSponsor as string,\n\t\tdescCorreoSponsor as string,\n\t\tvlrPlanHito as decimal(30,10),\n\t\tdescContextoMotivacion as string,\n\t\tdescObjetivo as string,\n\t\tdescImpacto as string,\n\t\tdescInterdependencias as string,\n\t\tdescRiesgosPrincipales as string,\n\t\tdescMitigantesRiesgos as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tdescUsuarioCarga as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescEstadoContextoHito as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tfkIndicador = src_fkIndicador,\n\t\tdtmFechaRegistroContexto = src_FechaRegistro,\n\t\tdtmFechaUsar = src_FechaUsar,\n\t\tdescSponsor = src_descSponsor,\n\t\tdescCorreoSponsor = src_CorreoSponsor,\n\t\tvlrPlanHito = src_PlanHitodecimal,\n\t\tdescContextoMotivacion = src_ContextoMotivacion,\n\t\tdescObjetivo = src_Objetivo,\n\t\tdescImpacto = src_Descripcion_Impacto,\n\t\tdescInterdependencias = src_Interdependencias,\n\t\tdescRiesgosPrincipales = src_RiesgosPrincipales,\n\t\tdescMitigantesRiesgos = src_MitigantesRiesgo,\n\t\tdescOrigen = src_Origen,\n\t\tdescUsuarioCarga = src_descUsuarioCarga,\n\t\tdescEstadoContextoHito = descEstado\n\t)) ~> SynAtomoInsertDimContextoHito"
+		}
+	}
+}

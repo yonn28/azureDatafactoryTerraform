@@ -1,0 +1,173 @@
+{
+	"name": "LoadM_Data_Hana_AtomoUAT_DimTiempoCarga",
+	"properties": {
+		"activities": [
+			{
+				"name": "CPStagingTiempoCarga",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "Truncate Table [TD].[staging_TiempoCargaHana]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "DESC_PROCESO_TIPO_CARGA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descProcesoTipoCarga",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_TIPO_CARGA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descTipoCarga",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PERIODO_CARGA",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "descPeriodoCarga",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_INICIO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "dtmFechaInicio",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_FIN",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "dtmFechaFin",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_DETALLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descDetalle",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ENTREGABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descEntregable",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_CARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ESTADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descEstado",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimTiempoCarga",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_tmpFechaCorte",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:06Z"
+	}
+}

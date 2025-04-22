@@ -1,0 +1,82 @@
+{
+	"name": "ds_syn_dwh_fecha",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_TIEMPO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FECHA",
+				"type": "date"
+			},
+			{
+				"name": "AÑO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MES",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "DIA",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "NUMERO_SEMANA",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "TRIMESTRE",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "SEMESTRE",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "NOMBRE_MES",
+				"type": "varchar"
+			},
+			{
+				"name": "NOMBRE_MES_CORTO",
+				"type": "varchar"
+			},
+			{
+				"name": "NOMBRE_DIA",
+				"type": "varchar"
+			},
+			{
+				"name": "MARCA_FECHA_CORTE",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.DIM_FECHA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

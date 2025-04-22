@@ -1,0 +1,99 @@
+{
+	"name": "ds_syn_stg_th_hito_ux",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_UX/DS_SYN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "FK_HITO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_PARAM_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_PERIODO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "VLR_PLAN_HITO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_REAL_HITO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "PRC_CUMP_HITO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_PROY_ESC_BAJO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_PROY_ESC_MEDIO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_PROY_ESC_ALTO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DESC_CORREO_USUARIO",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_EVENTO_REGISTRO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "CM_RESUMEN",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "STG.TH_HITO_UX"
+		}
+	}
+}

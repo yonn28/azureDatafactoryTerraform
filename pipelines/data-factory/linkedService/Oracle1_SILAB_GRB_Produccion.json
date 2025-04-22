@@ -1,0 +1,17 @@
+{
+	"name": "Oracle1_SILAB_GRB_Produccion",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked service para DM Refinación con usuario de producción SILAB_ GRB",
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=10.11.25.28;port=1541;servicename=SILABPRD;user id=_P01SIOBGRBDATAMART",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyZWI4MWJlNy1lZTZiLTQ1ODEtOWM2MC0wYzY3MGU0NDlmODIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

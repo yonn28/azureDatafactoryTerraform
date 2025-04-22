@@ -1,0 +1,23 @@
+{
+	"name": "HANA_CONSULTA_DMCOSTOS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "SERVERNODE=hanap:32015;UID=consulta_dmcostos",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "HANA-CONSULTA-DMCOSTOS"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

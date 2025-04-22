@@ -1,0 +1,168 @@
+{
+	"name": "ds_syn_dwh_fact_entregablehito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "FK_HITO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_PARAM_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_ENTREGABLE",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_PERIODO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_TIEMPO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VLR_PLAN_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DTM_FECHA_EJECUCION_REAL",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "VLR_REAL_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "PRC_CUMP_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DESC_CAUSAS",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ACCIONES",
+				"type": "varchar"
+			},
+			{
+				"name": "VLR_REAL_FINAL_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+				"type": "varchar"
+			},
+			{
+				"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DESC_CORREO_USUARIO",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_EVENTO_REGISTRO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "FECHA_CARGA_SYNAPSE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.FACT_ENTREGABLE_HITO"
+		}
+	}
+}

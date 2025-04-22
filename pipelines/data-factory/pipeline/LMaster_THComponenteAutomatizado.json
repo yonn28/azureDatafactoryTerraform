@@ -1,0 +1,53 @@
+{
+	"name": "LMaster_THComponenteAutomatizado",
+	"properties": {
+		"activities": [
+			{
+				"name": "EjecutarComponentesAutomatizadosSchedule",
+				"description": "  ",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadT_Data_Hana_AtomoUAT_THComponente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SPComponentesAutomatizados",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "EjecutarComponentesAutomatizadosSchedule",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[TD].[Sp_Cargar_THComponente_Automatizados]"
+				},
+				"linkedServiceName": {
+					"referenceName": "dbaeuecpuatatomotd",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:26Z"
+	}
+}

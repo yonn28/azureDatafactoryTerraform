@@ -1,0 +1,17 @@
+{
+	"name": "Trigger_RISGRB_TagPi_To_Synapse_Recurrente",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 5,
+				"startTime": "2020-11-24T23:59:00",
+				"timeZone": "UTC-11"
+			}
+		}
+	}
+}

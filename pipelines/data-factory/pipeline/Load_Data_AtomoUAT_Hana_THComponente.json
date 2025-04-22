@@ -1,0 +1,143 @@
+{
+	"name": "Load_Data_AtomoUAT_Hana_THComponente",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_SQL_ATOMO_THComponente",
+				"description": "  ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT\n\t[fkComponente]\n\t,[fkPeriodo]\n\t,[vlrRealPeriodo]\n\t,[vlrRealAcum]\n\t,[dtmFechacarga]\n\t,[descOrigen]\n\t,[fkTiposInconsistencia]\nFROM [TD].[THComponente]\nWHERE fkPeriodo>=( convert(varchar,dateadd(YY,-2,getdate()),112)/100)",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "DELETE FROM \"DMTOMADEDECISIONES\".\"TH_COMPONENTE\" WHERE FK_PERIODO>=LEFT(TO_VARCHAR( ADD_YEARS(  CURRENT_DATE,-2),'YYYYMMDD'),6)"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "fkComponente",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_COMPONENTE",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkPeriodo",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrRealPeriodo",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "VLR_REAL_PERIODO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrRealAcum",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "VLR_REAL_ACUM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_THComponente",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_THComponente",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

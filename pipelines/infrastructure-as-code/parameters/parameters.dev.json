@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environment": {
+            "value": "dev"
+        },
+        "location": {
+            "value": "eastus"
+        },
+        "domainName": {
+            "value": "Atomo"
+        },
+        "domainResourceGroup": {
+            "value": "RG-AEU-ECP-DEV-ATOMO"
+        },
+        "sharedDataFactoryResourceGroup": {
+            "value": "RG-AEU-ECP-DEV-BigDataFactory"
+        },
+        "sharedKeyVaultResourceGroup": {
+            "value": "RG-AEU-ECP-DEV-Shared"
+        },
+        "keyVaultEnablePurgeProtection": {
+            "value": false
+        },
+        "storageContainers": {
+            "value": [
+                "raw",
+                "curated",
+                "transit"
+            ]
+        },
+        "dataFactoryAzureDevOpsAccountName": {
+            "value": "ecopetrolad"
+        },
+        "dataFactoryAzureDevOpsProjectName": {
+            "value": "BI"
+        },
+        "dataFactoryAzureDevOpsRepositoryName": {
+            "value": "DmAtomo"
+        },
+        "dataFactoryAzureDevOpsCollaborationBranch": {
+            "value": "main"
+        },
+        "dataFactoryAzureDevOpsRootFolder": {
+            "value": "data-factory"
+        },
+        "sharedKeyVaultName": {
+            "value": "kv-aeu-ecp-dev-shared"
+        },
+        "sharedDataFactoryName":{
+            "value": "DF-AEU-ECP-DEV-DATAPLATFORMDEV"
+        },
+        "sharedDataFactoryIntegrationRuntimes": {
+            "value": [
+                "IrOnpremiseECP"
+            ]
+        },
+        "storageBlobStorageDataContributors": {
+            "value": [
+                "33a0e9f6-1173-472b-9872-7a6a9ec56c96",
+                "ec133b0c-52f3-40ea-889e-f2194eee1e15"
+            ]
+        }
+    }
+}

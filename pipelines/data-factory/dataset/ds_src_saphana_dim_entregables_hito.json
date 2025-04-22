@@ -1,0 +1,19 @@
+{
+	"name": "ds_src_saphana_dim_entregables_hito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "LS_DMTOMADEDECISIONES_DEV",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SRC"
+		},
+		"annotations": [],
+		"type": "OdbcTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "\"DMTOMADEDECISIONES\".\"DIM_ENTREGABLES_HITO\""
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "SapHana_BW4",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Conexión objetos con SAP BW4 ",
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=10.76.36.9:30641;uid=DMENERGIA",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0YzY4YjJmYi1jNTYzLTQ1NTEtOTgyNy0zMGMzMjU4NzQ2NGEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

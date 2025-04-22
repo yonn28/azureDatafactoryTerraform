@@ -1,0 +1,16 @@
+{
+	"name": "saaeuecpuatatomo",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"serviceEndpoint": "https://saaeuecpdevatomo.blob.core.windows.net",
+			"accountKind": "BlobStorage"
+		},
+		"connectVia": {
+			"referenceName": "IRECPDEVATOMODM",
+			"type": "IntegrationRuntimeReference"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

@@ -1,0 +1,23 @@
+{
+	"name": "dlaeuecpdevinversionessp",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "DMINVERSIONES",
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dlaeuecpdevinversiones.dfs.core.windows.net",
+			"tenant": "a4305987-cf78-4f93-9d64-bf18af65397b",
+			"servicePrincipalId": "0d5e87a5-7dd4-4559-87f6-3e98fcc3f29e",
+			"servicePrincipalCredentialType": "ServicePrincipalKey",
+			"servicePrincipalCredential": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "dlaeuecpinversionessp"
+			}
+		}
+	}
+}

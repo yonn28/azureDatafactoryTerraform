@@ -1,0 +1,86 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+	"properties": {
+		"description": "Fuente de los componentes automatizados ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkParametrizacion",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "descDataMart",
+				"type": "varchar"
+			},
+			{
+				"name": "descNombrePaquete",
+				"type": "varchar"
+			},
+			{
+				"name": "descVistaCalculada",
+				"type": "varchar"
+			},
+			{
+				"name": "descResponsableVcOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "descEstadoConsulta",
+				"type": "varchar"
+			},
+			{
+				"name": "descResponsableParametrizacion",
+				"type": "varchar"
+			},
+			{
+				"name": "descConsulta",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			},
+			{
+				"name": "descSistemaFuente",
+				"type": "varchar"
+			},
+			{
+				"name": "idDatamart",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fkEstadoConexion",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "mensajeError",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimParametrizacion"
+		}
+	}
+}

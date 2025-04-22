@@ -1,0 +1,23 @@
+{
+	"name": "LS_DMTOMADEDECISIONES_DEV",
+	"properties": {
+		"annotations": [],
+		"type": "Odbc",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "atomo-saphana"
+			},
+			"authenticationType": "Anonymous"
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

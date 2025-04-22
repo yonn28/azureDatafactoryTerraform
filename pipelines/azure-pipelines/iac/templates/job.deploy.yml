@@ -1,0 +1,89 @@
+parameters:
+- name: environment
+  type: string
+- name: jobName
+  type: string
+- name: dependsOnJob
+  type: object
+  default: []
+- name: preApprovalPlanArtifactName
+  type: string
+
+jobs:
+  - deployment: ${{ parameters.jobName }}
+    dependsOn: ${{ parameters.dependsOnJob }}
+    displayName: 'Deploy ARM to ${{ parameters.environment }}'
+    condition: succeeded()
+    pool:
+      vmImage: 'Ubuntu-20.04'
+    variables:
+      - template: ../../variable.environment.${{ parameters.environment }}.yml
+      - template: ../../variable.domain.yml
+      - name: azPowershellVersion
+        value: 5.5.0
+    environment: ${{ variables.domainName }}-${{ parameters.environment }}-iac
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - download: current
+            displayName: "Pre Approval Artifact plan preApprovalPlan"
+            artifact: ${{ parameters.preApprovalPlanArtifactName }}
+          - task: AzurePowerShell@4
+            displayName: 'Post Approval Plan'
+            inputs:
+              azureSubscription: ${{ variables.AzureServiceConnectionName }}
+              scriptType: filePath
+              scriptPath: scripts/azure-pipelines/iac/Plan.ps1
+              scriptArguments: >
+                -Environment ${{ parameters.environment }}
+                -Location "$(location)"
+                -DomainName "$(domainName)"
+                -OutputPlanFile "$(System.DefaultWorkingDirectory)/PostApprovalPlan.md"
+                -VersionDescription "$(Build.SourceVersionMessage)"
+                -VersionBuildId $(Build.BuildId)
+                -VersionAuthor $(Build.RequestedForEmail)
+                -OutputSummary $false
+              azurePowerShellVersion: 'LatestVersion'
+              preferredAzurePowerShellVersion: $(azPowershellVersion)
+          - publish: $(System.DefaultWorkingDirectory)/PostApprovalPlan.md
+            artifact: ${{ parameters.environment }}PostApprovalPlan
+          - task: PowerShell@2
+            inputs:
+              targetType: 'filePath'
+              filePath: scripts/azure-pipelines/iac/ComparePlan.ps1
+              arguments: >
+                -Environment ${{ parameters.environment }}
+                -PlanFile1 "$(Pipeline.Workspace)/${{ parameters.preApprovalPlanArtifactName }}/plan.md"
+                -PlanFile2 "$(System.DefaultWorkingDirectory)/PostApprovalPlan.md"
+                -ComparePlanOutputFile "$(System.DefaultWorkingDirectory)/comparePlanOutput.md"
+                -OutputSummary $true
+            displayName: 'Plans Comparison'
+          - task: AzurePowerShell@4
+            displayName: 'Deploy ARM'
+            inputs:
+              azureSubscription: ${{ variables.AzureServiceConnectionName }}
+              scriptType: filePath
+              scriptPath: scripts/azure-pipelines/iac/Deploy.ps1
+              scriptArguments: >
+                -Environment ${{ parameters.environment }}
+                -Location "$(location)"
+                -DomainName "$(domainName)"
+                -DeploymentOutputFile "armOutput.json"
+              azurePowerShellVersion: 'LatestVersion'
+              preferredAzurePowerShellVersion: $(azPowershellVersion)
+          - task: PowerShell@2
+            displayName: 'Publish Outputs'
+            inputs:
+              filePath: scripts/azure-pipelines/iac/PublishOutputs.ps1
+              arguments: >
+                -AzureDevOpsPAT "$(System.AccessToken)"
+                -AzureDevOpsOrganization $(System.TeamFoundationCollectionUri)
+                -AzureDevOpsProject "$(System.TeamProject)"
+                -GroupName "iac-cd-output-$(domainName)-${{ parameters.environment }}"
+                -DeploymentOutputFile "armOutput.json"
+              pwsh: true
+              showWarnings: true
+            env:
+              AzureDevOpsPAT: $(System.AccessToken)

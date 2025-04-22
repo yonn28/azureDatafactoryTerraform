@@ -1,0 +1,512 @@
+{
+	"name": "pl_crg_syn_dim_escenariosanalisis_ux",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_th_syn_stg_dim_escenariosanalisis_ux",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT gkEscenarioAnalisis,\ndescCausaAcumulado,\nnumPeriodo,\ndescCausaPeriodo,\ndecEscBajo,\ndescEscenBajo,\ndecEscMedio,\ndescEscenMedio,\ndecEscAlto,\ndescEscenAlto,\nLEFT(descrAccion,4000) AS descrAccion,\ndescrComentario,\nfkIndicador,\ndtmFechaCarga,\ndescUsuarioCreacion,\ndtmFechaModificacion,\ndescUsuarioModificacion,\ndescDetalleIndicador\n\nFROM TD.EscenariosAnalisis",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_ESCENARIOSANALISIS_UX\" ",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkEscenarioAnalisis",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_ESCENARIO_ANALISIS",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descCausaAcumulado",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CAUSA_ACUMULADO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "numPeriodo",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "NUM_PERIODO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descCausaPeriodo",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CAUSA_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "decEscBajo",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ESC_BAJO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEscenBajo",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ESCEN_BAJO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "decEscMedio",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ESC_MEDIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEscenMedio",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ESCEN_MEDIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "decEscAlto",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ESC_ALTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEscenAlto",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ESCEN_ALTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descrAccion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCR_ACCION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descrComentario",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCR_COMENTARIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkIndicador",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descUsuarioCreacion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_CREACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaModificacion",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_MODIFICACION",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descUsuarioModificacion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_MODIFICACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descDetalleIndicador",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_DETALLE_INDICADOR",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_td_escenariosanalisis",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_escenariosanalisis_ux",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_escenariosanalisis_ux",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_th_syn_stg_dim_escenariosanalisis_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_ESCENARIOSANALISIS_UX\"",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_ESCENARIO_ANALISIS",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "GK_ESCENARIO_ANALISIS",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CAUSA_ACUMULADO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CAUSA_ACUMULADO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NUM_PERIODO",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "NUM_PERIODO",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CAUSA_PERIODO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CAUSA_PERIODO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ESC_BAJO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESC_BAJO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ESCEN_BAJO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESCEN_BAJO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ESC_MEDIO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESC_MEDIO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ESCEN_MEDIO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESCEN_MEDIO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ESC_ALTO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESC_ALTO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ESCEN_ALTO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESCEN_ALTO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCR_ACCION",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESCR_ACCION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCR_COMENTARIO",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESCR_COMENTARIO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_INDICADOR",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_USUARIO_CREACION",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_CREACION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_MODIFICACION",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_MODIFICACION",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_USUARIO_MODIFICACION",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_MODIFICACION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_DETALLE_INDICADOR",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_DETALLE_INDICADOR",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_escenariosanalisis_ux",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_escenariosanalisis_ux",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_UX"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:11Z"
+	}
+}

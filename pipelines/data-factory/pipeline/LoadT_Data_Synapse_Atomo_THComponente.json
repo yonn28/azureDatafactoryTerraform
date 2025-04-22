@@ -1,0 +1,171 @@
+{
+	"name": "LoadT_Data_Synapse_Atomo_THComponente",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LKUDimParametrizacion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LKUDimParametrizacion').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "CPStagingComponentesAutomatizados",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlDWSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "insert"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "ID_INDICADOR",
+												"type": "String"
+											},
+											"sink": {
+												"name": "idIndicador",
+												"type": "String",
+												"physicalType": "varchar"
+											}
+										},
+										{
+											"source": {
+												"name": "SIGLA_ESTRUCTURA_DESPLIEGUE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "descSigla",
+												"type": "String",
+												"physicalType": "varchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PERIODO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "fkPeriodo",
+												"type": "Int64",
+												"physicalType": "bigint"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_PERIODO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "vlrRealPeriodo",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 10,
+												"precision": 25
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_ACUM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "vlrRealAcum",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 10,
+												"precision": 25
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_SOURCE_SYNAPSE_ATOMO_Componentes",
+									"type": "DatasetReference",
+									"parameters": {
+										"TablaCVCHana": "@{item().descConsulta}",
+										"EsquemaSynapse": "@{item().descnombrePaquete}"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_SINK_ATOMOUAT_SQL_staging_THComponente_Automatizado",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "LKUDimParametrizacion",
+				"description": " ",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select descnombrePaquete,   RIGHT(replace(descConsulta,'\"',''),len(replace(descConsulta,'\"','')) - charindex('.',  replace(descConsulta,'\"','') ))   descConsulta from [TD].[DimParametrizacion] where descEstadoConsulta='ACTIVA'  and descSistemaFuente='SYNAPSE'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:12Z"
+	}
+}

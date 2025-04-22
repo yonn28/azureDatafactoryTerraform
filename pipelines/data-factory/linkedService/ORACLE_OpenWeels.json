@@ -1,0 +1,17 @@
+{
+	"name": "ORACLE_OpenWeels",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "OPENWEELS",
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=10.11.17.116;port=1525;sid=EDMECP5K;user id=NuevoUsuario",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3YTA0MjA1Ni1iYTkxLTQxOTEtOWJjNS1mM2RiYzI2ZGY4OTgiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

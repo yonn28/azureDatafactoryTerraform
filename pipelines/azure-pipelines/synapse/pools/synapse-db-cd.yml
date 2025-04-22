@@ -1,0 +1,32 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - synapse/pools/*
+
+stages:
+# - template: templates/stage.db-deploy-env.yml
+#   parameters:
+#     environment: dev
+#     buildSolution: true
+#     pool: SynapseQAAgent
+
+# - template: templates/stage.db-deploy-env.yml
+#   parameters:
+#     environment: qas
+#     buildSolution: false
+#     pool: SynapseQAAgent
+
+# - template: templates/stage.db-deploy-env.yml
+#   parameters:
+#     environment: prd
+#     buildSolution: false
+#     pool: SynapsePRDAgent
+
+- template: templates/stage.db-deploy-env.yml
+  parameters:
+    environment: drp
+    buildSolution: true
+    pool: SynapsePRDAgent

@@ -1,0 +1,151 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimObjetivo",
+	"properties": {
+		"description": "flujo de datos que carga los datos de la plantilla de SQL_DimObjetivo a HANA",
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimObjetivo",
+				"description": "  ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select gkObjetivo,idObjetivo,descObjetivo,dtmFechaIniVigenciaObjetivo,dtmFechaFinVigenciaObjetivo,dtmFechacarga,descOrigen,fkTiposInconsistencia from [TD].[DimObjetivo]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_OBJETIVO\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkObjetivo",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "GK_OBJETIVO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idObjetivo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descObjetivo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaIniVigenciaObjetivo",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaFinVigenciaObjetivo",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimObjetivo",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimObjetivo",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:21Z"
+	}
+}

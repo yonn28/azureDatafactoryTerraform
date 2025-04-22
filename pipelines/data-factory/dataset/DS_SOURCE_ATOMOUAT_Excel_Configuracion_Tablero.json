@@ -1,0 +1,106 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_Excel_Configuracion_Tablero",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Configuracion_Tablero",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_ConfiguracionTableros.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Año",
+				"type": "String"
+			},
+			{
+				"name": "Fecha registro",
+				"type": "String"
+			},
+			{
+				"name": "Desc. Sigla Área",
+				"type": "String"
+			},
+			{
+				"name": "ID Tablero",
+				"type": "String"
+			},
+			{
+				"name": "Versión",
+				"type": "String"
+			},
+			{
+				"name": "Eje / Palanca / Temática",
+				"type": "String"
+			},
+			{
+				"name": "ID Palanca",
+				"type": "String"
+			},
+			{
+				"name": "Objetivo",
+				"type": "String"
+			},
+			{
+				"name": "ID Objetivo",
+				"type": "String"
+			},
+			{
+				"name": "Hito / Indicador",
+				"type": "String"
+			},
+			{
+				"name": "Nombre Indicador",
+				"type": "String"
+			},
+			{
+				"name": "Detalle Indicador",
+				"type": "String"
+			},
+			{
+				"name": "ID Indicador",
+				"type": "String"
+			},
+			{
+				"name": "Tipo Tablero",
+				"type": "String"
+			},
+			{
+				"name": "TBG",
+				"type": "String"
+			},
+			{
+				"name": "Secuencia / Orden",
+				"type": "String"
+			},
+			{
+				"name": "Valor Peso Indicador",
+				"type": "String"
+			},
+			{
+				"name": "Corto Plazo / Largo Plazo",
+				"type": "String"
+			},
+			{
+				"name": "Valor Límite Inferior",
+				"type": "String"
+			},
+			{
+				"name": "Valor Límite Superior",
+				"type": "String"
+			}
+		]
+	}
+}

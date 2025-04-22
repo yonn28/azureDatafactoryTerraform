@@ -1,0 +1,144 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_DimConfiguracionTablero",
+	"properties": {
+		"description": "   ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkConfiguracionTablero",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descAnnio",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaRegistro",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descSiglaArea",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTablero",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descVersion",
+				"type": "varchar"
+			},
+			{
+				"name": "fkEjePalanca",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fkObjetivo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descHitoIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "fkParamIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fkIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descTipoTablero",
+				"type": "varchar"
+			},
+			{
+				"name": "descTBG",
+				"type": "varchar"
+			},
+			{
+				"name": "descSecuenciaOrden",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrPesoIndicador",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "descCortoLargoPlazo",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrLimiteInferior",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrLimiteSuperior",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioCreacion",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaModificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioModificacion",
+				"type": "varchar"
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposinconsistencia",
+				"type": "varchar"
+			},
+			{
+				"name": "indicadorBloqueo",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "descTableroCVR",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimConfiguracionTablero"
+		}
+	}
+}

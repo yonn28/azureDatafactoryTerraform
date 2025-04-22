@@ -1,0 +1,23 @@
+{
+	"name": "S4D_BW4HANA",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "SERVERNODE=vhecps4ddb.hec.ecopetrol.com.co:30641;UID=bw4hana",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "S4D-BW4HANA"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

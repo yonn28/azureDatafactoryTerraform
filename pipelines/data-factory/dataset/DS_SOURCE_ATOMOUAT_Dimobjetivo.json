@@ -1,0 +1,61 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_Dimobjetivo",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkObjetivo",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "idObjetivo",
+				"type": "varchar"
+			},
+			{
+				"name": "descObjetivo",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaIniVigenciaObjetivo",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaFinVigenciaObjetivo",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimObjetivo"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

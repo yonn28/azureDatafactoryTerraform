@@ -1,0 +1,1373 @@
+{
+	"name": "pl_crg_syn_fact_entregable_hito",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_th_entregable_hito",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FK_HITO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_HITO",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_ENTREGABLE",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_ENTREGABLE",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_EJECUCION_REAL",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EJECUCION_REAL",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_REAL_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "PRC_CUMP_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_CUMP_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CAUSAS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CAUSAS",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ACCIONES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ACCIONES",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_REAL_FINAL_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_FINAL_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CORREO_USUARIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CORREO_USUARIO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_EVENTO_REGISTRO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EVENTO_REGISTRO",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_th_entregable_hito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_th_entregable_hito",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_th_entregable_hito",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_th_entregable_hito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.TH_ENTREGABLE_HITO\"",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FK_HITO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_ENTREGABLE",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_ENTREGABLE",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_EJECUCION_REAL",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EJECUCION_REAL",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_REAL_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "PRC_CUMP_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_CUMP_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CAUSAS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CAUSAS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ACCIONES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ACCIONES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_REAL_FINAL_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_FINAL_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CORREO_USUARIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CORREO_USUARIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_EVENTO_REGISTRO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EVENTO_REGISTRO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_th_entregable_hito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_th_entregable_hito",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "If_Condition_th_entregable_hito",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lkp_Dwh_th_entregable_hito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Lkp_Dwh_th_entregable_hito').output.firstRow.Conteo,0)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "cd_syn_stg_dwh_fact_entregable_hito_Delta",
+							"description": "",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlDWSource",
+									"sqlReaderQuery": "SELECT [FK_HITO]\n      ,[FK_PARAM_INDICADOR]\n      ,[FK_ENTREGABLE]\n      ,[FK_PERIODO]\n      ,CAST(CONCAT(CAST([FK_PERIODO] AS Varchar),'01') AS BIGINT) AS FK_TIEMPO\n      ,[VLR_PLAN_ENTREGABLE]\n      ,[DTM_FECHA_EJECUCION_REAL]\n      ,[VLR_REAL_ENTREGABLE]\n      ,[PRC_CUMP_ENTREGABLE]\n      ,[DESC_CAUSAS]\n      ,[DESC_ACCIONES]\n      ,[VLR_REAL_FINAL_ENTREGABLE]\n      ,[VLR_PROY_ESC_BAJO_ENTREGABLE]\n      ,[VLR_PROY_ESC_MEDIO_ENTREGABLE]\n      ,[VLR_PROY_ESC_ALTO_ENTREGABLE]\n      ,[DESC_PREMISA_ESC_BAJO_ENTREGABLE]\n      ,[DESC_PREMISA_ESC_MEDIO_ENTREGABLE]\n      ,[DESC_PREMISA_ESC_ALTO_ENTREGABLE]\n      ,[VLR_CUMP_ESC_BAJO_ENTREGABLE]\n      ,[VLR_CUMP_ESC_MEDIO_ENTREGABLE]\n      ,[VLR_CUMP_ESC_ALTO_ENTREGABLE]\n      ,[DESC_CORREO_USUARIO]\n      ,[DTM_FECHA_EVENTO_REGISTRO]\n      ,[DTM_FECHACARGA]\n      ,[DESC_ORIGEN]\n      ,[FK_TIPOSINCONSISTENCIA]\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -7, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_CARGA_SYNAPSE\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -5, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_PROXIMA_ACTUALIZA_SYNAPSE\n\n  FROM [ATOMO].[STG.TH_ENTREGABLE_HITO]\n  WHERE CAST([DTM_FECHACARGA] AS DATE) >= CONVERT(char(10), GetDate()-5,126)",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "DELETE FROM [ATOMO].[DWH.FACT_ENTREGABLE_HITO]\nWHERE CAST([DTM_FECHACARGA] AS DATE) >= CONVERT(char(10), GetDate()-5,126)",
+									"writeBehavior": "Upsert",
+									"upsertSettings": {
+										"keys": [
+											"FK_HITO",
+											"FK_PARAM_INDICADOR",
+											"FK_ENTREGABLE"
+										],
+										"interimSchemaName": "ATOMO"
+									},
+									"disableMetricsCollection": false
+								},
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "dlaeuecpdevatomo",
+										"type": "LinkedServiceReference"
+									},
+									"path": "raw"
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "FK_HITO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_HITO",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_PARAM_INDICADOR",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_PARAM_INDICADOR",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_ENTREGABLE",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_ENTREGABLE",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_PERIODO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_PERIODO",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_TIEMPO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_TIEMPO",
+												"type": "Int32"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_EJECUCION_REAL",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_EJECUCION_REAL",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_REAL_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "PRC_CUMP_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "PRC_CUMP_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_CAUSAS",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_CAUSAS",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ACCIONES",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ACCIONES",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_FINAL_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_REAL_FINAL_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_CORREO_USUARIO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_CORREO_USUARIO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_EVENTO_REGISTRO",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_EVENTO_REGISTRO",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHACARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHACARGA",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_TIPOSINCONSISTENCIA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "FK_TIPOSINCONSISTENCIA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FECHA_CARGA_SYNAPSE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "FECHA_CARGA_SYNAPSE",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+												"type": "DateTime"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_syn_stg_th_entregable_hito",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_syn_dwh_fact_entregablehito",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "cd_syn_stg_dwh_fact_entregable_hito",
+							"description": "",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlDWSource",
+									"sqlReaderQuery": "SELECT [FK_HITO]\n      ,[FK_PARAM_INDICADOR]\n      ,[FK_ENTREGABLE]\n      ,[FK_PERIODO]\n      ,CAST(CONCAT(CAST([FK_PERIODO] AS Varchar),'01') AS BIGINT) AS FK_TIEMPO\n      ,[VLR_PLAN_ENTREGABLE]\n      ,[DTM_FECHA_EJECUCION_REAL]\n      ,[VLR_REAL_ENTREGABLE]\n      ,[PRC_CUMP_ENTREGABLE]\n      ,[DESC_CAUSAS]\n      ,[DESC_ACCIONES]\n      ,[VLR_REAL_FINAL_ENTREGABLE]\n      ,[VLR_PROY_ESC_BAJO_ENTREGABLE]\n      ,[VLR_PROY_ESC_MEDIO_ENTREGABLE]\n      ,[VLR_PROY_ESC_ALTO_ENTREGABLE]\n      ,[DESC_PREMISA_ESC_BAJO_ENTREGABLE]\n      ,[DESC_PREMISA_ESC_MEDIO_ENTREGABLE]\n      ,[DESC_PREMISA_ESC_ALTO_ENTREGABLE]\n      ,[VLR_CUMP_ESC_BAJO_ENTREGABLE]\n      ,[VLR_CUMP_ESC_MEDIO_ENTREGABLE]\n      ,[VLR_CUMP_ESC_ALTO_ENTREGABLE]\n      ,[DESC_CORREO_USUARIO]\n      ,[DTM_FECHA_EVENTO_REGISTRO]\n      ,[DTM_FECHACARGA]\n      ,[DESC_ORIGEN]\n      ,[FK_TIPOSINCONSISTENCIA]\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -7, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_CARGA_SYNAPSE\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -5, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_PROXIMA_ACTUALIZA_SYNAPSE\n\n  FROM [ATOMO].[STG.TH_ENTREGABLE_HITO]",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "TRUNCATE TABLE [ATOMO].[DWH.FACT_ENTREGABLE_HITO]",
+									"writeBehavior": "Insert",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "dlaeuecpdevatomo",
+										"type": "LinkedServiceReference"
+									},
+									"path": "raw"
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "FK_HITO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_HITO",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_PARAM_INDICADOR",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_PARAM_INDICADOR",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_ENTREGABLE",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_ENTREGABLE",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_PERIODO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_PERIODO",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_TIEMPO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_TIEMPO",
+												"type": "Int32"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_EJECUCION_REAL",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_EJECUCION_REAL",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_REAL_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "PRC_CUMP_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "PRC_CUMP_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_CAUSAS",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_CAUSAS",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ACCIONES",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ACCIONES",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_FINAL_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_REAL_FINAL_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_CORREO_USUARIO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_CORREO_USUARIO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_EVENTO_REGISTRO",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_EVENTO_REGISTRO",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHACARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHACARGA",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_TIPOSINCONSISTENCIA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "FK_TIPOSINCONSISTENCIA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FECHA_CARGA_SYNAPSE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "FECHA_CARGA_SYNAPSE",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+												"type": "DateTime"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_syn_stg_th_entregable_hito",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_syn_dwh_fact_entregablehito",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Lkp_Dwh_th_entregable_hito",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_th_entregable_hito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT COUNT(*) AS Conteo FROM [ATOMO].[DWH.FACT_ENTREGABLE_HITO]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_syn_dwh_fact_entregablehito",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLComplejos_Fact"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

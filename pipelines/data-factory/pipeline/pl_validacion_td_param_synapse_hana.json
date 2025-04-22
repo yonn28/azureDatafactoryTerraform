@@ -1,0 +1,358 @@
+{
+	"name": "pl_validacion_td_param_synapse_hana",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF Validaciones Esquemas Vistas",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Update fkEstadoConexion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ATOMO_VALIDACION_TD_PARAM_SYNAP_SAP_HANA",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"SYNAPSE": {
+								"Schemas": "sys",
+								"Tables": "views"
+							}
+						}
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "StagingService",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "raw/ECP/TOMADEDECISIONES"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Copy data Schema Hana to Parquet",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"query": "SELECT distinct SCHEMA_NAME, VIEW_NAME\r\nFROM sys.views\r\nWHERE VIEW_TYPE = 'CALC' and VIEW_NAME like 'DM_%'",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "SCHEMA_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SCHEMA_NAME",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "VIEW_NAME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "VIEW_NAME",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_sap_hana_schemas",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_src_parquet_schema_views_hana",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Update fkEstadoConexion",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data Schema Hana to Parquet",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "UPDATE TD.DimParametrizacion\nSET fkEstadoConexion='2'\nWHERE fkEstadoConexion in ('0','1');",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"gkParametrizacion"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkParametrizacion",
+									"type": "bigint",
+									"precision": 19
+								},
+								"sink": {
+									"name": "gkParametrizacion",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "descDataMart",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descDataMart",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "descNombrePaquete",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descNombrePaquete",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "descVistaCalculada",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descVistaCalculada",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableVcOrigen",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descResponsableVcOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "descEstadoConsulta",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descEstadoConsulta",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableParametrizacion",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descResponsableParametrizacion",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "descConsulta",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descConsulta",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "datetime"
+								},
+								"sink": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "descSistemaFuente",
+									"type": "varchar"
+								},
+								"sink": {
+									"name": "descSistemaFuente",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "idDatamart",
+									"type": "int"
+								},
+								"sink": {
+									"name": "idDatamart",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "fkEstadoConexion",
+									"type": "int"
+								},
+								"sink": {
+									"name": "fkEstadoConexion",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "mensajeError",
+									"type": "nvarchar"
+								},
+								"sink": {
+									"name": "mensajeError",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_ILP"
+		},
+		"annotations": []
+	}
+}

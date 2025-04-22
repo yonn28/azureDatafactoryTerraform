@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - infrastructure-as-code
+
+stages:
+- template: templates/stage.cd-environment.yml
+  parameters:
+    environment: dev
+    iacApprovalNeeded: false
+
+- template: templates/stage.cd-environment.yml
+  parameters:
+    environment: qas
+    iacApprovalNeeded: true
+
+- template: templates/stage.cd-environment.yml
+  parameters:
+    environment: prd
+    iacApprovalNeeded: true

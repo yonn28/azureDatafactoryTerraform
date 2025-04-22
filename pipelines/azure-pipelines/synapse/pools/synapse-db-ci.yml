@@ -1,0 +1,22 @@
+trigger: none
+
+stages:
+ - stage: plan
+   displayName: 'Integrate'
+   variables:
+      - template: ../../variable.environment.dev.yml
+      - template: ../../variable.domain.yml
+   jobs:
+    - template: templates/job.db-build.yml
+      parameters:
+        environment: dev
+        domainName: ${{ variables.domainName }}
+        pool: SynapseQAAgent
+    - template: templates/job.db-plan.yml
+      parameters:
+        environment: dev
+        domainName: ${{ variables.domainName }}
+        azureServiceConnectionName: ${{ variables.azureServiceConnectionName }}
+        waitForBuild: true
+        haltOnConnectivityIssues: ${{ false }}
+        pool: SynapseQAAgent

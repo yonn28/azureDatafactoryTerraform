@@ -1,0 +1,140 @@
+{
+	"name": "LMaster_Data_Excel_AtomoUAT",
+	"properties": {
+		"activities": [
+			{
+				"name": "DimEstructuraDespliegue",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DimSegmento",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_Excel_AtomoUAT_DimEstructuraDespliegue",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DimTablero",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DimEstructuraDespliegue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Excel_DimTablero",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DimConfiguracion_CVR",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DimTablero",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_Excel_AtomoUAT_DimConfiguracionCvr",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DimSegmento",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DimParametrizacion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_Excel_AtomoUAT_DimSegmento",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "EjecutarLogicApp",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-31.eastus.logic.azure.com:443/workflows/2f280271cd744dc881dcf7fa8b46e3cd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=KrQYWUWRCHa3Mlsq_DNTXbplZJdAcUdE-kY2dpfp-4w",
+					"method": "POST",
+					"body": {
+						"value": "@variables('Body')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DimParametrizacion",
+				"description": "  ",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "EjecutarLogicApp",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load_Data_Atomo_Excel_ParametrizarComponenteAuto",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"variables": {
+			"Body": {
+				"type": "String",
+				"defaultValue": "{}"
+			}
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:17:09Z"
+	}
+}

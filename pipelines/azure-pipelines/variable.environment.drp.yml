@@ -1,0 +1,6 @@
+variables:
+  - name: location
+    value: westus
+
+  - name: azureServiceConnectionName
+    value: SC-ECP-PRD-ATOMODRP

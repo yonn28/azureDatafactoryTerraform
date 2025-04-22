@@ -1,0 +1,193 @@
+{
+	"name": "ds_syn_dwh_dim_indicador",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ID_INDICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_NOMBRE_INDICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_INDICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_FORMULA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_UNIDAD_MEDIDA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_SENTIDO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_FRECUENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "CANT_DECIMALES_CALCULO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CANT_DECIMALES_REPORTE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_VISUALIZA_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_VISUALIZA_ACUMULADO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+				"type": "varchar"
+			},
+			{
+				"name": "VLR_LIMITE_INFERIOR",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_LIMITE_SUPERIOR",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_CUMP_SATISFACCION",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DESC_FUENTE_PROYECTADA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_FUENTE_REAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_VERSION",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_VIGENCIA_DESDE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_VIGENCIA_HASTA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_USUARIO_RESP_CALCULO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_META_NORMALIZADA",
+				"type": "varchar"
+			},
+			{
+				"name": "CANT_COMPONENTES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_REFERENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_HOJA_VIDA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RESPONSABLE_META",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RESPONSABLE_REPORTE_RES",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_APROBADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_APROBADOR_CARGO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_INDICADOR_HITO",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_PROCESO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+				"type": "varchar"
+			},
+			{
+				"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.DIM_INDICADOR"
+		}
+	}
+}

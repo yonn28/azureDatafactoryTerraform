@@ -1,0 +1,26 @@
+{
+	"name": "Oracle_Prime_Telemedia",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [
+			"DM Energía",
+			"Oracle"
+		],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=10.76.136.100;port=1525;sid=PRIME;user id=PRIME_CONSULTA",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "PrimeClaro-Oracle"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

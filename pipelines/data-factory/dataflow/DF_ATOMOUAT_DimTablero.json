@@ -1,0 +1,82 @@
+{
+	"name": "DF_ATOMOUAT_DimTablero",
+	"properties": {
+		"description": "Data flows DIM SCDType2",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_Tablero",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelMaestroDimTablero"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimTablero",
+						"type": "DatasetReference"
+					},
+					"name": "MaxKey"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimTablero"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimTableroComodin"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoInsertDimTablero"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoUpdate"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelDimTablero"
+				},
+				{
+					"name": "DrcValidacionEspaciosDimTablero"
+				},
+				{
+					"name": "JoinDimTablero"
+				},
+				{
+					"name": "Split1"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "AltDimTablero"
+				},
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\tID_TABLERO as string,\n\t\tDESC_SIGLA_AREA as string,\n\t\tDESC_TABLERO as string,\n\t\t{DESC_CONTACTO_RED_DESEMPEÑO} as string,\n\t\t{DESC_CARGO_CONTACTO_RED_DESEMPEÑO} as string,\n\t\tDTM_VIGENCIA_DESDE as timestamp,\n\t\tDTM_VIGENCIA_HASTA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouExcelMaestroDimTablero\nsource(output(\n\t\tMaxKey as long\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT MAX(gkTablero) AS MaxKey FROM TD.DimTablero',\n\tformat: 'query') ~> MaxKey\nsource(output(\n\t\tgkTablero as integer,\n\t\tidTablero as string,\n\t\tdescSiglaArea as string,\n\t\tdescTablero as string,\n\t\tdescContactoRedDesempeno as string,\n\t\tdescCargoContactoRedDesempeno as string,\n\t\tdtmFechaVigenciaDesde as timestamp,\n\t\tdtmFechaVigenciaHasta as timestamp,\n\t\tdtmFechaInicioReg as timestamp,\n\t\tdtmFechaFinReg as timestamp,\n\t\tdescEstadoReg as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouDimTablero\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT  \\nCAST(\\'-999\\' AS VARCHAR(50)) AS \"src_idTablero\",\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(500)) AS \"src_descSiglaArea\",\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(500)) AS \"src_descTablero\",\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(500)) AS \"src_descContactoRedDesempeno\",\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(500)) AS \"src_descCargoContactoRedDesempeno\",\\nCAST(NULL AS DATETIME) AS \"src_dtmFechaVigenciaDesde\",\\nCAST(NULL AS DATETIME) AS \"src_dtmFechaVigenciaHasta\"',\n\tformat: 'query') ~> SouDimTableroComodin\nSouExcelMaestroDimTablero select(mapColumn(\n\t\tsrc_idTablero = ID_TABLERO,\n\t\tsrc_descSiglaArea = DESC_SIGLA_AREA,\n\t\tsrc_descTablero = DESC_TABLERO,\n\t\tsrc_descContactoRedDesempeno = {DESC_CONTACTO_RED_DESEMPEÑO},\n\t\tsrc_descCargoContactoRedDesempeno = {DESC_CARGO_CONTACTO_RED_DESEMPEÑO},\n\t\tsrc_dtmFechaVigenciaDesde = DTM_VIGENCIA_DESDE,\n\t\tsrc_dtmFechaVigenciaHasta = DTM_VIGENCIA_HASTA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelDimTablero\nUnion1 derive(src_descSiglaArea = trim(src_descSiglaArea),\n\t\tsrc_descTablero = trim(src_descTablero),\n\t\tsrc_descContactoRedDesempeno = trim(src_descContactoRedDesempeno),\n\t\tsrc_descCargoContactoRedDesempeno = trim(src_descCargoContactoRedDesempeno),\n\t\tsrc_descOrigen = 'EXCEL:DMTD_Plantilla_Maestros:Tableros',\n\t\tscr_descEstado = 'ACTIVO') ~> DrcValidacionEspaciosDimTablero\nConditionalSplit1@NOTNULL, SouDimTablero join(src_idTablero == idTablero,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimTablero\nJoinDimTablero split(src_idTablero==idTablero,\n\tdisjoint: false) ~> Split1@(Match, NoMatch)\nSouDimTableroComodin, SltExcelDimTablero union(byName: true)~> Union1\nSplit1@Match alterRow(updateIf(1==1)) ~> AltDimTablero\nDrcValidacionEspaciosDimTablero split(isNull(src_descSiglaArea),\n\tdisjoint: false) ~> ConditionalSplit1@(NULL, NOTNULL)\nSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkTablero as integer,\n\t\tidTablero as string,\n\t\tdescSiglaArea as string,\n\t\tdescTablero as string,\n\t\tdescContactoRedDesempeno as string,\n\t\tdescCargoContactoRedDesempeno as string,\n\t\tdtmFechaVigenciaDesde as timestamp,\n\t\tdtmFechaVigenciaHasta as timestamp,\n\t\tdtmFechaInicioReg as timestamp,\n\t\tdtmFechaFinReg as timestamp,\n\t\tdescEstadoReg as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidTablero = src_idTablero,\n\t\tdescSiglaArea = src_descSiglaArea,\n\t\tdescTablero = src_descTablero,\n\t\tdescContactoRedDesempeno = src_descContactoRedDesempeno,\n\t\tdescCargoContactoRedDesempeno = src_descCargoContactoRedDesempeno,\n\t\tdtmFechaVigenciaDesde = src_dtmFechaVigenciaDesde,\n\t\tdtmFechaVigenciaHasta = src_dtmFechaVigenciaHasta,\n\t\tdescOrigen = src_descOrigen\n\t)) ~> SynAtomoInsertDimTablero\nAltDimTablero sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkTablero as integer,\n\t\tidTablero as string,\n\t\tdescSiglaArea as string,\n\t\tdescTablero as string,\n\t\tdescContactoRedDesempeno as string,\n\t\tdescCargoContactoRedDesempeno as string,\n\t\tdtmFechaVigenciaDesde as timestamp,\n\t\tdtmFechaVigenciaHasta as timestamp,\n\t\tdtmFechaInicioReg as timestamp,\n\t\tdtmFechaFinReg as timestamp,\n\t\tdescEstadoReg as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['idTablero'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidTablero = src_idTablero,\n\t\tdescSiglaArea = src_descSiglaArea,\n\t\tdescTablero = src_descTablero,\n\t\tdescContactoRedDesempeno = src_descContactoRedDesempeno,\n\t\tdescCargoContactoRedDesempeno = src_descCargoContactoRedDesempeno,\n\t\tdtmFechaVigenciaDesde = src_dtmFechaVigenciaDesde,\n\t\tdtmFechaVigenciaHasta = src_dtmFechaVigenciaHasta,\n\t\tdescOrigen = src_descOrigen\n\t)) ~> SynAtomoUpdate"
+		}
+	}
+}

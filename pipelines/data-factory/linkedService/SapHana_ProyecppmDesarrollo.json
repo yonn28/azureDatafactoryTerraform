@@ -1,0 +1,17 @@
+{
+	"name": "SapHana_ProyecppmDesarrollo",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked service Hana Hec fuente PPM  Inversiones DMINVERSIONES",
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=10.76.36.9:30641;uid=Proyecppm",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiN2U5YmQ0Yi1jN2M0LTQzOTQtYTc5Yy1lYzI0MTIzNmFmOTciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

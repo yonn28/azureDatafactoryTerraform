@@ -1,0 +1,75 @@
+{
+	"name": "DF_ATOMOUAT_DimObjetivo",
+	"properties": {
+		"description": "Data flows",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_Objetivo",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelMaestroDimObjetivo"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimObjetivo",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimObjetivo"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimObjetivo",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimObjetivoComodin"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimObjetivo",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoUpdateDimObjetivo"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimObjetivo",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoInsertDimObjectivo"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelDimObjetivo"
+				},
+				{
+					"name": "DrcValidacionEspacios"
+				},
+				{
+					"name": "JoinDimObjetivo"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AltDimObjetivo"
+				},
+				{
+					"name": "UniExcelComodin"
+				},
+				{
+					"name": "CSNULLObjetivos"
+				}
+			],
+			"script": "source(output(\n\t\tID_OBJETIVO as string,\n\t\tDESCRIPCION_OBJETIVO as string,\n\t\tDTM_VIGENCIA_DESDE as date,\n\t\tDTM_VIGENCIA_HASTA as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouExcelMaestroDimObjetivo\nsource(output(\n\t\tgkObjetivo as long,\n\t\tidObjetivo as string,\n\t\tdescObjetivo as string,\n\t\tdtmFechaIniVigenciaObjetivo as timestamp,\n\t\tdtmFechaFinVigenciaObjetivo as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimObjetivo\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT CAST(-999 AS VARCHAR(4000)) src_idObjetivo,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descObjetivo,\\nCAST(Null AS DATE) src_dtmFechaIniVigenciaObjetivo,\\nCAST(Null AS DATE) src_dtmFechaFinVigenciaObjetivo',\n\tformat: 'query') ~> SouAtomoDimObjetivoComodin\nSouExcelMaestroDimObjetivo select(mapColumn(\n\t\tsrc_idObjetivo = ID_OBJETIVO,\n\t\tsrc_descObjetivo = DESCRIPCION_OBJETIVO,\n\t\tsrc_dtmFechaIniVigenciaObjetivo = DTM_VIGENCIA_DESDE,\n\t\tsrc_dtmFechaFinVigenciaObjetivo = DTM_VIGENCIA_HASTA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelDimObjetivo\nUniExcelComodin derive(src_descObjetivo = trim(src_descObjetivo),\n\t\tSrc_descOrigen = 'EXCEL:DMTD_Plantilla_Maestros:Objetivo') ~> DrcValidacionEspacios\nCSNULLObjetivos@NOTNULL, SouAtomoDimObjetivo join(src_idObjetivo == idObjetivo,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimObjetivo\nJoinDimObjetivo split(src_idObjetivo==idObjetivo,\n\tdisjoint: false) ~> ConditionalSplit1@(Match, NoMatch)\nConditionalSplit1@Match alterRow(updateIf(1==1)) ~> AltDimObjetivo\nSouAtomoDimObjetivoComodin, SltExcelDimObjetivo union(byName: true)~> UniExcelComodin\nDrcValidacionEspacios split(isNull(src_idObjetivo),\n\tdisjoint: false) ~> CSNULLObjetivos@(NULL, NOTNULL)\nAltDimObjetivo sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkObjetivo as long,\n\t\tidObjetivo as string,\n\t\tdescObjetivo as string,\n\t\tdtmFechaIniVigenciaObjetivo as timestamp,\n\t\tdtmFechaFinVigenciaObjetivo as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['idObjetivo'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidObjetivo,\n\t\tdescObjetivo = src_descObjetivo,\n\t\tdtmFechaIniVigenciaObjetivo = src_dtmFechaIniVigenciaObjetivo,\n\t\tdtmFechaFinVigenciaObjetivo = src_dtmFechaFinVigenciaObjetivo,\n\t\tdescOrigen = Src_descOrigen\n\t)) ~> SynAtomoUpdateDimObjetivo\nConditionalSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkObjetivo as long,\n\t\tidObjetivo as string,\n\t\tdescObjetivo as string,\n\t\tdtmFechaIniVigenciaObjetivo as timestamp,\n\t\tdtmFechaFinVigenciaObjetivo as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidObjetivo = src_idObjetivo,\n\t\tdescObjetivo = src_descObjetivo,\n\t\tdtmFechaIniVigenciaObjetivo = src_dtmFechaIniVigenciaObjetivo,\n\t\tdtmFechaFinVigenciaObjetivo = src_dtmFechaFinVigenciaObjetivo,\n\t\tdescOrigen = Src_descOrigen\n\t)) ~> SynAtomoInsertDimObjectivo"
+		}
+	}
+}

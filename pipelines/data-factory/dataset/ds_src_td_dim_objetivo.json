@@ -1,0 +1,65 @@
+{
+	"name": "ds_src_td_dim_objetivo",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_UX/DS_SRC"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkObjetivo",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "idObjetivo",
+				"type": "varchar"
+			},
+			{
+				"name": "descObjetivo",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaIniVigenciaObjetivo",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaFinVigenciaObjetivo",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			},
+			{
+				"name": "numOrden",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimObjetivo"
+		}
+	}
+}

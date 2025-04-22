@@ -1,0 +1,16 @@
+{
+	"name": "Oracle1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=10.11.25.249;port=1541;servicename=BDP38PRD;user id=usrBDPdmCAMPOS",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3MzU5NGE4Mi03OTJmLTRjY2YtYmI1My00YmU4NGNjZmE0MzUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

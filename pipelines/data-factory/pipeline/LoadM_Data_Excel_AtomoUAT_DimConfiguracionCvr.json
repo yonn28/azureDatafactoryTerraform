@@ -1,0 +1,38 @@
+{
+	"name": "LoadM_Data_Excel_AtomoUAT_DimConfiguracionCvr",
+	"properties": {
+		"description": "flujo de datos que carga los datos de la plantilla de ExcelMaestro_ConfiguracionCvr a SQL_DimConfiguracionCvr",
+		"activities": [
+			{
+				"name": "DF_ATOMO_DimConfiguracionCvr",
+				"description": " ",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ATOMOUAT_DimConfiguracionCvr",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:25Z"
+	}
+}

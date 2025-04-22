@@ -1,0 +1,123 @@
+{
+	"name": "LoadT_Data_Synapse_Atomo",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LKUDimParametrizacion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LKUDimParametrizacion').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "CPStagingComponentesAutomatizados",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlDWSource",
+									"additionalColumns": {
+										"type": "Expression",
+										"value": "@item()"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "upsert",
+									"upsertSettings": {
+										"useTempDB": true,
+										"keys": [
+											"descSigla"
+										]
+									},
+									"sqlWriterUseTableLock": false,
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_SOURCE_SYNAPSE_ATOMO_Componentes",
+									"type": "DatasetReference",
+									"parameters": {
+										"TablaCVCHana": "@{item().descConsulta}",
+										"EsquemaSynapse": "@{item().descnombrePaquete}"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "LKUDimParametrizacion",
+				"description": " ",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select descnombrePaquete,   RIGHT(replace(descConsulta,'\"',''),len(replace(descConsulta,'\"','')) - charindex('.',  replace(descConsulta,'\"','') ))   descConsulta from [TD].[DimParametrizacion] where descEstadoConsulta='INACTIVA'  and descSistemaFuente='SYNAPSE'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:12Z"
+	}
+}

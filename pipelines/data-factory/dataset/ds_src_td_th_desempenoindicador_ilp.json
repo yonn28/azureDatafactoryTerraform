@@ -1,0 +1,138 @@
+{
+	"name": "ds_src_td_th_desempenoindicador_ilp",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_ILP/DS_SRC"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkDesempeñoIndicadorILP",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "vlrMetaAnio1",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnio2",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnoi3",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnio12",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnio123",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrRetoILP",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "descPremisas",
+				"type": "varchar"
+			},
+			{
+				"name": "descMensClaveInd",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "varchar"
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkParamIndicador",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fkTablero",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "descCorreoUsuarioCargo",
+				"type": "varchar"
+			},
+			{
+				"name": "fkIndicador",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "vlrMetaAnoNS1",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnoNS2",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnoNS3",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnoNS12",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnoNS123",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrPlanAcumuladoNS",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "descPeriodo",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "THDesempenoIndicadorILP"
+		}
+	}
+}

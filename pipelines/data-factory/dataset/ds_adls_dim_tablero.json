@@ -1,0 +1,70 @@
+{
+	"name": "ds_adls_dim_tablero",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Tablero.parquet",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "GK_TABLERO",
+				"type": "INT64"
+			},
+			{
+				"name": "ID_TABLERO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_SIGLA_AREA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_TABLERO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_CONTACTO_RED_DESEMPENO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_CARGO_CONTACTO_RED_DESEMPENO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_FECHA_VIGENCIA_DESDE",
+				"type": "INT96"
+			},
+			{
+				"name": "DTM_FECHA_VIGENCIA_HASTA",
+				"type": "INT96"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "UTF8"
+			}
+		]
+	}
+}

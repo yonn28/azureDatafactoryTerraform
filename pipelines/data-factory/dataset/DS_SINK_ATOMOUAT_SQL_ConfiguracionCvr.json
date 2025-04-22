@@ -1,0 +1,78 @@
+{
+	"name": "DS_SINK_ATOMOUAT_SQL_ConfiguracionCvr",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkCvr",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "idCvr",
+				"type": "varchar"
+			},
+			{
+				"name": "descVersion",
+				"type": "varchar"
+			},
+			{
+				"name": "prcLimiteInferiorCvr",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "prcLimiteSuperiorCvr",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "prcMetaCvr",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "dtmVigenciaDesde",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmVigenciaHasta",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimConfiguracionCvr"
+		}
+	}
+}

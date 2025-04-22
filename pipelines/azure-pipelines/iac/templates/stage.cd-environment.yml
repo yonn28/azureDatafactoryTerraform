@@ -1,0 +1,64 @@
+parameters:
+- name: environment
+  type: string
+- name: iacApprovalNeeded
+  type: boolean
+  default: false
+
+stages:
+- ${{ if eq(parameters.iacApprovalNeeded, true) }}:
+  - stage: predeploy_${{ parameters.environment }}
+    jobs:
+    - template: job.plan.yml
+      parameters:
+        jobName: plan
+        environment: ${{ parameters.environment }}
+        planArtifactName: ${{ parameters.environment }}-iac-plan
+
+  - stage: ${{ parameters.environment }}
+    jobs:
+    - template: job.deploy.yml
+      parameters:
+        jobName: deploy_arm
+        environment: ${{ parameters.environment }}
+        preApprovalPlanArtifactName: ${{ parameters.environment }}-iac-plan
+
+    - template: job.set-synapse-variables.yml
+      parameters:
+        jobName: setSynapseVariables
+        dependsOnJob: deploy_arm
+        environment: ${{ parameters.environment }}
+
+    - template: job.acceptance-test.yml
+      parameters:
+        jobName: test
+        dependsOnJob: deploy_arm
+        environment: ${{ parameters.environment }}
+
+- ${{ if not(eq(parameters.iacApprovalNeeded, true)) }}:
+  - stage: ${{ parameters.environment }}
+    jobs:
+    - template: job.plan.yml
+      parameters:
+        jobName: plan
+        environment: ${{ parameters.environment }}
+        planArtifactName: ${{ parameters.environment }}-iac-plan
+
+    - template: job.deploy.yml
+      parameters:
+        jobName: deploy_arm
+        dependsOnJob: plan
+        environment: ${{ parameters.environment }}
+        preApprovalPlanArtifactName: ${{ parameters.environment }}-iac-plan
+
+    - template: job.set-synapse-variables.yml
+      parameters:
+        jobName: setSynapseVariables
+        dependsOnJob: deploy_arm
+        environment: ${{ parameters.environment }}
+
+    - template: job.acceptance-test.yml
+      parameters:
+        jobName: test
+        dependsOnJob: deploy_arm
+        environment: ${{ parameters.environment }}

@@ -1,0 +1,95 @@
+{
+	"name": "ds_syn_stg_dim_contexto_hito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_CONTEXTO_HITO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DTM_FECHA_REGISTRO_CONTEXTO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHA_USAR",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_SPONSOR",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CORREO_SPONSOR",
+				"type": "varchar"
+			},
+			{
+				"name": "VLR_PLAN_HITO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DESC_CONTEXTO_MOTIVACION",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_OBJETIVO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_IMPACTO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_INTERDEPENDENCIAS",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RIESGOS_PRINCIPALES",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_MITIGANTES_RIESGO",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "STG.DIM_CONTEXTO_HITO"
+		}
+	}
+}

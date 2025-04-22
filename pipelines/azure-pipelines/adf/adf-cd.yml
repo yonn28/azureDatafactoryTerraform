@@ -1,0 +1,32 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - data-factory
+
+variables:
+  - template: ../variable.domain.yml
+
+stages:
+- template: templates/stage.cd-adf.yml
+  parameters:
+    domain: ${{ variables.domainName }}
+    environment: drp
+    dataFactoryOverrideParameters:  ${{ variables.dataFactoryOverrideParameters }}
+    condition: true
+
+# - template: templates/stage.cd-adf.yml
+#   parameters:
+#     domain: ${{ variables.domainName }}
+#     environment: qas
+#     dataFactoryOverrideParameters:  ${{ variables.dataFactoryOverrideParameters }}
+#     condition: ${{ eq(variables.dataFactoryDevelopmentOnly, false) }}
+
+# - template: templates/stage.cd-adf.yml
+#   parameters:
+#     domain: ${{ variables.domainName }}
+#     environment: prd
+#     dataFactoryOverrideParameters:  ${{ variables.dataFactoryOverrideParameters }}
+#     condition: ${{ eq(variables.dataFactoryDevelopmentOnly, false) }}

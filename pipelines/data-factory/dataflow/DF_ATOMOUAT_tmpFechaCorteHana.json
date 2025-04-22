@@ -1,0 +1,42 @@
+{
+	"name": "DF_ATOMOUAT_tmpFechaCorteHana",
+	"properties": {
+		"description": "Data flows",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_Instrucciones",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelMaestroTmpFEchaCorte"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_tmpFechaCorte",
+						"type": "DatasetReference"
+					},
+					"name": "SinktmpFechaCorte"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelTmpFechaCorte"
+				},
+				{
+					"name": "DrcValidacionEspacios"
+				},
+				{
+					"name": "FiltrarNulos"
+				}
+			],
+			"script": "source(output(\n\t\t{Fecha de Corte} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true,\n\tignoreNoFilesFound: false) ~> SouExcelMaestroTmpFEchaCorte\nSouExcelMaestroTmpFEchaCorte select(mapColumn(\n\t\tsrc_FechaCorte = {Fecha de Corte}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelTmpFechaCorte\nSltExcelTmpFechaCorte derive(Src_descOrigen = 'EXCEL:DMTD_Plantilla_Maestros.xlsx') ~> DrcValidacionEspacios\nDrcValidacionEspacios split(isNull(src_FechaCorte),\n\tdisjoint: false) ~> FiltrarNulos@(Nulos, Nonulos)\nFiltrarNulos@Nonulos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tdtmFechaCorte as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencias as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tdtmFechaCorte = src_FechaCorte,\n\t\tdescOrigen = Src_descOrigen\n\t)) ~> SinktmpFechaCorte"
+		}
+	}
+}

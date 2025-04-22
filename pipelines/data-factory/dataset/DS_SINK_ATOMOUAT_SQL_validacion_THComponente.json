@@ -1,0 +1,57 @@
+{
+	"name": "DS_SINK_ATOMOUAT_SQL_validacion_THComponente",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "idIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "descSigla",
+				"type": "varchar"
+			},
+			{
+				"name": "fkPeriodo",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "vlrRealPeriodo",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrRealAcum",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "staging_validacion_THComponente"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

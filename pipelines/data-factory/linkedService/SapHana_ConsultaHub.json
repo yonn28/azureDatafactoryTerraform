@@ -1,0 +1,17 @@
+{
+	"name": "SapHana_ConsultaHub",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Origen _ Usuario (por tipos de privilegio)",
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=hanap:32015;uid=CONSULTA_DM_HUB",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1OTFhMzU1ZC1kZDBkLTQ3NDUtYTljOC1mMDlhYzBlYmUyM2YiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

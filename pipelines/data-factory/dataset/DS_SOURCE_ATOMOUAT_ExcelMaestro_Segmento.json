@@ -1,0 +1,46 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_ExcelMaestro_Segmento",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Segmento",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_Maestros.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID_SEGMENTO",
+				"type": "String"
+			},
+			{
+				"name": "GRUPO_SEGMENTO",
+				"type": "String"
+			},
+			{
+				"name": "SEGMENTO",
+				"type": "String"
+			},
+			{
+				"name": "DTM_VIGENCIA_DESDE",
+				"type": "String"
+			},
+			{
+				"name": "DTM_VIGENCIA_HASTA",
+				"type": "String"
+			}
+		]
+	}
+}

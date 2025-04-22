@@ -1,0 +1,41 @@
+{
+	"name": "TRG_CargaDataSAP_HANA_AtomoAzure",
+	"properties": {
+		"description": "Ejecución del PipeLine Maestro que realiza la carga de data de tablas SAP/HANA a Átomo SQL Azure",
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "L_Master_Data_Hana_Atomo",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2022-07-08T05:00:00",
+				"timeZone": "SA Pacific Standard Time",
+				"schedule": {
+					"minutes": [
+						20
+					],
+					"hours": [
+						6,
+						8,
+						10,
+						12,
+						14,
+						16,
+						18,
+						20,
+						22
+					]
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Trigger_AVOCET_to_DATALAKE_FAT3_DEV",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2020-11-13T07:00:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

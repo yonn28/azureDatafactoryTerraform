@@ -1,0 +1,370 @@
+-- =============================================
+-- Author:      Harold Lopez - Santiago Guzman
+-- Create Date: 2022-08-18
+-- Description: Se crea la vista CVC_DESEMPENO_INDICADOR_ILP la cual es un inSUMo para la iniciativba de ILP
+
+-- Author:      Oscar Angel 
+-- Update Date: 2022-11-10
+-- Description: Se realiza ajuste en query por limpieza de campos.
+
+-- Author:      Juan Benavides 
+-- Update Date: 2022-12-16
+-- Description: Se realiza ajuste en query para Incluir campos de proyeccion.
+
+-- Author:      Oscar Fabian Angel 
+-- Update Date: 2023-03-13
+-- Description: Se realiza adicion de los campos Plan Acum Periodos
+
+-- Author:      Alejandro Vargas 
+-- Update Date: 2023-04-11
+-- Description: Se realiza modificacion del campo PRC_AVAN_ACUM_ILP
+-- =============================================
+
+CREATE VIEW [ATOMO].[CVC_DESEMPENO_INDICADOR_ILP] AS SELECT SUBSTRING(B.DESC_PERIODO,1,4) AS DESC_ANNIO ,
+		  B.FK_PARAM_INDICADOR                        ,
+		  B.FK_INDICADOR                              ,
+		  B.FK_PERIODO                                ,
+		  B.FK_TABLERO								,			   
+		  B.DESC_PERIODO                              ,
+		  B.DESC_PREMISAS                             ,
+		  B.DESC_MENSAJE_CLAVE_INDICADOR              ,
+		  B.DESC_META_NORMALIZADA					  ,
+		  B."PLAN ACUM PERIODOS"					    ,
+		  B."PERIODO AÑO"							    ,
+		  B.VLR_META_NORM_ANNIO_1                     ,
+		  B.VLR_META_NORM_ANNIO_2                     ,
+		  B.VLR_META_NORM_ANNIO_3                     ,
+		  B.VLR_META_NORM_ANNIO_12                    ,
+		  B.VLR_META_NORM_ANNIO_123                   ,
+		  B.DESC_SENTIDO                              ,
+		  B.DESC_FRECUENCIA                           ,
+		  B.VLR_REAL_ANNIO_1                          ,
+		  B.VLR_REAL_ANNIO_2                          ,
+		  B.VLR_REAL_ANNIO_3                          ,
+		  B.VLR_REAL_ANNIO_12                         ,
+		  B.VLR_REAL_ANNIO_123                        ,
+		  B.VLR_REAL_ACUMULADO                        ,
+		  B.VLR_REAL_ACUMULADO_MES                    ,
+		  B.VLR_PLAN_ACUMULADO                        ,
+		  B.VLR_PLAN_ACUM_NORM                        ,
+		  B.VLR_META_ANNIO_1                          ,
+		  B.VLR_META_ANNIO_2                          ,
+		  B.VLR_META_ANNIO_3                          ,
+		  B.VLR_META_ANNIO_12                         ,
+		  B.VLR_META_ANNIO_123                        ,
+		  B.VLR_RETO                                  ,
+		  B.VLR_PROYECCION_ANNIO_1                    ,
+		  B.VLR_PROYECCION_ANNIO_2                    ,
+		  B.VLR_PROYECCION_ANNIO_3                    ,
+		  B.VLR_PROYECCION_ANNIO_12                   ,
+		  B.VLR_PROYECCION_ANNIO_123                  ,
+		  B.PRC_AVAN_ACUM_ILP                         ,
+		  B.PRC_AVAN_ILP_ANNO12                       ,
+		  B.PRC_AVAN_ILP_ANNO1                        ,
+		  B.PRC_CUMP_ANNO1                            ,
+		  B.PRC_CUMP_ANNO2                            ,
+		  B.PRC_CUMP_ANNO3                            ,
+		  B.PRC_CUMP_ANNO12                           ,
+		  B.PRC_CUMP_ANNO123                          ,
+		  B.PRC_CUMP_ACUM                             ,	
+		  B.VLR_REAL_PROY_ANNO1                       ,
+		  B.VLR_REAL_PROY_ANNO2                       ,
+		  B.VLR_REAL_PROY_ANNO3                       ,
+		  B.VLR_REAL_PROY_ANNO12                      ,
+		  B.VLR_REAL_PROY_ANNO123                     ,	
+		  B.FECHA_CARGA_SYNAPSE                     ,
+		  B.FECHA_PROXIMA_ACTUALIZA_SYNAPSE
+FROM( SELECT A.*,
+
+
+			 CASE WHEN "VLR_REAL_ACUMULADO" IS NULL
+					THEN NULL 
+					WHEN (COALESCE("VLR_META_NORM_ANNIO_123","VLR_META_ANNIO_123") = 0 OR COALESCE("VLR_META_NORM_ANNIO_123","VLR_META_ANNIO_123") IS NULL) AND "VLR_REAL_ACUMULADO" <> 0
+					THEN CASE WHEN UPPER(DESC_SENTIDO) = 'POSITIVO' AND "VLR_REAL_ACUMULADO" > 0
+								THEN 1
+								WHEN UPPER(DESC_SENTIDO) = 'POSITIVO' AND "VLR_REAL_ACUMULADO" < 0
+								THEN 0
+								WHEN UPPER(DESC_SENTIDO) = 'NEGATIVO' AND "VLR_REAL_ACUMULADO" < 0
+								THEN 1
+								WHEN UPPER(DESC_SENTIDO) = 'NEGATIVO' AND "VLR_REAL_ACUMULADO" > 0
+								THEN 0
+								ELSE NULL END
+					WHEN (COALESCE("VLR_META_NORM_ANNIO_123","VLR_META_ANNIO_123") = 0) AND "VLR_REAL_ACUMULADO" = 0 
+						THEN 1
+					WHEN UPPER(DESC_SENTIDO) = 'NEGATIVO' THEN ((COALESCE("VLR_META_NORM_ANNIO_123","VLR_META_ANNIO_123")-"VLR_REAL_ACUMULADO")/(COALESCE("VLR_META_NORM_ANNIO_123","VLR_META_ANNIO_123")))+1
+				ELSE ("VLR_REAL_ACUMULADO" / COALESCE("VLR_META_NORM_ANNIO_123","VLR_META_ANNIO_123")) 
+				END AS "PRC_AVAN_ACUM_ILP",
+
+			 CAST(NULL AS DECIMAL(25,10)) AS "PRC_AVAN_ILP_ANNO1",
+			 CAST(NULL AS DECIMAL(25,10)) AS "PRC_AVAN_ILP_ANNO12",
+			 
+			 CAST(NULL AS DECIMAL(25,10)) AS "PRC_CUMP_ANNO1",
+			 CAST(NULL AS DECIMAL(25,10)) AS "PRC_CUMP_ANNO2",
+			 CAST(NULL AS DECIMAL(25,10)) AS "PRC_CUMP_ANNO3",
+			 CAST(NULL AS DECIMAL(25,10)) AS "PRC_CUMP_ANNO12",
+			 CAST(NULL AS DECIMAL(25,10)) AS "PRC_CUMP_ANNO123",
+
+			 CASE WHEN VLR_REAL_ACUMULADO IS NULL 
+					THEN NULL 
+				 WHEN UPPER(DESC_SENTIDO) = 'POSITIVO' AND (ISNULL(VLR_PLAN_ACUM_NORM,VLR_PLAN_ACUMULADO)<0 ) 
+					THEN ((ISNULL(VLR_PLAN_ACUM_NORM,VLR_PLAN_ACUMULADO)- VLR_REAL_ACUMULADO) / ISNULL(VLR_PLAN_ACUM_NORM,VLR_PLAN_ACUMULADO)) + 1 
+				 WHEN ((VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO IS NULL AND VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM IS NULL)) AND VLR_REAL_ACUMULADO = 0 
+					THEN 1 
+				 WHEN (VLR_PLAN_ACUMULADO = 0 AND VLR_REAL_ACUMULADO = 0 AND (VLR_PLAN_ACUM_NORM IS NULL OR VLR_PLAN_ACUM_NORM = 0 )) OR (VLR_PLAN_ACUM_NORM = 0 AND VLR_REAL_ACUMULADO = 0)
+					THEN 1
+                 WHEN (UPPER(DESC_SENTIDO) = 'NEGATIVO' AND ((VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO IS NULL AND 
+							VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM IS NULL) OR (ISNULL(VLR_PLAN_ACUM_NORM,VLR_PLAN_ACUMULADO)=0)) AND VLR_REAL_ACUMULADO > 0) OR (UPPER(DESC_SENTIDO) = 'POSITIVO' AND ((VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO IS NULL AND VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM IS NULL) OR (ISNULL(VLR_PLAN_ACUM_NORM,VLR_PLAN_ACUMULADO)=0)) AND VLR_REAL_ACUMULADO < 0) 
+					THEN 0 
+				 WHEN (UPPER(DESC_SENTIDO) = 'NEGATIVO' AND ((VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO IS NULL AND VLR_PLAN_ACUM_NORM = 0) 	  OR (VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM IS NULL) OR (ISNULL(VLR_PLAN_ACUM_NORM,VLR_PLAN_ACUMULADO)=0)) AND VLR_REAL_ACUMULADO < 0) 
+						OR (UPPER(DESC_SENTIDO) = 'POSITIVO' AND ((VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO IS NULL AND 
+						VLR_PLAN_ACUM_NORM = 0) OR (VLR_PLAN_ACUMULADO = 0 AND VLR_PLAN_ACUM_NORM IS NULL) OR (ISNULL(VLR_PLAN_ACUM_NORM,VLR_PLAN_ACUMULADO)=0)) 
+						AND VLR_REAL_ACUMULADO > 0) 
+					THEN 1 
+				 WHEN (DESC_SENTIDO = 'Negativo' OR VLR_PLAN_ACUMULADO < 0) AND DESC_META_NORMALIZADA = 'No' 
+					THEN CASE WHEN VLR_PLAN_ACUMULADO = 0 
+								 THEN 0 
+							  ELSE ((VLR_PLAN_ACUMULADO - VLR_REAL_ACUMULADO) / VLR_PLAN_ACUMULADO) + 1 END 
+				 WHEN (DESC_SENTIDO = 'Negativo' OR VLR_PLAN_ACUM_NORM < 0) AND DESC_META_NORMALIZADA = 'Si' 
+					THEN CASE WHEN VLR_PLAN_ACUM_NORM = 0 
+								THEN 0 
+							  ELSE CASE WHEN VLR_PLAN_ACUM_NORM IS NULL AND VLR_PLAN_ACUMULADO <> 0 
+										   THEN ((VLR_PLAN_ACUMULADO-VLR_REAL_ACUMULADO) / VLR_PLAN_ACUMULADO) + 1 
+										ELSE ((VLR_PLAN_ACUM_NORM-VLR_REAL_ACUMULADO) / VLR_PLAN_ACUM_NORM) + 1 
+									END 
+						 END 
+                 WHEN DESC_META_NORMALIZADA = 'No' 
+					THEN CASE WHEN VLR_PLAN_ACUMULADO = 0 
+								 THEN 0 
+						 ELSE (VLR_REAL_ACUMULADO / VLR_PLAN_ACUMULADO) END
+				 WHEN DESC_META_NORMALIZADA = 'Si' 
+					THEN CASE WHEN VLR_PLAN_ACUM_NORM = 0 
+								 THEN 0 
+							  ELSE CASE WHEN VLR_PLAN_ACUM_NORM IS NULL AND VLR_PLAN_ACUMULADO <> 0 
+										   THEN (VLR_REAL_ACUMULADO / VLR_PLAN_ACUMULADO) 
+										ELSE CASE WHEN VLR_PLAN_ACUM_NORM = 0 
+													THEN 0 
+											      ELSE (VLR_REAL_ACUMULADO / VLR_PLAN_ACUM_NORM) 
+											 END 
+								   END
+                         END 
+				 ELSE NULL END AS "PRC_CUMP_ACUM"
+
+	  FROM ( SELECT GRP.FK_PARAM_INDICADOR,
+	                GRP.FK_INDICADOR	,
+					GRP.FK_PERIODO	,
+					GRP.FK_TABLERO	,
+					GRP.DESC_PERIODO	,
+					GRP.DESC_PREMISAS	,
+					GRP.DESC_MENSAJE_CLAVE_INDICADOR	,
+					SUM(GRP.VLR_REAL_PROY_ANNO1) AS VLR_REAL_PROY_ANNO1	,
+					SUM(GRP.VLR_REAL_PROY_ANNO2) AS VLR_REAL_PROY_ANNO2	,
+					SUM(GRP.VLR_REAL_PROY_ANNO3) AS VLR_REAL_PROY_ANNO3	,
+					SUM(GRP.VLR_REAL_PROY_ANNO12) AS VLR_REAL_PROY_ANNO12	,
+					SUM(GRP.VLR_REAL_PROY_ANNO123) AS VLR_REAL_PROY_ANNO123	,
+					GRP.DESC_SENTIDO	,
+					GRP.DESC_FRECUENCIA	,
+					GRP.DESC_META_NORMALIZADA,
+					GRP.VLR_META_NORM_ANNIO_1	,
+					GRP.VLR_META_NORM_ANNIO_2	,
+					GRP.VLR_META_NORM_ANNIO_3	,
+					GRP.VLR_META_NORM_ANNIO_12	,
+					GRP.VLR_META_NORM_ANNIO_123	,
+					SUM(GRP.VLR_REAL_ANNIO_1) AS VLR_REAL_ANNIO_1,
+					SUM(GRP.VLR_REAL_ANNIO_2) AS VLR_REAL_ANNIO_2,
+					SUM(GRP.VLR_REAL_ANNIO_3) AS VLR_REAL_ANNIO_3,
+					SUM(GRP.VLR_REAL_ANNIO_12) AS VLR_REAL_ANNIO_12,
+					SUM(GRP.VLR_REAL_ANNIO_123) AS VLR_REAL_ANNIO_123,
+					GRP.VLR_PLAN_ACUMULADO	,
+					GRP.VLR_PLAN_ACUM_NORM	,
+					GRP.VLR_META_ANNIO_1	,
+					GRP.VLR_META_ANNIO_2	,
+					GRP.VLR_META_ANNIO_3	,
+					GRP.VLR_META_ANNIO_12	,
+					GRP.VLR_META_ANNIO_123	,
+					GRP.VLR_RETO	,
+					GRP.VLR_PROYECCION_ANNIO_1	,
+					GRP.VLR_PROYECCION_ANNIO_2	,
+					GRP.VLR_PROYECCION_ANNIO_3	,
+					GRP.VLR_PROYECCION_ANNIO_12	,
+					GRP.VLR_PROYECCION_ANNIO_123	,
+					GRP.FECHA_CARGA_SYNAPSE	,
+					GRP.FECHA_PROXIMA_ACTUALIZA_SYNAPSE	,
+					GRP."PLAN ACUM PERIODOS"	,
+					GRP."PERIODO AÑO"	, 
+					SUM(GRP.VLR_REAL_ACUMULADO) AS VLR_REAL_ACUMULADO,
+					SUM(GRP.VLR_REAL_ACUMULADO_MES) AS VLR_REAL_ACUMULADO_MES
+
+                 FROM ( SELECT A.FK_PARAM_INDICADOR                                            ,
+					           B.FK_INDICADOR                                                  ,
+					           CAST(A.FK_PERIODO AS VARCHAR) AS FK_PERIODO                     ,
+					           A.FK_TABLERO													,
+					           A.DESC_PERIODO                                                  ,
+					           A.DESC_PREMISAS                                                 ,
+					           A.DESC_MENSAJE_CLAVE_INDICADOR                                  ,
+											
+					           CASE WHEN SUM(A.VLR_REAL_ANNIO_1) IS NULL 
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_1) 
+					           	 ELSE SUM(A.VLR_REAL_ANNIO_1) END AS "VLR_REAL_PROY_ANNO1",
+					           CASE WHEN SUM(A.VLR_REAL_ANNIO_2) IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_2)
+					           	 ELSE SUM(A.VLR_REAL_ANNIO_2) END AS "VLR_REAL_PROY_ANNO2",
+					           CASE WHEN SUM(A.VLR_REAL_ANNIO_3) IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_3)
+					           	 ELSE SUM(A.VLR_REAL_ANNIO_3) END AS "VLR_REAL_PROY_ANNO3",
+					           CASE WHEN SUM(A.VLR_REAL_ANNIO_12) IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_12)
+					           	 ELSE SUM(A.VLR_REAL_ANNIO_12) END AS "VLR_REAL_PROY_ANNO12",
+					           CASE WHEN SUM(A.VLR_REAL_ANNIO_123) IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_123)
+					           	 ELSE SUM(A.VLR_REAL_ANNIO_123) END AS "VLR_REAL_PROY_ANNO123",
+															
+					           C.DESC_SENTIDO              ,
+					           C.DESC_FRECUENCIA           ,
+							   C.DESC_META_NORMALIZADA     ,
+							
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_NORM_ANNIO_1)
+					           	 ELSE ROUND(SUM(A.VLR_META_NORM_ANNIO_1),C.CANT_DECIMALES_REPORTE) END AS VLR_META_NORM_ANNIO_1,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_NORM_ANNIO_2)
+					           	 ELSE ROUND(SUM(A.VLR_META_NORM_ANNIO_2),C.CANT_DECIMALES_REPORTE) END AS VLR_META_NORM_ANNIO_2,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_NORM_ANNIO_3)
+					           	 ELSE ROUND(SUM(A.VLR_META_NORM_ANNIO_3),C.CANT_DECIMALES_REPORTE) END AS VLR_META_NORM_ANNIO_3,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_NORM_ANNIO_12)
+					           	 ELSE ROUND(SUM(A.VLR_META_NORM_ANNIO_12),C.CANT_DECIMALES_REPORTE) END AS VLR_META_NORM_ANNIO_12,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_NORM_ANNIO_123)
+					           	 ELSE ROUND(SUM(A.VLR_META_NORM_ANNIO_123),C.CANT_DECIMALES_REPORTE) END AS VLR_META_NORM_ANNIO_123,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_REAL_ANNIO_1)
+					           	 ELSE ROUND(SUM(A.VLR_REAL_ANNIO_1),C.CANT_DECIMALES_REPORTE) END AS VLR_REAL_ANNIO_1,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_REAL_ANNIO_2)
+					           	 ELSE ROUND(SUM(A.VLR_REAL_ANNIO_2),C.CANT_DECIMALES_REPORTE) END AS VLR_REAL_ANNIO_2,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_REAL_ANNIO_3)
+					           	 ELSE ROUND(SUM(A.VLR_REAL_ANNIO_3),C.CANT_DECIMALES_REPORTE) END AS VLR_REAL_ANNIO_3,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_REAL_ANNIO_12)
+					           	 ELSE ROUND(SUM(A.VLR_REAL_ANNIO_12),C.CANT_DECIMALES_REPORTE) END AS VLR_REAL_ANNIO_12,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_REAL_ANNIO_123)
+					           	 ELSE ROUND(SUM(A.VLR_REAL_ANNIO_123),C.CANT_DECIMALES_REPORTE) END AS VLR_REAL_ANNIO_123,
+
+								 CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN A.VLR_REAL_ACUMULADO
+					           	 ELSE ROUND(A.VLR_REAL_ACUMULADO,C.CANT_DECIMALES_REPORTE) END AS VLR_REAL_ACUMULADO,
+								 CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN A.VLR_REAL_ACUMULADO_MES
+					           	 ELSE ROUND(A.VLR_REAL_ACUMULADO_MES,C.CANT_DECIMALES_REPORTE) END AS VLR_REAL_ACUMULADO_MES,
+
+							   /*A.VLR_REAL_ACUMULADO AS VLR_REAL_ACUMULADO,
+					           A.VLR_REAL_ACUMULADO_MES AS VLR_REAL_ACUMULADO_MES,*/
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_PLAN_ACUMULADO)
+						          ELSE ROUND(SUM(A.VLR_PLAN_ACUMULADO),C.CANT_DECIMALES_REPORTE) END AS VLR_PLAN_ACUMULADO,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_PLAN_ACUM_NORM)
+					           	 ELSE ROUND(SUM(A.VLR_PLAN_ACUM_NORM),C.CANT_DECIMALES_REPORTE) END AS VLR_PLAN_ACUM_NORM,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_ANNIO_1)
+					           	 ELSE ROUND(SUM(A.VLR_META_ANNIO_1),C.CANT_DECIMALES_REPORTE) END AS VLR_META_ANNIO_1,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_ANNIO_2)
+					           	 ELSE ROUND(SUM(A.VLR_META_ANNIO_2),C.CANT_DECIMALES_REPORTE) END AS VLR_META_ANNIO_2,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_ANNIO_3)
+					           	 ELSE ROUND(SUM(A.VLR_META_ANNIO_3),C.CANT_DECIMALES_REPORTE) END AS VLR_META_ANNIO_3,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_ANNIO_12)
+					           	 ELSE ROUND(SUM(A.VLR_META_ANNIO_12),C.CANT_DECIMALES_REPORTE) END AS VLR_META_ANNIO_12,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_META_ANNIO_123)
+					           	 ELSE ROUND(SUM(A.VLR_META_ANNIO_123),C.CANT_DECIMALES_REPORTE) END AS VLR_META_ANNIO_123,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_RETO)
+					           	 ELSE ROUND(SUM(A.VLR_RETO),C.CANT_DECIMALES_REPORTE) END AS VLR_RETO,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_1)
+					           	 ELSE ROUND(SUM(A.VLR_PROYECCION_ANNIO_1),C.CANT_DECIMALES_REPORTE) END AS VLR_PROYECCION_ANNIO_1,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_2)
+					           	 ELSE ROUND(SUM(A.VLR_PROYECCION_ANNIO_2),C.CANT_DECIMALES_REPORTE) END AS VLR_PROYECCION_ANNIO_2,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_3)
+					           	 ELSE ROUND(SUM(A.VLR_PROYECCION_ANNIO_3),C.CANT_DECIMALES_REPORTE) END AS VLR_PROYECCION_ANNIO_3,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_12)
+					           	 ELSE ROUND(SUM(A.VLR_PROYECCION_ANNIO_12),C.CANT_DECIMALES_REPORTE) END AS VLR_PROYECCION_ANNIO_12,
+					           CASE WHEN C.CANT_DECIMALES_REPORTE IS NULL
+                                      THEN SUM(A.VLR_PROYECCION_ANNIO_123)
+					           	 ELSE ROUND(SUM(A.VLR_PROYECCION_ANNIO_123),C.CANT_DECIMALES_REPORTE) END AS VLR_PROYECCION_ANNIO_123,
+											
+					           A.FECHA_CARGA_SYNAPSE,
+					           A.FECHA_PROXIMA_ACTUALIZA_SYNAPSE,
+					           A."PLAN ACUM PERIODOS" AS "PLAN ACUM PERIODOS",
+					           A.[PERIODO AÑO] 
+								
+			                   FROM [ATOMO].[DWH.FACT_DESEMPENO_INDICADOR_ILP] AS A
+			                     INNER JOIN [ATOMO].[DWH.DIM_PARAM_INDICADOR] AS B
+									ON A.FK_PARAM_INDICADOR = B.GK_PARAM_INDICADOR
+									AND  DESC_CONTROL_CARGA <> 'INACTIVO'
+					 
+								 LEFT JOIN [ATOMO].[DWH.DIM_INDICADOR] AS C
+				                    ON B.FK_INDICADOR = C.GK_INDICADOR
+									
+			                   GROUP BY C.CANT_DECIMALES_REPORTE        ,
+			                   		    A.FK_PARAM_INDICADOR            ,
+			                   		    B.FK_INDICADOR                  ,
+			                   		    CAST(A.FK_PERIODO AS VARCHAR)   ,
+			                   		    A.DESC_PERIODO                  ,
+			                   		    A.FK_TABLERO                    ,
+			                   		    A.DESC_PREMISAS                 ,
+			                   		    A.DESC_MENSAJE_CLAVE_INDICADOR  ,
+			                   		    A.VLR_REAL_ACUMULADO            ,
+			                   		    A.VLR_REAL_ACUMULADO_MES        ,
+			                   		    C.DESC_SENTIDO                  ,
+			                   		    C.DESC_FRECUENCIA               ,
+										C.DESC_META_NORMALIZADA         ,
+			                   		    A.FECHA_CARGA_SYNAPSE           ,
+			                   		    A.FECHA_PROXIMA_ACTUALIZA_SYNAPSE,
+			                   		    A."PLAN ACUM PERIODOS"           ,
+			                   		    A."PERIODO AÑO"
+	         ) GRP
+
+			 GROUP BY GRP.FK_PARAM_INDICADOR	,
+					 GRP.FK_INDICADOR	,
+					 GRP.FK_PERIODO	,
+					 GRP.FK_TABLERO	,
+					 GRP.DESC_PERIODO	,
+					 GRP.DESC_PREMISAS	,
+					 GRP.DESC_MENSAJE_CLAVE_INDICADOR	,
+					 GRP.DESC_SENTIDO	,
+					 GRP.DESC_FRECUENCIA	,
+					 GRP.DESC_META_NORMALIZADA,
+					 GRP.VLR_META_NORM_ANNIO_1	,
+					 GRP.VLR_META_NORM_ANNIO_2	,
+					 GRP.VLR_META_NORM_ANNIO_3	,
+					 GRP.VLR_META_NORM_ANNIO_12	,
+					 GRP.VLR_META_NORM_ANNIO_123	,
+					 GRP.VLR_PLAN_ACUMULADO	,
+					 GRP.VLR_PLAN_ACUM_NORM	,
+					 GRP.VLR_META_ANNIO_1	,
+					 GRP.VLR_META_ANNIO_2	,
+					 GRP.VLR_META_ANNIO_3	,
+					 GRP.VLR_META_ANNIO_12	,
+					 GRP.VLR_META_ANNIO_123	,
+					 GRP.VLR_RETO	,
+					 GRP.VLR_PROYECCION_ANNIO_1	,
+					 GRP.VLR_PROYECCION_ANNIO_2	,
+					 GRP.VLR_PROYECCION_ANNIO_3	,
+					 GRP.VLR_PROYECCION_ANNIO_12	,
+					 GRP.VLR_PROYECCION_ANNIO_123	,
+					 GRP.FECHA_CARGA_SYNAPSE	,
+					 GRP.FECHA_PROXIMA_ACTUALIZA_SYNAPSE	,
+					 GRP."PLAN ACUM PERIODOS"	,
+					 GRP."PERIODO AÑO"
+	) A
+)B;

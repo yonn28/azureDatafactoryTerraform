@@ -1,0 +1,10 @@
+{
+	"name": "KV_AEU_ECP_QAS_SHARED",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-aeu-ecp-qas-shared.vault.azure.net/"
+		}
+	}
+}

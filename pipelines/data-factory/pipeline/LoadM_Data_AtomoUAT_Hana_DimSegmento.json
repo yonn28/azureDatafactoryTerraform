@@ -1,0 +1,162 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimSegmento",
+	"properties": {
+		"description": "flujo de datos que carga los datos de la plantilla de SQL_DimObjetivo a HANA",
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimSegmento",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT  [gkSegmento]\n      ,[idSegmento]\n      ,[descGrupoSegmento]\n      ,[descSegmento]\n      ,[dtmFechaIniVigenciaSegmento]\n      ,[dtmFechaFinVigenciaSegmento]\n      ,[dtmFechacarga]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n  FROM [TD].[DimSegmento]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_SEGMENTO\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkSegmento",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "GK_SEGMENTO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idSegmento",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ID_SEGMENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descGrupoSegmento",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_GRUPO_SEGMENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descSegmento",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_SEGMENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaIniVigenciaSegmento",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INI_VIGENCIA_SEGMENTO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaFinVigenciaSegmento",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_SEGMENTO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimSegmento",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimSegmento",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:21Z"
+	}
+}

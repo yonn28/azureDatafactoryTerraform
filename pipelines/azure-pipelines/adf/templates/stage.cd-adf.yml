@@ -1,0 +1,40 @@
+parameters:
+  - name: domain
+    type: string
+  - name: environment
+    type: string
+  - name: dataFactoryOverrideParameters
+    type: string
+  - name: condition
+    type: boolean
+
+stages:
+  - stage: ${{ parameters.environment }}
+    condition: and(succeeded(), ${{ parameters.condition }} )
+    variables:
+      - template: ../../variable.environment.${{ parameters.environment }}.yml
+      - name: iacCdVariableGroupPrefix
+        value: iac-cd-output
+      - name: workingDirectory
+        value: 'data-factory'
+      - name: pipelineArtifactDirectory
+        value: $(System.DefaultWorkingDirectory)/_core-adf-cd
+    jobs:
+    - template: job.build.yml
+      parameters:
+        iacCdVariableGroupPrefix: ${{ variables.iacCdVariableGroupPrefix }}
+        domain: ${{ parameters.domain }}
+        environment: ${{ parameters.environment }}
+        workingDirectory: ${{ variables.workingDirectory }}
+        pipelineArtifactDirectory: ${{ variables.pipelineArtifactDirectory }}
+        azureServiceConnectionName: ${{ variables.azureServiceConnectionName }}
+
+    - template: job.deploy.yml
+      parameters:
+        iacCdVariableGroupPrefix: ${{ variables.iacCdVariableGroupPrefix }}
+        domain: ${{ parameters.domain }}
+        environment: ${{ parameters.environment }}
+        pipelineArtifactDirectory: ${{ variables.pipelineArtifactDirectory }}
+        azureServiceConnectionName: ${{ variables.azureServiceConnectionName }}
+        dataFactoryOverrideParameters:  ${{ parameters.dataFactoryOverrideParameters }}
+        dependsOnJob: [build]

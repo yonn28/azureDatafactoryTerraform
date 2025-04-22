@@ -1,0 +1,65 @@
+{
+	"name": "LoadM_Data_Atomo_Excel_EliminarConfiguracionTablero",
+	"properties": {
+		"description": "PipeLine que elimina las configuraciones de tablero indicadas en la plantilla",
+		"activities": [
+			{
+				"name": "DF_ATOMO_EliminarConfiguracionTablero",
+				"description": "  ",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ATOMO_EliminarConfiguracionTablero",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Sp_Eliminar_ConfiguracionTableroJson",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DF_ATOMO_EliminarConfiguracionTablero",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[TD].[Sp_Eliminar_ConfiguracionTableroJson]"
+				},
+				"linkedServiceName": {
+					"referenceName": "dbaeuecpuatatomotd",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:30Z"
+	}
+}

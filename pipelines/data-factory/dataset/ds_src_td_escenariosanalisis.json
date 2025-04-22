@@ -1,0 +1,100 @@
+{
+	"name": "ds_src_td_escenariosanalisis",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_UX/DS_SRC"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkEscenarioAnalisis",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "descCausaAcumulado",
+				"type": "varchar"
+			},
+			{
+				"name": "numPeriodo",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "descCausaPeriodo",
+				"type": "varchar"
+			},
+			{
+				"name": "decEscBajo",
+				"type": "varchar"
+			},
+			{
+				"name": "descEscenBajo",
+				"type": "varchar"
+			},
+			{
+				"name": "decEscMedio",
+				"type": "varchar"
+			},
+			{
+				"name": "descEscenMedio",
+				"type": "varchar"
+			},
+			{
+				"name": "decEscAlto",
+				"type": "varchar"
+			},
+			{
+				"name": "descEscenAlto",
+				"type": "varchar"
+			},
+			{
+				"name": "descrAccion",
+				"type": "varchar"
+			},
+			{
+				"name": "descrComentario",
+				"type": "varchar"
+			},
+			{
+				"name": "fkIndicador",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioCreacion",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaModificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioModificacion",
+				"type": "varchar"
+			},
+			{
+				"name": "descDetalleIndicador",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "EscenariosAnalisis"
+		}
+	}
+}

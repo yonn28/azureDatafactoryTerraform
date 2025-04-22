@@ -1,0 +1,82 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_ExcelMaestro_EstructuraDespliegue",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Estructura_Despliegue",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_Maestros.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID_ESTRUCTURA",
+				"type": "String"
+			},
+			{
+				"name": "DESC_GRUPO",
+				"type": "String"
+			},
+			{
+				"name": "DESC_EMPRESA",
+				"type": "String"
+			},
+			{
+				"name": "DESC_VP_EJECUTIVA",
+				"type": "String"
+			},
+			{
+				"name": "DESC_GRUPO_SEGMENTO",
+				"type": "String"
+			},
+			{
+				"name": "DESC_SEGMENTO",
+				"type": "String"
+			},
+			{
+				"name": "DESC_UNIDAD_NEGOCIO_NVL_2",
+				"type": "String"
+			},
+			{
+				"name": "DESC_UNIDAD_NEGOCIO_NVL_3",
+				"type": "String"
+			},
+			{
+				"name": "DESC_GERENCIA",
+				"type": "String"
+			},
+			{
+				"name": "DESC_RUTINA",
+				"type": "String"
+			},
+			{
+				"name": "DTM_VIGENCIA_DESDE",
+				"type": "String"
+			},
+			{
+				"name": "DTM_VIGENCIA_HASTA",
+				"type": "String"
+			},
+			{
+				"name": "SIGLA",
+				"type": "String"
+			},
+			{
+				"name": "NIVEL",
+				"type": "String"
+			}
+		]
+	}
+}

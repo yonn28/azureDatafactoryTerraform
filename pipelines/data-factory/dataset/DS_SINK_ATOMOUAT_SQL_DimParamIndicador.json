@@ -1,0 +1,117 @@
+{
+	"name": "DS_SINK_ATOMOUAT_SQL_DimParamIndicador",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkParamIndicador",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fkIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "dtmFechaRegistro",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descResponsableMedicion",
+				"type": "varchar"
+			},
+			{
+				"name": "descCargoResponsableMedicion",
+				"type": "varchar"
+			},
+			{
+				"name": "descCorreoResponsableMedicion",
+				"type": "varchar"
+			},
+			{
+				"name": "descAreaResponsableMedicion",
+				"type": "varchar"
+			},
+			{
+				"name": "idUnidadOrganizativa",
+				"type": "varchar"
+			},
+			{
+				"name": "descResponsableMedicion2",
+				"type": "varchar"
+			},
+			{
+				"name": "descCargoResponsableMedicion2",
+				"type": "varchar"
+			},
+			{
+				"name": "descCorreoResponsableMedicion2",
+				"type": "varchar"
+			},
+			{
+				"name": "descAreaResponsableMedicion2",
+				"type": "varchar"
+			},
+			{
+				"name": "idUnidadOrganizativa2",
+				"type": "varchar"
+			},
+			{
+				"name": "descSiglaArea",
+				"type": "varchar"
+			},
+			{
+				"name": "descDetalleIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "descControlCarga",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioCreacion",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaModificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioModificacion",
+				"type": "varchar"
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimParamIndicador"
+		}
+	}
+}

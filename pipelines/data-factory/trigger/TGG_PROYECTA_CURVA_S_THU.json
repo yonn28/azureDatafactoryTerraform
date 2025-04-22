@@ -1,0 +1,17 @@
+{
+	"name": "TGG_PROYECTA_CURVA_S_THU",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2021-01-28T22:40:00",
+				"timeZone": "SA Pacific Standard Time"
+			}
+		}
+	}
+}

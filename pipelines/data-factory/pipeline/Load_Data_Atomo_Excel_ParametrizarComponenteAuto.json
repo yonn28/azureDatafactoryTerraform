@@ -1,0 +1,37 @@
+{
+	"name": "Load_Data_Atomo_Excel_ParametrizarComponenteAuto",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_Excel_ComponenteAutomatizado",
+				"description": "  ",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ATOMO_ExcelComponentesAutomatizados",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:28Z"
+	}
+}

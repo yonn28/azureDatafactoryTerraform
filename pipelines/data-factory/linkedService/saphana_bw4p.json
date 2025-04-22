@@ -1,0 +1,16 @@
+{
+	"name": "saphana_bw4p",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=10.76.36.22:30241;uid=dmenergia",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2MDZmNGM3Ny1lNTQ3LTRlZTAtYTFlMy0yZDdlY2I3NWY2NDUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

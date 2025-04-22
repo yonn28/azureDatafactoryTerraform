@@ -1,0 +1,204 @@
+{
+	"name": "pl_crg_syn_dim_componente_vista",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_dim_componente_vista",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_DETALLE_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_DETALLE_INDICADOR",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_COMPONENTE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FORMULA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FORMULA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_dim_componente_vista",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_dim_componente_vista",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_dim_componente_vista",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dim_componente_vista",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_COMPONENTE_VISTA\"",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_dim_componente_vista",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_componente_vista",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_componente_vista",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_dim_componente_vista",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT [FK_INDICADOR] ,\n\t    [DESC_DETALLE_INDICADOR] ,\n\t    [ID_COMPONENTE],\n\t    [DESC_FORMULA] \n\nFROM [ATOMO].[STG.DIM_COMPONENTE_VISTA]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_COMPONENTE_VISTA\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_componente_vista",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_componente_vista",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:21Z"
+	}
+}

@@ -1,0 +1,148 @@
+{
+	"name": "pl_crg_syn_dim_eje_palanca_ux",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_th_syn_stg_dim_eje_palanca_ux",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_EJE_PALANCA_UX\" ",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkEjePalanca",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_EJE_PALANCA",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idEjePalanca",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_EJE_PALANCA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEjePalanca",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_EJE_PALANCA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaIniVigenciaPalanca",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INI_VIGENCIA_PALANCA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaFinVigenciaPalanca",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_PALANCA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "numOrden",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NUM_ORDEN",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_td_dim_ejepalanca",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_eje_palanca_ux",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_UX"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:08Z"
+	}
+}

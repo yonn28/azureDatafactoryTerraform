@@ -1,0 +1,43 @@
+{
+	"name": "DS_SOURCE_ATOMO_SQL_stgEliminarConfiguracionTablero",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "descNombreIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmVigenciaIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descDetalleIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "descIndicadorHito",
+				"type": "varchar"
+			},
+			{
+				"name": "idTablero",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "staging_EliminarConfiguracionTablero"
+		}
+	}
+}

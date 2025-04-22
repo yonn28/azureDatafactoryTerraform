@@ -1,0 +1,153 @@
+{
+	"name": "DF_ATOMO_VALIDACION_TD_PARAM_SYNAP_SAP_HANA",
+	"properties": {
+		"folder": {
+			"name": "APP_ATOMO_ILP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"name": "TD"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_src_syn_schemas",
+						"type": "DatasetReference"
+					},
+					"name": "SYNAPSE"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"name": "TD2",
+					"description": "Import data from DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_src_parquet_schema_views_hana",
+						"type": "DatasetReference"
+					},
+					"name": "HANA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"name": "SinkTdParam"
+				}
+			],
+			"transformations": [
+				{
+					"name": "UpdateColumn"
+				},
+				{
+					"name": "CorroborarTrue"
+				},
+				{
+					"name": "ExistsTdSyn"
+				},
+				{
+					"name": "ExistsTdHana"
+				},
+				{
+					"name": "UnionSynHanaTd"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          gkParametrizacion as long,",
+				"          descnombrePaquete as string,",
+				"          descConsulta as string,",
+				"          fkEstadoConexion as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'select gkParametrizacion, descnombrePaquete,   RIGHT(replace(descConsulta,\\'\"\\',\\'\\'),len(replace(descConsulta,\\'\"\\',\\'\\')) - charindex(\\'.\\',  replace(descConsulta,\\'\"\\',\\'\\') ))   descConsulta, fkEstadoConexion from [TD].[DimParametrizacion] where descSistemaFuente=\\'SYNAPSE\\' ',",
+				"     format: 'query') ~> TD",
+				"source(output(",
+				"          SCHEMA_NAME as string,",
+				"          VIEW_NAME as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT schema_name(tab.schema_id) as SCHEMA_NAME\\n,UPPER(tab.name) AS VIEW_NAME\\nFROM sys.views tab',",
+				"     format: 'query',",
+				"     staged: true) ~> SYNAPSE",
+				"source(output(",
+				"          gkParametrizacion as long,",
+				"          descnombrePaquete as string,",
+				"          descConsulta as string,",
+				"          fkEstadoConexion as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'select gkParametrizacion, descnombrePaquete,   RIGHT(replace(descConsulta,\\'\"\\',\\'\\'),len(replace(descConsulta,\\'\"\\',\\'\\')) - charindex(\\'.\\',  replace(descConsulta,\\'\"\\',\\'\\') ))   descConsulta, fkEstadoConexion from [TD].[DimParametrizacion] where descSistemaFuente=\\'HANA\\' ',",
+				"     format: 'query') ~> TD2",
+				"source(output(",
+				"          SCHEMA_NAME as string,",
+				"          VIEW_NAME as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> HANA",
+				"CorroborarTrue derive(fkEstadoConexion = 1) ~> UpdateColumn",
+				"UnionSynHanaTd alterRow(updateIf(true())) ~> CorroborarTrue",
+				"TD, SYNAPSE exists(descnombrePaquete == SCHEMA_NAME",
+				"     && descConsulta == VIEW_NAME,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> ExistsTdSyn",
+				"TD2, HANA exists(descConsulta == VIEW_NAME,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> ExistsTdHana",
+				"ExistsTdSyn, ExistsTdHana union(byName: true)~> UnionSynHanaTd",
+				"UpdateColumn sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          gkParametrizacion as long,",
+				"          descDataMart as string,",
+				"          descNombrePaquete as string,",
+				"          descVistaCalculada as string,",
+				"          descResponsableVcOrigen as string,",
+				"          descEstadoConsulta as string,",
+				"          descResponsableParametrizacion as string,",
+				"          descConsulta as string,",
+				"          dtmFechaCarga as timestamp,",
+				"          descOrigen as string,",
+				"          fkTiposInconsistencia as string,",
+				"          descSistemaFuente as string,",
+				"          idDatamart as integer,",
+				"          fkEstadoConexion as integer,",
+				"          mensajeError as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['gkParametrizacion'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          gkParametrizacion,",
+				"          fkEstadoConexion",
+				"     )) ~> SinkTdParam"
+			]
+		}
+	}
+}

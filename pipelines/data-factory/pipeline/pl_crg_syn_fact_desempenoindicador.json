@@ -1,0 +1,1630 @@
+{
+	"name": "pl_crg_syn_fact_desempenoindicador",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_sp_dl_th_desempenoindicador",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PERIODO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_PERIODO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_PERIODO",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_SENSIB_NORM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_REAL_PERIODO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_PERIODO",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_ACUM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_ACUM",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_REAL_ACUM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_ACUM",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_PERIODO_1",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_1",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_PERIODO_2",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_2",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_PERIODO_3",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_3",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_META_ANNIO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_META_ANNIO_1",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO_1",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_META_ANNIO_2",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO_2",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISAS_ESC_ALTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_ALTO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISAS_ESC_MEDIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_MEDIO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISAS_ESC_BAJO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_BAJO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_th_desempenoindicador",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_th_desempenoindicador",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_stg_th_desempenoindicador",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_sp_dl_th_desempenoindicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.TH_DESEMPENO_INDICADOR\" ",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_PERIODO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_PERIODO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_SENSIB_NORM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_REAL_PERIODO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_PERIODO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_ACUM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_ACUM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_REAL_ACUM",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_ACUM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_PERIODO_1",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_1",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_PERIODO_2",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_2",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_PERIODO_3",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_3",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_META_ANNIO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_META_ANNIO_1",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO_1",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_META_ANNIO_2",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO_2",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISAS_ESC_ALTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_ALTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISAS_ESC_MEDIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_MEDIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PREMISAS_ESC_BAJO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_BAJO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_th_desempenoindicador",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_th_desempenoindicador",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "If_Condition_DesempenoIndicador",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lkp_dwh_DesempenoIndicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Lkp_dwh_DesempenoIndicador').output.firstRow.Conteo,0)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "cd_syn_stg_dwh_fact_desempenoIndicador_Delta",
+							"description": "",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlDWSource",
+									"additionalColumns": [
+										{
+											"name": "RECONOCIMIENTO_CVR_MAX",
+											"value": "-1"
+										},
+										{
+											"name": "RECONOCIMIENTO_CVR_MIN",
+											"value": "-1"
+										},
+										{
+											"name": "COMENTARIO_CORTO",
+											"value": "-1"
+										},
+										{
+											"name": "COMENTARIO_ACUMULADO",
+											"value": "-1"
+										},
+										{
+											"name": "OBSERVACIONES",
+											"value": "-1"
+										}
+									],
+									"sqlReaderQuery": "SELECT [FK_PARAM_INDICADOR]\n      ,[FK_PERIODO]\n      ,CAST(CONCAT(CAST([FK_PERIODO] AS Varchar),'01') AS BIGINT) AS FK_TIEMPO\n      ,[DESC_PERIODO]\n      ,[VLR_PLAN_PERIODO]\n      ,[VLR_PLAN_SENSIB_NORM]\n      ,[VLR_REAL_PERIODO]\n      ,[DESC_CAUSAS_DESEMPENO_PERIODO]\n      ,[VLR_PLAN_ACUM]\n      ,[VLR_PLAN_SENSIB_NORM_ACUM]\n      ,[VLR_REAL_ACUM]\n      ,[DESC_CAUSAS_DESEMPENO_ACUM]\n      ,[VLR_PROYECCION_PERIODO_1]\n      ,[VLR_PROYECCION_PERIODO_2]\n      ,[VLR_PROYECCION_PERIODO_3]\n      ,[VLR_META_ANNIO]\n      ,[VLR_PLAN_SENSIB_NORM_ANNIO]\n      ,[VLR_META_ANNIO_1]\n      ,[VLR_META_ANNIO_2]\n      ,[VLR_PROYECCION_ANNIO_ESC_BAJO]\n      ,[VLR_PROYECCION_ANNIO_ESC_MEDIO]\n      ,[VLR_PROYECCION_ANNIO_ESC_ALTO]\n      ,[DESC_PREMISAS_ESC_ALTO]\n      ,[DESC_PREMISAS_ESC_MEDIO]\n      ,[DESC_PREMISAS_ESC_BAJO]\n      ,[DESC_ACCIONES_DE_ASEGURAMIENTO]\n      ,[DTM_FECHACARGA]\n      ,[DESC_ORIGEN]\n      ,[FK_TIPOSINCONSISTENCIA]\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -7, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_CARGA_SYNAPSE\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -5, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_PROXIMA_ACTUALIZA_SYNAPSE\n\nFROM [ATOMO].[STG.TH_DESEMPENO_INDICADOR]\nWHERE CAST([DTM_FECHACARGA] AS DATE) >= CONVERT(char(10), GetDate()-5,126)",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "DELETE FROM \"ATOMO\".\"DWH.FACT_DESEMPENO_INDICADOR\" WHERE CAST([DTM_FECHACARGA] AS DATE) >= CONVERT(char(10), GetDate()-5,126)",
+									"writeBehavior": "Upsert",
+									"upsertSettings": {
+										"keys": [
+											"FK_PARAM_INDICADOR",
+											"FK_PERIODO",
+											"FK_TIEMPO"
+										],
+										"interimSchemaName": "ATOMO"
+									},
+									"disableMetricsCollection": false
+								},
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "dlaeuecpdevatomo",
+										"type": "LinkedServiceReference"
+									},
+									"path": "raw"
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "FK_PARAM_INDICADOR",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_PARAM_INDICADOR",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_PERIODO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_PERIODO",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_TIEMPO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_TIEMPO",
+												"type": "Int32"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PERIODO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PERIODO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_PERIODO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_PERIODO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_SENSIB_NORM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_SENSIB_NORM",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_PERIODO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_REAL_PERIODO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_ACUM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_ACUM",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_ACUM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_REAL_ACUM",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_PERIODO_1",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_PERIODO_1",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_PERIODO_2",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_PERIODO_2",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_PERIODO_3",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_PERIODO_3",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_META_ANNIO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_META_ANNIO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_META_ANNIO_1",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_META_ANNIO_1",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_META_ANNIO_2",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_META_ANNIO_2",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISAS_ESC_ALTO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISAS_ESC_ALTO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISAS_ESC_MEDIO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISAS_ESC_MEDIO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISAS_ESC_BAJO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISAS_ESC_BAJO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHACARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHACARGA",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_TIPOSINCONSISTENCIA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "FK_TIPOSINCONSISTENCIA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "RECONOCIMIENTO_CVR_MAX"
+											},
+											"sink": {
+												"name": "RECONOCIMIENTO_CVR_MAX",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "RECONOCIMIENTO_CVR_MIN"
+											},
+											"sink": {
+												"name": "RECONOCIMIENTO_CVR_MIN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "COMENTARIO_CORTO"
+											},
+											"sink": {
+												"name": "COMENTARIO_CORTO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "COMENTARIO_ACUMULADO"
+											},
+											"sink": {
+												"name": "COMENTARIO_ACUMULADO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "OBSERVACIONES"
+											},
+											"sink": {
+												"name": "OBSERVACIONES",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FECHA_CARGA_SYNAPSE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "FECHA_CARGA_SYNAPSE",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+												"type": "DateTime"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_syn_stg_th_desempenoindicador",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_syn_dwh_fact_desempenoindicador",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "cd_syn_stg_dwh_fact_desempenoIndicador",
+							"description": "",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlDWSource",
+									"additionalColumns": [
+										{
+											"name": "RECONOCIMIENTO_CVR_MAX",
+											"value": "-1"
+										},
+										{
+											"name": "RECONOCIMIENTO_CVR_MIN",
+											"value": "-1"
+										},
+										{
+											"name": "COMENTARIO_CORTO",
+											"value": "-1"
+										},
+										{
+											"name": "COMENTARIO_ACUMULADO",
+											"value": "-1"
+										},
+										{
+											"name": "OBSERVACIONES",
+											"value": "-1"
+										}
+									],
+									"sqlReaderQuery": "SELECT [FK_PARAM_INDICADOR]\n      ,[FK_PERIODO]\n      ,CAST(CONCAT(CAST([FK_PERIODO] AS Varchar),'01') AS BIGINT) AS FK_TIEMPO\n      ,[DESC_PERIODO]\n      ,[VLR_PLAN_PERIODO]\n      ,[VLR_PLAN_SENSIB_NORM]\n      ,[VLR_REAL_PERIODO]\n      ,[DESC_CAUSAS_DESEMPENO_PERIODO]\n      ,[VLR_PLAN_ACUM]\n      ,[VLR_PLAN_SENSIB_NORM_ACUM]\n      ,[VLR_REAL_ACUM]\n      ,[DESC_CAUSAS_DESEMPENO_ACUM]\n      ,[VLR_PROYECCION_PERIODO_1]\n      ,[VLR_PROYECCION_PERIODO_2]\n      ,[VLR_PROYECCION_PERIODO_3]\n      ,[VLR_META_ANNIO]\n      ,[VLR_PLAN_SENSIB_NORM_ANNIO]\n      ,[VLR_META_ANNIO_1]\n      ,[VLR_META_ANNIO_2]\n      ,[VLR_PROYECCION_ANNIO_ESC_BAJO]\n      ,[VLR_PROYECCION_ANNIO_ESC_MEDIO]\n      ,[VLR_PROYECCION_ANNIO_ESC_ALTO]\n      ,[DESC_PREMISAS_ESC_ALTO]\n      ,[DESC_PREMISAS_ESC_MEDIO]\n      ,[DESC_PREMISAS_ESC_BAJO]\n      ,[DESC_ACCIONES_DE_ASEGURAMIENTO]\n      ,[DTM_FECHACARGA]\n      ,[DESC_ORIGEN]\n      ,[FK_TIPOSINCONSISTENCIA]\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -7, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_CARGA_SYNAPSE\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -5, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_PROXIMA_ACTUALIZA_SYNAPSE\n\n  FROM [ATOMO].[STG.TH_DESEMPENO_INDICADOR]",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.FACT_DESEMPENO_INDICADOR\"",
+									"writeBehavior": "Insert",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "dlaeuecpdevatomo",
+										"type": "LinkedServiceReference"
+									},
+									"path": "raw"
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "FK_PARAM_INDICADOR",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_PARAM_INDICADOR",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_PERIODO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_PERIODO",
+												"type": "Int64"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_TIEMPO",
+												"type": "Int64"
+											},
+											"sink": {
+												"name": "FK_TIEMPO",
+												"type": "Int32"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PERIODO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PERIODO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_PERIODO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_PERIODO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_SENSIB_NORM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_SENSIB_NORM",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_PERIODO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_REAL_PERIODO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_ACUM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_ACUM",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_ACUM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_REAL_ACUM",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_PERIODO_1",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_PERIODO_1",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_PERIODO_2",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_PERIODO_2",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_PERIODO_3",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_PERIODO_3",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_META_ANNIO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_META_ANNIO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_META_ANNIO_1",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_META_ANNIO_1",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_META_ANNIO_2",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_META_ANNIO_2",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+												"type": "Decimal"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISAS_ESC_ALTO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISAS_ESC_ALTO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISAS_ESC_MEDIO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISAS_ESC_MEDIO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PREMISAS_ESC_BAJO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PREMISAS_ESC_BAJO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHACARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHACARGA",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FK_TIPOSINCONSISTENCIA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "FK_TIPOSINCONSISTENCIA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "RECONOCIMIENTO_CVR_MAX"
+											},
+											"sink": {
+												"name": "RECONOCIMIENTO_CVR_MAX",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "RECONOCIMIENTO_CVR_MIN"
+											},
+											"sink": {
+												"name": "RECONOCIMIENTO_CVR_MIN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "COMENTARIO_CORTO"
+											},
+											"sink": {
+												"name": "COMENTARIO_CORTO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "COMENTARIO_ACUMULADO"
+											},
+											"sink": {
+												"name": "COMENTARIO_ACUMULADO",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "OBSERVACIONES"
+											},
+											"sink": {
+												"name": "OBSERVACIONES",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "FECHA_CARGA_SYNAPSE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "FECHA_CARGA_SYNAPSE",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+												"type": "DateTime"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_syn_stg_th_desempenoindicador",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_syn_dwh_fact_desempenoindicador",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Lkp_dwh_DesempenoIndicador",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_stg_th_desempenoindicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT COUNT(*) AS Conteo FROM [ATOMO].[DWH.FACT_DESEMPENO_INDICADOR]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_syn_dwh_fact_desempenoindicador",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLComplejos_Fact"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:19Z"
+	}
+}

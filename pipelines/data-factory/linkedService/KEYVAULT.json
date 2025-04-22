@@ -1,0 +1,12 @@
+{
+	"name": "KEYVAULT",
+	"properties": {
+		"annotations": [
+			"Template"
+		],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://KV-AEU-ECP-DEV-Atomo.vault.azure.net/"
+		}
+	}
+}

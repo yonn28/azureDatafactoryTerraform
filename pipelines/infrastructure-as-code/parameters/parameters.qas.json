@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environment": {
+            "value": "qas"
+        },
+        "location": {
+            "value": "eastus"
+        },
+        "domainName": {
+            "value": "Atomo"
+        },
+        "domainResourceGroup": {
+            "value": "RG-AEU-ECP-QAS-ATOMO"
+        },
+        "sharedDataFactoryResourceGroup":{
+            "value": "RG-AEU-ECP-QAS-BigDataFactory"
+        },
+        "sharedKeyVaultResourceGroup": {
+            "value": "RG-AEU-ECP-QAS-Shared"
+        },
+        "keyVaultEnablePurgeProtection": {
+            "value": false
+        },
+        "storageContainers": {
+            "value": [
+                "raw",
+                "curated",
+                "transit"
+            ]
+        },
+        "sharedKeyVaultName": {
+            "value": "kv-aeu-ecp-qas-shared"
+        },
+        "sharedDataFactoryName":{
+            "value": "DF-AEU-ECP-QAS-DATAPLATFORMQAS"
+        },
+        "sharedDataFactoryIntegrationRuntimes": {
+            "value": [
+                "IrOnpremiseECP"
+            ]
+        },
+        "storageBlobStorageDataContributors": {
+            "value": [
+                "3d923fa4-6f9a-46bb-8964-e8b8ee2eed51",
+                "24ef9886-9404-481e-8ea4-3aceddfe449c"
+            ]
+        }
+    }
+}

@@ -1,0 +1,84 @@
+{
+	"name": "ds_syn_dwh_dim_tablero",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_TABLERO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ID_TABLERO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_SIGLA_AREA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_TABLERO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CONTACTO_RED_DESEMPENO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CARGO_CONTACTO_RED_DESEMPENO",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_VIGENCIA_DESDE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHA_VIGENCIA_HASTA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_DESCRIP_TABLERO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RESP_CONFIG_ATOMO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_BACK_RESP_CONFIG_ATOMO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.DIM_TABLERO"
+		}
+	}
+}

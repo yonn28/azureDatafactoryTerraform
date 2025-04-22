@@ -1,0 +1,20 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_DimTiempoCarga",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimTiempoCargaHana"
+		}
+	}
+}

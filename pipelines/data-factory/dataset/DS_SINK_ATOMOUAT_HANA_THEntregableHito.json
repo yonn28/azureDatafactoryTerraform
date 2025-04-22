@@ -1,0 +1,19 @@
+{
+	"name": "DS_SINK_ATOMOUAT_HANA_THEntregableHito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "LS_DMTOMADEDECISIONES_DEV",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "OdbcTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "\"DMTOMADEDECISIONES\".\"TH_ENTREGABLE_HITO\""
+		}
+	}
+}

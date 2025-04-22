@@ -1,0 +1,146 @@
+{
+	"name": "ds_adls_th_entregable_hito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "ThEntregableHito.parquet",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "FK_HITO",
+				"type": "INT64"
+			},
+			{
+				"name": "FK_PARAM_INDICADOR",
+				"type": "INT64"
+			},
+			{
+				"name": "FK_ENTREGABLE",
+				"type": "INT64"
+			},
+			{
+				"name": "FK_PERIODO",
+				"type": "INT64"
+			},
+			{
+				"name": "VLR_PLAN_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DTM_FECHA_EJECUCION_REAL",
+				"type": "INT96"
+			},
+			{
+				"name": "VLR_REAL_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "PRC_CUMP_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_CAUSAS",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_ACCIONES",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_REAL_FINAL_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PROY_ESC_BAJO_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PROY_ESC_MEDIO_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PROY_ESC_ALTO_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_PREMISA_ESC_BAJO_ENTREGABLE",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_PREMISA_ESC_MEDIO_ENTREGABLE",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_PREMISA_ESC_ALTO_ENTREGABLE",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_CUMP_ESC_BAJO_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_CUMP_ESC_MEDIO_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_CUMP_ESC_ALTO_ENTREGABLE",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_CORREO_USUARIO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_FECHA_EVENTO_REGISTRO",
+				"type": "INT96"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "UTF8"
+			}
+		]
+	}
+}

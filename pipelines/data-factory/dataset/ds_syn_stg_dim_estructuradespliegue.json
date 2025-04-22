@@ -1,0 +1,104 @@
+{
+	"name": "ds_syn_stg_dim_estructuradespliegue",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_ESTRUCTURA_DESPLIEGUE",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ID_ESTRUCTURA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_GRUPO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_EMPRESA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_VP_EJECUTIVA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_GRUPO_SEGMENTO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_SEGMENTO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_UNIDAD_NEGOCIO_NVL_2",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_UNIDAD_NEGOCIO_NVL_3",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_GERENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RUTINA",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_VIGENCIA_DESDE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHA_VIGENCIA_HASTA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_SIGLA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_NIVEL",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ESTADO_REG",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "STG.DIM_ESTRUCTURA_DESPLIEGUE"
+		}
+	}
+}

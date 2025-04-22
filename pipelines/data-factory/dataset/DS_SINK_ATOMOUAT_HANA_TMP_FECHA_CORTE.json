@@ -1,0 +1,19 @@
+{
+	"name": "DS_SINK_ATOMOUAT_HANA_TMP_FECHA_CORTE",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "LS_DMTOMADEDECISIONES_DEV",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "OdbcTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "\"DMTOMADEDECISIONES\".\"TMP_FECHA_CORTE_TD\""
+		}
+	}
+}

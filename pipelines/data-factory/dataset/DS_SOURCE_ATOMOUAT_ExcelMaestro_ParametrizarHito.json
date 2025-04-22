@@ -1,0 +1,94 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_ExcelMaestro_ParametrizarHito",
+	"properties": {
+		"description": "  ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "ConfiguracionIndicador",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_DetalleDesempeño_Indicador.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Indicador",
+				"type": "String"
+			},
+			{
+				"name": "ID Indicador",
+				"type": "String"
+			},
+			{
+				"name": "ID Parametrización Indicador",
+				"type": "String"
+			},
+			{
+				"name": "Fecha del Registro",
+				"type": "String"
+			},
+			{
+				"name": "Nombre Responsable De Medición",
+				"type": "String"
+			},
+			{
+				"name": "Cargo Responsable De Medición",
+				"type": "String"
+			},
+			{
+				"name": "Correo Responsable de Medición",
+				"type": "String"
+			},
+			{
+				"name": "Área del Responsable de Medición",
+				"type": "String"
+			},
+			{
+				"name": "Código Unidad Organizativa",
+				"type": "String"
+			},
+			{
+				"name": "Nombre Responsable De Medición 2",
+				"type": "String"
+			},
+			{
+				"name": "Cargo Responsable De Medición 2",
+				"type": "String"
+			},
+			{
+				"name": "Correo Responsable de Medición 2",
+				"type": "String"
+			},
+			{
+				"name": "Área del Responsable de Medición 2",
+				"type": "String"
+			},
+			{
+				"name": "Código Unidad Organizativa 2",
+				"type": "String"
+			},
+			{
+				"name": "SIGLA (Estructura de Despliegue)",
+				"type": "String"
+			},
+			{
+				"name": "Detalle Indicador",
+				"type": "String"
+			},
+			{
+				"name": "Estado Carga",
+				"type": "String"
+			}
+		]
+	}
+}

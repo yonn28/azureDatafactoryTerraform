@@ -1,0 +1,161 @@
+{
+	"name": "Load_Data_AtomoUAT_Hana_DimFormulaComponente",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimFormulaComponente",
+				"description": "   ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [gkFormulaComponente]\n      ,[idFormulaComponente]\n      ,[fkIndicador]\n      ,[descDetalleIndicador]\n      ,[descResponsableFormula]\n      ,[descFormula]\n      ,[dtmFechaCarga]\n      ,[descUsuarioCreacion]\n      ,[dtmFechaModificacion]\n      ,[descUsuarioModificacion]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n  FROM [TD].[DimFormulaComponente]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_FORMULA_COMPONENTE\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkFormulaComponente",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "GK_FORMULA_COMPONENTE",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idFormulaComponente",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "ID_FORMULA_COMPONENTE",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkIndicador",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descDetalleIndicador",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_DETALLE_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableFormula",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_FORMULA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descFormula",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_FORMULA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimFormulaComponente",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimFormulaComponente",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:19Z"
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"name": "dlaeuecpdevenergia",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dlaeuecpdevenergia.dfs.core.windows.net",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "energia-datalake",
+				"secretVersion": ""
+			}
+		}
+	}
+}

@@ -1,0 +1,100 @@
+{
+	"name": "L_Master_Data_TH_Atomo_ILP",
+	"properties": {
+		"description": "Se encarga de cargar la información de  TH a Atomo",
+		"activities": [
+			{
+				"name": "Exec_Pipeline_DimTablero_ILP",
+				"description": "  ",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_tablero_ilp",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DesempenoIndicador_ILP",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimTablero_ILP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_desempenoindicador_ilp",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_FactConfiguracionTablero_ILP",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DesempenoIndicador_ILP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_configuracion_tablero_ilp",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SC_Update_Fechas",
+				"description": "Script para la actualización de fechas de ejecución de carga a Synapse y Próxima Actualización",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_FactConfiguracionTablero_ILP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Synapse_DWAEUECPDEVMAIN",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "NonQuery",
+							"text": "Update [ATOMO].[DWH.FACT_DESEMPENO_INDICADOR_ILP] SET [FECHA_CARGA_SYNAPSE]\t= CAST(CONCAT(CAST(dateadd(hour, -4, GETDATE()) AS DATE),' ',DATEPART(HOUR, dateadd(hour, -4, GETDATE())),':00:00.000')AS DATETIME);\nUpdate [ATOMO].[DWH.FACT_DESEMPENO_INDICADOR_ILP] SET [FECHA_PROXIMA_ACTUALIZA_SYNAPSE] = CAST(CONCAT(CAST(dateadd(hour, -2, GETDATE()) AS DATE),' ',DATEPART(HOUR, dateadd(hour, -2, GETDATE())),':00:00.000')AS DATETIME);"
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "ATOMO_ILP"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

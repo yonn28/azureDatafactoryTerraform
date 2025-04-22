@@ -1,0 +1,12 @@
+{
+    "name": "DATALAKE",
+    "properties": {
+		"annotations": [
+			"Template"
+		],
+        "type": "AzureBlobFS",
+        "typeProperties": {
+            "url": "https://dlaeuecpdevAtomo.dfs.core.windows.net"
+        }
+    }
+}

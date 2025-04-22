@@ -1,0 +1,103 @@
+{
+	"name": "ds_syn_dwh_dim_paramindicador",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_PARAM_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DTM_FECHA_REGISTRO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_RESPONSABLE_MEDICION",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CARGO_RESPONSABLE_MEDICION",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CORREO_RESPONSABLE_MEDICION",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_AREA_RESPONSABLE_MEDICION",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_UNIDAD_ORGANIZATIVA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RESPONSABLE_MEDICION_2",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CARGO_RESPONSABLE_MEDICION_2",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CORREO_RESPONSABLE_MEDICION_2",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_AREA_RESPONSABLE_MEDICION_2",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_UNIDAD_ORGANIZATIVA_2",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_SIGLA_AREA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_DETALLE_INDICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_CONTROL_CARGA",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.DIM_PARAM_INDICADOR"
+		}
+	}
+}

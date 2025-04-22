@@ -1,0 +1,158 @@
+{
+	"name": "pl_crg_syn_dim_formula_componente",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_dim_formula_componente",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_dim_formula_componente",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_dim_formula_componente",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_dim_formula_componente",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dim_formula_componente",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_FORMULA_COMPONENTE\"",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_dim_formula_componente",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_formula_componente",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_formula_componente",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_dim_formula_componente",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT [GK_FORMULA_COMPONENTE] ,\r\n\t[ID_FORMULA_COMPONENTE] ,\r\n\t[FK_INDICADOR] ,\r\n\t[DESC_DETALLE_INDICADOR] ,\r\n\t[DESC_RESPONSABLE_FORMULA] ,\r\n\t[DESC_FORMULA] ,\r\n\t[DTM_FECHACARGA] ,\r\n\t[DESC_ORIGEN] ,\r\n\t[FK_TIPOSINCONSISTENCIA] \r\n\t  \r\nFROM [ATOMO].[STG.DIM_FORMULA_COMPONENTE]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_FORMULA_COMPONENTE\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_formula_componente",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_formula_componente",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:21Z"
+	}
+}

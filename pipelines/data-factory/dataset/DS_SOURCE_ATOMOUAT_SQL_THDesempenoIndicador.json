@@ -1,0 +1,162 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_THDesempenoIndicador",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "fkParamIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fkPeriodo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descPeriodo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "vlrPlanPeriodo",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrPlanPeriodoNS",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrRealPeriodo",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "descCausasDesempenoPeriodo",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrPlanAcumulado",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrPlanAcumuladoNS",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrRealAcumulado",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "descCausasDesempenoAcumulado",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrProyeccion1",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrProyeccion2",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrProyeccion3",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrMetaAno",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAnoNS",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAno1",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrMetaAno2",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrProyeccionEscBajo",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrProyeccionEscMedio",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrProyeccionEscAlto",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "descPremisasEscAlto",
+				"type": "varchar"
+			},
+			{
+				"name": "descPremisasEscMedio",
+				"type": "varchar"
+			},
+			{
+				"name": "descPremisasEscBajo",
+				"type": "varchar"
+			},
+			{
+				"name": "descAccionesAseguramiento",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "varchar"
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkInconsistencias",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "THDesempenoIndicador"
+		}
+	}
+}

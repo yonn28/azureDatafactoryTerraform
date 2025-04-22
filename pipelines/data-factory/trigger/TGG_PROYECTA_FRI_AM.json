@@ -1,0 +1,17 @@
+{
+	"name": "TGG_PROYECTA_FRI_AM",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2021-01-22T08:45:00",
+				"timeZone": "SA Pacific Standard Time"
+			}
+		}
+	}
+}

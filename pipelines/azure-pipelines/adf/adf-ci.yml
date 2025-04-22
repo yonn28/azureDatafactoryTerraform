@@ -1,0 +1,15 @@
+trigger: none
+
+variables:
+  - template: ../variable.domain.yml
+  - template: ../variable.environment.dev.yml
+
+stages:
+- template: templates/stage.validate.yml
+  parameters:
+    azureServiceConnectionName: ${{ variables.azureServiceConnectionName }}
+    analyzerDockerRegistry: craeuecpdevadf
+    analyzerDockerImage: craeuecpdevadf.azurecr.io/adf-analyzer:v1
+    neo4jDockerImage: neo4j:3.5
+    workingDirectory:  'data-factory'
+    condition: ${{ eq(variables.dataFactoryRunAnalyzer, true) }}

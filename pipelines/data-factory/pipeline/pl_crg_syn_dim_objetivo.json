@@ -1,0 +1,428 @@
+{
+	"name": "pl_crg_syn_dim_objetivo",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_sp_dl_dim_objetivo",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_OBJETIVO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_OBJETIVO",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_OBJETIVO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_dim_objetivo",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_dim_objetivo",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_stg_dim_objetivo",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_sp_dl_dim_objetivo",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_OBJETIVO\" ",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_OBJETIVO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_OBJETIVO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_dim_objetivo",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_objetivo",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_objetivo",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_stg_dim_objetivo",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT A.[GK_OBJETIVO]\r\n      ,A.[ID_OBJETIVO]\r\n      ,A.[DESC_OBJETIVO]\r\n      ,A.[DTM_FECHA_INI_VIGENCIA_OBJETIVO]\r\n      ,A.[DTM_FECHA_FIN_VIGENCIA_OBJETIVO]\r\n      ,A.[DTM_FECHACARGA]\r\n      ,A.[DESC_ORIGEN]\r\n      ,A.[FK_TIPOSINCONSISTENCIA]\r\n\t  ,B.[NUM_ORDEN]\r\n      \r\nFROM [ATOMO].[STG.DIM_OBJETIVO] A\r\nLEFT JOIN [ATOMO].[STG.DIM_OBJETIVO_UX] B\r\n\tON A.[GK_OBJETIVO] = B.[GK_OBJETIVO]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_OBJETIVO\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_OBJETIVO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_OBJETIVO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NUM_ORDEN",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "NUM_ORDEN",
+									"type": "Int64"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_objetivo",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_objetivo",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

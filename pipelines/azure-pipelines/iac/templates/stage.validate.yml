@@ -1,0 +1,15 @@
+stages:
+- stage: validate
+  displayName: 'Validate'
+  jobs:
+  - job: lint
+    displayName: 'Lint'
+    pool:
+      vmImage: 'Ubuntu-20.04'
+    steps:
+    - task: PowerShell@2
+      displayName: Run ARM Template Test Toolkit
+      inputs:
+        pwsh: true
+        targetType: 'filePath'
+        filePath: scripts/azure-pipelines/iac/Lint.ps1

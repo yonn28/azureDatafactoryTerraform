@@ -1,0 +1,133 @@
+{
+	"name": "ds_syn_dwh_fact_resumentendencia",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "FK_FECHA_CORTE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FECHA",
+				"type": "date"
+			},
+			{
+				"name": "PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "ANIO",
+				"type": "varchar"
+			},
+			{
+				"name": "MES",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_OBJETIVO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_OBJETIVO",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_RIESGO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_NOMBRE_CORTO_CONSEC_RIESGO",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_KRI",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ULT_MEDICION_KRI",
+				"type": "varchar"
+			},
+			{
+				"name": "VLR_KRI",
+				"type": "decimal",
+				"precision": 16,
+				"scale": 2
+			},
+			{
+				"name": "VLR_LIMITE_KRI",
+				"type": "decimal",
+				"precision": 16,
+				"scale": 2
+			},
+			{
+				"name": "DESC_NOMBRE_CORTO_KRI",
+				"type": "varchar"
+			},
+			{
+				"name": "LLAVE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_UNIDAD_MEDIDA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_FRECUENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_TENDENCIA_ABREVIADO",
+				"type": "varchar"
+			},
+			{
+				"name": "MEDICION_FUERA_LIMITE_12_MESES",
+				"type": "varchar"
+			},
+			{
+				"name": "ESTADO_DEL_KRI",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MEDIA_ULT_12_MESES",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_COMENTARIO_KRI",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_COMENTARIO_RIESGO",
+				"type": "varchar"
+			},
+			{
+				"name": "FECHA_CARGA_SYNAPSE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.FACT_RESUMEN_TENDENCIA_DETALLE"
+		}
+	}
+}

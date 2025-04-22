@@ -1,0 +1,12 @@
+{
+	"name": "IrOnpremiseECP",
+	"properties": {
+		"type": "SelfHosted",
+		"typeProperties": {
+			"linkedInfo": {
+				"resourceId": "/subscriptions/c818ac3b-d6f3-4229-a359-0d5ac47a4317/resourcegroups/RG-AEU-ECP-DEV-BigDataFactory/providers/Microsoft.DataFactory/factories/DF-AEU-ECP-DEV-DATAPLATFORMDEV/integrationruntimes/IrOnpremiseECP",
+				"authorizationType": "Rbac"
+			}
+		}
+	}
+}

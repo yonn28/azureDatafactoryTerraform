@@ -1,0 +1,56 @@
+
+-- =============================================
+-- Author:      Alejandra Delgado
+-- Create Date: 2022-04-07
+-- Description: Se crea la Dimension STG.DIM_INDICADOR la cual es un insumo para las cargas DWH
+-- =============================================
+
+CREATE TABLE [ATOMO].[STG.DIM_INDICADOR]
+(
+	[GK_INDICADOR] [bigint] NOT NULL,
+	[ID_INDICADOR] [varchar](50) NOT NULL,
+	[DESC_NOMBRE_INDICADOR] [varchar](4000) NULL,
+	[DESC_INDICADOR] [varchar](4000) NULL,
+	[DESC_FORMULA] [varchar](4000) NULL,
+	[DESC_UNIDAD_MEDIDA] [varchar](500) NULL,
+	[DESC_SENTIDO] [varchar](500) NULL,
+	[DESC_FRECUENCIA] [varchar](500) NULL,
+	[CANT_DECIMALES_CALCULO] [int] NULL,
+	[CANT_DECIMALES_REPORTE] [int] NULL,
+	[DESC_VISUALIZA_PERIODO] [varchar](500) NULL,
+	[DESC_VISUALIZA_ACUMULADO] [varchar](500) NULL,
+	[DESC_VISUALIZA_ANNIO_CORRIDO] [varchar](500) NULL,
+	[VLR_LIMITE_INFERIOR] [decimal](25, 10) NULL,
+	[VLR_LIMITE_SUPERIOR] [decimal](25, 10) NULL,
+	[VLR_CUMP_SATISFACCION] [decimal](25, 10) NULL,
+	[DESC_FUENTE_PROYECTADA] [varchar](500) NULL,
+	[DESC_FUENTE_REAL] [varchar](500) NULL,
+	[DESC_VERSION] [varchar](500) NULL,
+	[DTM_VIGENCIA_DESDE] [datetime] NULL,
+	[DTM_VIGENCIA_HASTA] [datetime] NULL,
+	[DESC_USUARIO_RESP_CALCULO] [varchar](500) NULL,
+	[DESC_META_NORMALIZADA] [varchar](500) NULL,
+	[CANT_COMPONENTES] [int] NULL,
+	[DESC_REFERENTE] [varchar](500) NULL,
+	[ID_HOJA_VIDA] [varchar](500) NULL,
+	[DESC_RESPONSABLE_META] [varchar](4000) NULL,
+	[DESC_RESPONSABLE_SEGUIMIENTO] [varchar](4000) NULL,
+	[DESC_RESPONSABLE_REPORTE_RES] [varchar](4000) NULL,
+	[DESC_APROBADOR] [varchar](4000) NULL,
+	[DESC_APROBADOR_CARGO] [varchar](4000) NULL,
+	[DESC_CALCULABLE_AUTOMATIZABLE] [varchar](500) NULL,
+	[DESC_INDICADOR_HITO] [varchar](500) NULL,
+	[DTM_FECHACARGA] [datetime] NULL,
+	[DESC_ORIGEN] [varchar](80) NULL,
+	[FK_TIPOSINCONSISTENCIA] [varchar](250) NULL,
+	[DESC_PROCESO] [varchar](500) NULL,
+	[DESCNOMBRERESPONSABLEDOCUMENTARHV] [varchar](200),
+	[DESCCORREORESPONSABLEDOCUMENTARHV] [varchar](200)
+)
+WITH
+(
+	DISTRIBUTION = ROUND_ROBIN,
+	CLUSTERED COLUMNSTORE INDEX
+)
+
+

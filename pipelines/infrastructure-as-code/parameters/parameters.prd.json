@@ -1,0 +1,50 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environment": {
+            "value": "prd"
+        },
+        "location": {
+            "value": "eastus"
+        },
+        "domainName": {
+            "value": "Atomo"
+        },
+        "domainResourceGroup": {
+            "value": "RG-AEU-ECP-PRD-ATOMO"
+        },
+        "sharedDataFactoryResourceGroup":{
+            "value": "RG-AEU-ECP-PRD-BigDataFactory"
+        },
+        "sharedKeyVaultResourceGroup": {
+            "value": "RG-AEU-ECP-PRD-Shared"
+        },
+        "keyVaultEnablePurgeProtection": {
+            "value": true
+        },
+        "storageContainers": {
+            "value": [
+                "raw",
+                "curated",
+                "transit"
+            ]
+        },
+        "sharedKeyVaultName": {
+            "value": "kv-aeu-ecp-prd-shared"
+        },
+        "sharedDataFactoryName":{
+            "value": "DF-AEU-ECP-PRD-DATAPLATFORMPRD"
+        },
+        "sharedDataFactoryIntegrationRuntimes": {
+            "value": [
+                "IrOnpremiseECP"
+            ]
+        },
+        "storageBlobStorageDataContributors": {
+            "value": [
+                "fe1c808a-60bf-4ee8-a299-0500022ef1da"
+            ]
+        }
+    }
+}

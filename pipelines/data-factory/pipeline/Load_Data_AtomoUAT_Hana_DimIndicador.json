@@ -1,0 +1,497 @@
+{
+	"name": "Load_Data_AtomoUAT_Hana_DimIndicador",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_SQL_ATOMO_DimIndicador",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [gkIndicador] \n      ,[idIndicador]\n      ,[descNombreIndicador]\n      ,left([descIndicador],3900) AS descIndicador\n      ,replace([descFormula],'\\n','') AS descFormula\n      ,[descUnidadMedida]\n      ,[descSentido]\n      ,[descFrecuencia]\n      ,[cantDecimalesCalculo]\n      ,[cantDecimalesReporte]\n      ,[descVisualizaPeriodo]\n      ,[descVisualizaAcumulado]\n      ,[descVisualizaAnnioCorrido]\n      ,[vlrLimiteInferior]\n      ,[vlrLimiteSuperior]\n      ,[vlrCumpSatisfaccion]\n      ,[descFuenteProyectada]\n      ,[descFuentereal]\n      ,[descVersion]\n      ,[dtmVigenciaDesde]\n      ,[dtmVigenciaHasta]\n      ,[descUsuarioRespCalculo]\n      ,[descMetaNormalizada]\n      ,[cantComponentes]\n      ,[descReferente]\n      ,[idHojaVida]\n      ,[descResponsableMeta]\n      ,[descResponsableSeguimiento]\n      ,[descResponsableReporteRes]\n      ,[descAprobador]\n      ,[descAprobadorCargo]\n      ,[descCalculableAutomatizable]\n      ,[descIndicadorHito]\n      ,[descNombreResponsableDocumentarHV]\n      ,[descCorreoResponsableDocumentarHV]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n      ,[dtmFechaCarga]\n      ,[descCorreoUsuarioCarga]\n      ,[dtmFechaUltimaModificacion]\n      ,[descCorreoUsuarioUltimaModificacion]\n      ,[descEstadoIndicador],descProceso\n  FROM [TD].[DimIndicador]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_INDICADOR\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkIndicador",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "GK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idIndicador",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "ID_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descNombreIndicador",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descIndicador",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descFormula",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_FORMULA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descUnidadMedida",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descSentido",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_SENTIDO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descFrecuencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "cantDecimalesCalculo",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "cantDecimalesReporte",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "descVisualizaPeriodo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descVisualizaAcumulado",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_ACUMULADO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descVisualizaAnnioCorrido",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrLimiteInferior",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_LIMITE_INFERIOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrLimiteSuperior",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_LIMITE_SUPERIOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrCumpSatisfaccion",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_CUMP_SATISFACCION",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descFuenteProyectada",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descFuentereal",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descVersion",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmVigenciaDesde",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmVigenciaHasta",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descUsuarioRespCalculo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_RESP_CALCULO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descMetaNormalizada",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_META_NORMALIZADA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "cantComponentes",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "CANT_COMPONENTES",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "descReferente",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_REFERENTE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "idHojaVida",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ID_HOJA_VIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableMeta",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_META",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableSeguimiento",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableReporteRes",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_REPORTE_RES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descAprobador",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_APROBADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descAprobadorCargo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_APROBADOR_CARGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCalculableAutomatizable",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descIndicadorHito",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_INDICADOR_HITO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descProceso",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_PROCESO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descNombreResponsableDocumentarHV",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoResponsableDocumentarHV",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimIndicador",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimIndicador",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

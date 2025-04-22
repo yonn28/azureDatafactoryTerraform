@@ -1,0 +1,58 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_Excel_ComponentesAutomatizados",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "PARAM_COMPONENTES",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "COMPONENTES_FORMULA.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID",
+				"type": "String"
+			},
+			{
+				"name": "Datamart Origen",
+				"type": "String"
+			},
+			{
+				"name": "Nombre Paquete",
+				"type": "String"
+			},
+			{
+				"name": "Vista Calculada",
+				"type": "String"
+			},
+			{
+				"name": "Responsable Vista calculada Origen",
+				"type": "String"
+			},
+			{
+				"name": "Estado consulta",
+				"type": "String"
+			},
+			{
+				"name": "Responsable Parametrización",
+				"type": "String"
+			},
+			{
+				"name": "Sistema Fuente",
+				"type": "String"
+			}
+		]
+	}
+}

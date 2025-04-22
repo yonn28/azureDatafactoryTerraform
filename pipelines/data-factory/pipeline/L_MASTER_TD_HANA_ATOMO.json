@@ -1,0 +1,42 @@
+{
+	"name": "L_MASTER_TD_HANA_ATOMO",
+	"properties": {
+		"description": "Proceso de consolidación de los procesos de carga TD a Hana y Hana a Atomo en un solo flujo de datos",
+		"activities": [
+			{
+				"name": "Carga info TD A HANA",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LMaster_Data_AtomoUAT_Hana",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Carga Info HANA A ATOMO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Carga info TD A HANA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "L_Master_Data_Hana_Atomo",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": []
+	}
+}

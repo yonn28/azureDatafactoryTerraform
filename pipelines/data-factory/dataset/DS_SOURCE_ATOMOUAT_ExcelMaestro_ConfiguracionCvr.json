@@ -1,0 +1,54 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_ExcelMaestro_ConfiguracionCvr",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Configuracion_CVR",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_Maestros.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID_CVR",
+				"type": "String"
+			},
+			{
+				"name": "VERSION",
+				"type": "String"
+			},
+			{
+				"name": "VLR_LIMITE_INFERIOR_CVR",
+				"type": "String"
+			},
+			{
+				"name": "VLR_LIMITE_SUPERIOR_CVR",
+				"type": "String"
+			},
+			{
+				"name": "VLR_META_CVR",
+				"type": "String"
+			},
+			{
+				"name": "VIGENCIA_DESDE",
+				"type": "String"
+			},
+			{
+				"name": "VIGENCIA_HASTA",
+				"type": "String"
+			}
+		]
+	}
+}

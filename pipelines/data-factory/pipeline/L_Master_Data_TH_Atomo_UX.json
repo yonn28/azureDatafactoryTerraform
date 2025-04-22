@@ -1,0 +1,147 @@
+{
+	"name": "L_Master_Data_TH_Atomo_UX",
+	"properties": {
+		"description": "Se encarga de cargar la información de  TH a Atomo",
+		"activities": [
+			{
+				"name": "Exec_Pipeline_Dim_configuracioncvr_ux",
+				"description": "",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_configuracioncvr_ux",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_dim_eje_palanca_ux",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_Dim_configuracioncvr_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_eje_palanca_ux",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_dim_escenariosanalisis_ux",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_dim_eje_palanca_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_escenariosanalisis_ux",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_dim_flujodatosauto_ux",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_dim_escenariosanalisis_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_flujodatosauto_ux",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_dim_objetivo_ux",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_dim_flujodatosauto_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_objetivo_ux",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_th_hito_ux",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_dim_objetivo_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_th_hito_ux",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_dim_cvr_indicador_hito",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_th_hito_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_cvr_indicador_hito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "ATOMO_UX"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:22Z"
+	}
+}

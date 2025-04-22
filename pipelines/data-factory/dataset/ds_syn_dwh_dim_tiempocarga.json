@@ -1,0 +1,68 @@
+{
+	"name": "ds_syn_dwh_dim_tiempocarga",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "DESC_PROCESO_TIPO_CARGA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_TIPO_CARGA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_PERIODO_CARGA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DTM_FECHA_INICIO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHA_FIN",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_DETALLE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ENTREGABLE",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_CARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ESTADO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.DIM_TIEMPO_CARGA"
+		}
+	}
+}

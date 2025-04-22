@@ -1,0 +1,20 @@
+{
+	"name": "SqlServer_AOXT_GRC_Produccion",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked Service SqlServer_AOXT_GRC_Produccion",
+		"annotations": [
+			"DM Refinación",
+			"SQL Server"
+		],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=10.7.61.80;initial catalog=AORA_GRCP;user id=_P01AORAGRCDATAMARTAZURE",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyZmYzMTY3Ni01ZDJlLTQ5MWItOGU5ZC04ODdjNWExNWNlMjIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

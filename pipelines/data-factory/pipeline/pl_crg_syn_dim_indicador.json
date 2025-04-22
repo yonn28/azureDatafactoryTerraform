@@ -1,0 +1,1378 @@
+{
+	"name": "pl_crg_syn_dim_indicador",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_dl_syn_stg_dim_indicador",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_sp_dl_dim_indicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_INDICADOR\" ",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FORMULA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FORMULA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_SENTIDO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SENTIDO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_ACUMULADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_ACUMULADO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_INFERIOR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_INFERIOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_SUPERIOR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_SUPERIOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_SATISFACCION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_SATISFACCION",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_USUARIO_RESP_CALCULO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_RESP_CALCULO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_META_NORMALIZADA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_META_NORMALIZADA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_COMPONENTES",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_COMPONENTES",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_REFERENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_REFERENTE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_HOJA_VIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_HOJA_VIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_META",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_META",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_REPORTE_RES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_REPORTE_RES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_APROBADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_APROBADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_APROBADOR_CARGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_APROBADOR_CARGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_INDICADOR_HITO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_INDICADOR_HITO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PROCESO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PROCESO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_dim_indicador",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_indicador",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_indicador",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_stg_dim_indicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_INDICADOR\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FORMULA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FORMULA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_SENTIDO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SENTIDO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_ACUMULADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_ACUMULADO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_INFERIOR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_INFERIOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_SUPERIOR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_SUPERIOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_SATISFACCION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_SATISFACCION",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_USUARIO_RESP_CALCULO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_RESP_CALCULO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_META_NORMALIZADA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_META_NORMALIZADA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_COMPONENTES",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_COMPONENTES",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_REFERENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_REFERENTE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_HOJA_VIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_HOJA_VIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_META",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_META",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_REPORTE_RES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_REPORTE_RES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_APROBADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_APROBADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_APROBADOR_CARGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_APROBADOR_CARGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_INDICADOR_HITO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_INDICADOR_HITO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PROCESO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PROCESO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_indicador",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_indicador",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_sp_dl_dim_indicador",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_INDICADOR",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_INDICADOR",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_INDICADOR",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_INDICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_INDICADOR",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FORMULA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FORMULA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_SENTIDO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SENTIDO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_ACUMULADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_ACUMULADO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_INFERIOR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_INFERIOR",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_SUPERIOR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_SUPERIOR",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_CUMP_SATISFACCION",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_CUMP_SATISFACCION",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_USUARIO_RESP_CALCULO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_RESP_CALCULO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_META_NORMALIZADA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_META_NORMALIZADA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_COMPONENTES",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_COMPONENTES",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_REFERENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_REFERENTE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_HOJA_VIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_HOJA_VIDA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_META",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_META",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE_REPORTE_RES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_REPORTE_RES",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_APROBADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_APROBADOR",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_APROBADOR_CARGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_APROBADOR_CARGO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_INDICADOR_HITO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_INDICADOR_HITO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_PROCESO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_PROCESO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_dim_indicador",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_dim_indicador",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:21Z"
+	}
+}

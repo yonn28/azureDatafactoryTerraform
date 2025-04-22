@@ -1,0 +1,15 @@
+{
+	"name": "ds_src_sap_hana_schemas",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_DMTOMADEDECISIONES_DEV",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_ILP/DS_SRC"
+		},
+		"annotations": [],
+		"type": "OdbcTable",
+		"schema": []
+	}
+}

@@ -1,0 +1,27 @@
+﻿-- =============================================
+-- Author:      Oscar Angel
+-- Create Date: 2022-07-29
+-- Description: Se crea la vista CVD_COMPONENTE la cual es un insumo para el tablero Seguimiento a Cargas.
+-- =============================================
+
+CREATE VIEW ATOMO.CVD_COMPONENTE AS 
+
+SELECT GK_COMPONENTE ,
+	 ID_COMPONENTE ,
+	 DESC_NOMBRE_COMPONENTE ,
+	 DESC_DETALLE_COMPONENTE ,
+	 DESC_COMPONENTE ,
+	 DESC_RESPONSABLE ,
+	 DESC_UNIDAD_MEDIDA ,
+	 DESC_VISUALIZA_PERIODO ,
+	 DESC_FRECUENCIA ,
+	 CANT_DECIMALES_CALCULO ,
+	 CANT_DECIMALES_REPORTE ,
+	 DESC_FUENTE_PROYECTADA ,
+	 DESC_FUENTE_REAL ,
+	 DESC_VERSION ,
+	 DTM_VIGENCIA_DESDE ,
+	 DTM_VIGENCIA_HASTA ,
+	 DESC_TIPO_COMPONENTE 
+
+FROM [ATOMO].[DWH.DIM_COMPONENTE] 

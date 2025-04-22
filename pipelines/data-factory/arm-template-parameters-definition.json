@@ -1,0 +1,21 @@
+{
+    "Microsoft.DataFactory/factories/linkedServices": {
+        "*": {
+            "properties": {
+                "typeProperties": {
+                    "baseUrl": "=",
+                    "url": "="
+                }
+            }
+        }
+    },
+    "Microsoft.DataFactory/factories/integrationRuntimes": {
+        "properties": {
+            "typeProperties": {
+                "linkedInfo": {
+                    "resourceId": "="
+                }
+            }
+        }
+    }
+}

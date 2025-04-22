@@ -1,0 +1,26 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_ExcelMaestro_Instrucciones",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Instrucciones",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_MaestroFechaCorte.xlsx",
+				"container": "plantillasexcel"
+			},
+			"range": "",
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}

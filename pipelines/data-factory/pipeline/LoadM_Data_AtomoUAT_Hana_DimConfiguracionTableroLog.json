@@ -1,0 +1,353 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimConfiguracionTableroLog",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimConfiguracionTableroLog",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_CONFIGURACION_TABLERO_LOG\"",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "StagingService",
+							"type": "LinkedServiceReference"
+						},
+						"path": "staging"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkConfiguracionTablero",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "GK_CONFIGURACION_TABLERO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descAnnio",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ANNIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaRegistro",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_REGISTRO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descSiglaArea",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SIGLA_AREA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTablero",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_TABLERO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descVersion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkEjePalanca",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_EJE_PALANCA",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkObjetivo",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_OBJETIVO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descHitoIndicador",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_HITO_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkParamIndicador",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkIndicador",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descTipoTablero",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TIPO_TABLERO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descTBG",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TBG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descSecuenciaOrden",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SECUENCIA_ORDEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPesoIndicador",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PESO_INDICADOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descCortoLargoPlazo",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CORTO_LARGO_PLAZO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrLimiteInferior",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_INFERIOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrLimiteSuperior",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_SUPERIOR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descUsuarioCreacion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_CREACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaModificacion",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_MODIFICACION",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descUsuarioModificacion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_MODIFICACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposinconsistencia",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descAcciones",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ACCIONES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descTableroCVR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TABLERO_CVR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "esHabilitador",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "ES_HABILITADOR",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "decCorreoUsuario",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CORREO_USUARIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descUsuarioHabilitador",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_HABILITADOR",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimConfiguracionTableroLog",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_configuraciontablerolog",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:19Z"
+	}
+}

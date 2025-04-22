@@ -1,0 +1,428 @@
+{
+	"name": "pl_crg_syn_dim_contexto_hito",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_td_syn_stg_dim_contexto_hito",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "Select [gkContextoHito]\r\n      ,[fkIndicador]\r\n      ,[dtmFechaRegistroContexto]\r\n      ,[dtmFechaUsar]\r\n      ,[descSponsor]\r\n      ,[descCorreoSponsor]\r\n      ,CASE WHEN [descUnidadMedida] IN ('%','Porcentaje') THEN ([vlrPlanHito]*100) ELSE [vlrPlanHito]  END AS [vlrPlanHito]\r\n      ,[descContextoMotivacion]\r\n      ,[descObjetivo]\r\n      ,[descImpacto]\r\n      ,[descInterdependencias]\r\n      ,[descRiesgosPrincipales]\r\n      ,[descMitigantesRiesgos]\r\n      ,C.[dtmFechaCarga]\r\n      ,C.[descOrigen]\r\n      ,C.[fkTiposInconsistencia]\r\n  FROM [TD].[DimContextoHito] C \r\n  INNER JOIN [TD].[DimIndicador] I \r\n    ON [gkIndicador] = [fkIndicador]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_CONTEXTO_HITO\" ",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkContextoHito",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_CONTEXTO_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkIndicador",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaRegistroContexto",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_REGISTRO_CONTEXTO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaUsar",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_USAR",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descSponsor",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SPONSOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoSponsor",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CORREO_SPONSOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanHito",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descContextoMotivacion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CONTEXTO_MOTIVACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descObjetivo",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descImpacto",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_IMPACTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descInterdependencias",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_INTERDEPENDENCIAS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descRiesgosPrincipales",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RIESGOS_PRINCIPALES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descMitigantesRiesgos",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_MITIGANTES_RIESGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_td_dim_contextohito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_contexto_hito",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_contexto_hito",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_td_syn_stg_dim_contexto_hito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_CONTEXTO_HITO\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_CONTEXTO_HITO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_CONTEXTO_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_REGISTRO_CONTEXTO",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_REGISTRO_CONTEXTO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_USAR",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_USAR",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_SPONSOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SPONSOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CORREO_SPONSOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CORREO_SPONSOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_PLAN_HITO",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CONTEXTO_MOTIVACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CONTEXTO_MOTIVACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_IMPACTO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_IMPACTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_INTERDEPENDENCIAS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_INTERDEPENDENCIAS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RIESGOS_PRINCIPALES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RIESGOS_PRINCIPALES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_MITIGANTES_RIESGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_MITIGANTES_RIESGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_contexto_hito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_contextohito",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:11Z"
+	}
+}

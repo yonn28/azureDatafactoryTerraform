@@ -1,0 +1,65 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_DimEjePalanca",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkEjePalanca",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "idEjePalanca",
+				"type": "varchar"
+			},
+			{
+				"name": "descEjePalanca",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaIniVigenciaPalanca",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaFinVigenciaPalanca",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			},
+			{
+				"name": "numOrden",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimEjePalanca"
+		}
+	}
+}

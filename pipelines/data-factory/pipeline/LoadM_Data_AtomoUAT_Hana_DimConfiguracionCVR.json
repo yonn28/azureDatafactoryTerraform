@@ -1,0 +1,190 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimConfiguracionCVR",
+	"properties": {
+		"description": "flujo de datos que carga los datos de la plantilla de SQL_DimConfiguracionCVR a HANA",
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimCOnfiguracionCVR",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [gkCvr]\n      ,[idCvr]\n      ,[descVersion]\n      ,[prcLimiteInferiorCvr]\n      ,[prcLimiteSuperiorCvr]\n      ,[prcMetaCvr]\n      ,[dtmVigenciaDesde]\n      ,[dtmVigenciaHasta]\n      ,[dtmFechacarga]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n  FROM [TD].[DimConfiguracionCvr]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_CONFIGURACION_CVR\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkCvr",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "GK_CVR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idCvr",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ID_CVR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descVersion",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "prcLimiteInferiorCvr",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "PRC_LIMITE_INFERIOR_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "prcLimiteSuperiorCvr",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "PRC_LIMITE_SUPERIOR_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "prcMetaCvr",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "PRC_META_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmVigenciaDesde",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmVigenciaHasta",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimConfiguracion_CVR",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimConfiguracion_CVR",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:21Z"
+	}
+}

@@ -1,0 +1,62 @@
+{
+	"name": "ds_adls_dim_objetivo",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Objetivo.parquet",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "GK_OBJETIVO",
+				"type": "INT64"
+			},
+			{
+				"name": "ID_OBJETIVO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_OBJETIVO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+				"type": "INT96"
+			},
+			{
+				"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+				"type": "INT96"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "UTF8"
+			},
+			{
+				"name": "NUMORDEN",
+				"type": "INT64"
+			}
+		]
+	}
+}

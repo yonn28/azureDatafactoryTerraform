@@ -1,0 +1,102 @@
+{
+	"name": "ds_adls_dim_paramindicador",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "ParamIndicador.parquet",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "GK_PARAM_INDICADOR",
+				"type": "INT64"
+			},
+			{
+				"name": "FK_INDICADOR",
+				"type": "INT64"
+			},
+			{
+				"name": "DTM_FECHA_REGISTRO",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_RESPONSABLE_MEDICION",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_CARGO_RESPONSABLE_MEDICION",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_CORREO_RESPONSABLE_MEDICION",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_AREA_RESPONSABLE_MEDICION",
+				"type": "UTF8"
+			},
+			{
+				"name": "ID_UNIDAD_ORGANIZATIVA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_RESPONSABLE_MEDICION_2",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_CARGO_RESPONSABLE_MEDICION_2",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_CORREO_RESPONSABLE_MEDICION_2",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_AREA_RESPONSABLE_MEDICION_2",
+				"type": "UTF8"
+			},
+			{
+				"name": "ID_UNIDAD_ORGANIZATIVA_2",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_SIGLA_AREA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_DETALLE_INDICADOR",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_CONTROL_CARGA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "UTF8"
+			}
+		]
+	}
+}

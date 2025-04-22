@@ -1,0 +1,12 @@
+{
+	"name": "CosmosDB_DEV_IIOTFAT",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "CosmosDb",
+		"typeProperties": {
+			"connectionString": "AccountEndpoint=https://cb-aeu-ecb-dev-iothubfat.documents.azure.com:443/;Database=Integration;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRGLUFFVS1FQ1AtREVWLURBVEFQTEFURk9STURFVl9jZGU3MTZlNi05OWQ5LTQzN2MtYWY0MS0wYTI0OTQ2YWQzM2EiDQp9"
+		}
+	}
+}

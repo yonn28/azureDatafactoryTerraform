@@ -1,0 +1,207 @@
+{
+	"name": "pl_crg_syn_th_hito_ux",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_td_syn_stg_th_hito_ux",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.TH_HITO_UX\" ",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "fkHito",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkParamIndicador",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkPeriodo",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanHito",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PLAN_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrRealHito",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_REAL_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "prcCumpHito",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_CUMP_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyEscBajo",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_BAJO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyEscMedio",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_MEDIO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyEscAlto",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_ALTO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoUsuario",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CORREO_USUARIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaEventoRegistro",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EVENTO_REGISTRO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "cmResumen",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CM_RESUMEN",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_td_th_hito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_th_hito_ux",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_UX"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:15Z"
+	}
+}

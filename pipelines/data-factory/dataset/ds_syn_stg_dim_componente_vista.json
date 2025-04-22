@@ -1,0 +1,38 @@
+{
+	"name": "ds_syn_stg_dim_componente_vista",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "FK_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_DETALLE_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_COMPONENTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_FORMULA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "STG.DIM_COMPONENTE_VISTA"
+		}
+	}
+}

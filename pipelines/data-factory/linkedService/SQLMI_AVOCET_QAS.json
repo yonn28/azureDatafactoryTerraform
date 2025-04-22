@@ -1,0 +1,16 @@
+{
+	"name": "SQLMI_AVOCET_QAS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlMI",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=miaeuecpqasavm2.57a2d062a971.database.windows.net;initial catalog=dbmiaeuqasavm3;user id=jrendon",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1MmI0MzJiNy01MjQwLTRkMDAtYjg2NC1iMTE4YzhiNjRkNGYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

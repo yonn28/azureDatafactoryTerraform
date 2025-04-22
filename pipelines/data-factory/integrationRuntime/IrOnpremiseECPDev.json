@@ -1,0 +1,6 @@
+{
+	"name": "IrOnpremiseECPDev",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

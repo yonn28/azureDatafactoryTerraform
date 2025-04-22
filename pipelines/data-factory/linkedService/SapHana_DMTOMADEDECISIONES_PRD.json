@@ -1,0 +1,16 @@
+{
+	"name": "SapHana_DMTOMADEDECISIONES_PRD",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=10.76.39.91:30241;uid=CONSULTA_DMTOMADEDECISIONES",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmYmJiOGEzOC05ZTlhLTQzY2UtYjA4MC04ZWNjZWJiYzA2ZjAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

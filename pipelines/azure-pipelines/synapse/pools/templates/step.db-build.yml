@@ -1,0 +1,21 @@
+parameters:
+- name: solution
+  type: string
+- name: buildPlatform
+  type: string
+  default: 'Any CPU'
+- name: buildConfiguration
+  type: string
+  default: 'Release'
+- name: artifactsPath
+  type: string
+
+steps:
+- task: VSBuild@1
+  displayName: 'Build database package'
+  inputs:
+    vsVersion: latest
+    solution: '**\${{ parameters.solution }}.sln'
+    platform: '${{ parameters.buildPlatform }}'
+    configuration: '${{ parameters.buildConfiguration }}'
+    msbuildArgs: '/p:OutputPath="${{ parameters.artifactsPath }}"'

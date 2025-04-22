@@ -1,0 +1,65 @@
+{
+	"name": "ds_syn_stg_dim_objetivo_ux",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_UX/DS_SYN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_OBJETIVO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ID_OBJETIVO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_OBJETIVO",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_INI_VIGENCIA_OBJETIVO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHA_FIN_VIGENCIA_OBJETIVO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_ORDEN",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "STG.DIM_OBJETIVO_UX"
+		}
+	}
+}

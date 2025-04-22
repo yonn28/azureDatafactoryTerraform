@@ -1,0 +1,17 @@
+{
+	"name": "Job_ac_hana_adls_cvcprduccion",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 30,
+				"startTime": "2020-08-01T07:00:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

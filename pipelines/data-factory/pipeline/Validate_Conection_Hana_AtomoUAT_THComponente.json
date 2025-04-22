@@ -1,0 +1,319 @@
+{
+	"name": "Validate_Conection_Hana_AtomoUAT_THComponente",
+	"properties": {
+		"activities": [
+			{
+				"name": "LKUDimParametrizacion",
+				"description": " ",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Stored procedure1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select replace(descConsulta,'\"','') descConsulta from [TD].[DimParametrizacion] where descEstadoConsulta='ACTIVA'  and descSistemaFuente='HANA'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[TD].[Sp_Truncar_staging_THComponente_Automatizado]"
+				},
+				"linkedServiceName": {
+					"referenceName": "dbaeuecpuatatomotd",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LKUDimParametrizacion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LKUDimParametrizacion').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "CPConexion_THComponente",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OdbcSource",
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"preCopyScript": "TRUNCATE TABLE [TD].[staging_validacion_THComponente]",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false,
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "ID_INDICADOR",
+												"type": "String"
+											},
+											"sink": {
+												"name": "idIndicador",
+												"type": "String",
+												"physicalType": "varchar"
+											}
+										},
+										{
+											"source": {
+												"name": "SIGLA_ESTRUCTURA_DESPLIEGUE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "descSigla",
+												"type": "String",
+												"physicalType": "varchar"
+											}
+										},
+										{
+											"source": {
+												"name": "PERIODO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "fkPeriodo",
+												"type": "Int64",
+												"physicalType": "bigint"
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_PERIODO",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "vlrRealPeriodo",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 10,
+												"precision": 25
+											}
+										},
+										{
+											"source": {
+												"name": "VLR_REAL_ACUM",
+												"type": "Decimal"
+											},
+											"sink": {
+												"name": "vlrRealAcum",
+												"type": "Decimal",
+												"physicalType": "decimal",
+												"scale": 10,
+												"precision": 25
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_SOURCE_ATOMOUAT_HANA_ComponentesAutomatizados",
+									"type": "DatasetReference",
+									"parameters": {
+										"TablaCVCHana": "@{item().descConsulta}"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_SINK_ATOMOUAT_SQL_validacion_THComponente",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "SC_INSERT PROCESS_OK",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "CPConexion_THComponente",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "dbaeuecpuatatomotd",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"parameters": [
+											{
+												"name": "DescConsulta",
+												"type": "String",
+												"value": {
+													"value": "@{item().descConsulta}",
+													"type": "Expression"
+												},
+												"direction": "Input",
+												"size": "100"
+											},
+											{
+												"name": "EstadoConexion",
+												"type": "String",
+												"value": {
+													"value": "@if(equals(activity('CPConexion_THComponente').output.executionDetails[0].status,'Succeeded'), 'Ok','Error')",
+													"type": "Expression"
+												},
+												"direction": "Input",
+												"size": "10"
+											}
+										],
+										"type": "NonQuery",
+										"text": "INSERT INTO [TD].[AuditoriaConexionThComponente]\nVALUES (@DescConsulta, @EstadoConexion, GETDATE(),'')"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "SC_INSERT PROCESS_FAILED",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "CPConexion_THComponente",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "dbaeuecpuatatomotd",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"parameters": [
+											{
+												"name": "DescConsulta",
+												"type": "String",
+												"value": {
+													"value": "@{item().descConsulta}",
+													"type": "Expression"
+												},
+												"direction": "Input",
+												"size": "100"
+											},
+											{
+												"name": "EstadoConexion",
+												"type": "String",
+												"value": {
+													"value": "@if(equals(activity('CPConexion_THComponente').output.executionDetails[0].status,'Succeeded'), 'Ok','Error')",
+													"type": "Expression"
+												},
+												"direction": "Input",
+												"size": "10"
+											},
+											{
+												"name": "ErrorDetalle",
+												"type": "String",
+												"value": {
+													"value": "@activity('CPConexion_THComponente').output.errors[0].Message",
+													"type": "Expression"
+												},
+												"direction": "Input"
+											}
+										],
+										"type": "NonQuery",
+										"text": "INSERT INTO [TD].[AuditoriaConexionThComponente]\nVALUES (@DescConsulta, @EstadoConexion, GETDATE(), @ErrorDetalle)"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-01T19:44:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

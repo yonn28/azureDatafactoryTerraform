@@ -1,0 +1,118 @@
+{
+	"name": "ds_adls_resumentendencia",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "ResumenTendencia.parquet",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "FK_FECHA_CORTE",
+				"type": "INT32"
+			},
+			{
+				"name": "FECHA",
+				"type": "INT96"
+			},
+			{
+				"name": "PERIODO",
+				"type": "UTF8"
+			},
+			{
+				"name": "ANIO",
+				"type": "UTF8"
+			},
+			{
+				"name": "MES",
+				"type": "UTF8"
+			},
+			{
+				"name": "ID_OBJETIVO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_OBJETIVO",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_RIESGO",
+				"type": "INT32"
+			},
+			{
+				"name": "DESC_NOMBRE_CORTO_CONSEC_RIESGO",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_KRI",
+				"type": "INT32"
+			},
+			{
+				"name": "ULT_MEDICION_KRI",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_KRI",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_LIMITE_KRI",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_NOMBRE_CORTO_KRI",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_UNIDAD_MEDIDA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_FRECUENCIA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_TENDENCIA_ABREVIADO",
+				"type": "UTF8"
+			},
+			{
+				"name": "MEDICION_FUERA_LIMITE_12_MESES",
+				"type": "UTF8"
+			},
+			{
+				"name": "ESTADO_DEL_KRI",
+				"type": "INT32"
+			},
+			{
+				"name": "MEDIA_ULT_12_MESES",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_COMENTARIO_KRI",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_COMENTARIO_RIESGO",
+				"type": "UTF8"
+			}
+		]
+	}
+}

@@ -1,0 +1,33 @@
+{
+	"name": "ds_src_parquet_schema_views_hana",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_ILP/DS_SRC"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "schemas_views",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "none"
+		},
+		"schema": [
+			{
+				"name": "SCHEMA_NAME",
+				"type": "UTF8"
+			},
+			{
+				"name": "VIEW_NAME",
+				"type": "UTF8"
+			}
+		]
+	}
+}

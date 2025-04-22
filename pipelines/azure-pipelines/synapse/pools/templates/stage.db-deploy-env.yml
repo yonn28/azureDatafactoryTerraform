@@ -1,0 +1,36 @@
+parameters:
+- name: environment
+  type: string
+- name: buildSolution
+  type: boolean
+- name: pool
+  type: string
+
+stages:
+ - stage: '${{ parameters.environment }}StageDeploy'
+   displayName: 'Deployment for ${{ parameters.environment }}'
+   variables:
+      - template: ../../../variable.environment.${{ parameters.environment }}.yml
+      - template: ../../../variable.domain.yml
+   jobs:
+    - ${{ if eq(parameters.buildSolution, true) }}:
+      - template: job.db-build.yml
+        parameters:
+          environment: ${{ parameters.environment }}
+          domainName: ${{ variables.domainName }}
+          pool: ${{ parameters.pool }}
+    - template: job.db-plan.yml
+      parameters:
+        environment: ${{ parameters.environment }}
+        domainName: ${{ variables.domainName }}
+        azureServiceConnectionName: ${{ variables.azureServiceConnectionName }}
+        waitForBuild: ${{ parameters.buildSolution }}
+        haltOnConnectivityIssues: ${{ true }}
+        pool: ${{ parameters.pool }}
+    - template: job.db-deploy.yml
+      parameters:
+        environment: ${{ parameters.environment }}
+        domainName: ${{ variables.domainName }}
+        azureServiceConnectionName: ${{ variables.azureServiceConnectionName }}
+        haltOnConnectivityIssues: ${{ true }}
+        pool: ${{ parameters.pool }}

@@ -1,0 +1,883 @@
+{
+	"name": "pl_crg_syn_fact_resumentendencia",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_sp_dl_dim_resumentendencia",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FK_FECHA_CORTE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_FECHA_CORTE",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "FECHA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "FECHA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PERIODO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "ANIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ANIO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "MES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MES",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_OBJETIVO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_RIESGO",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_RIESGO",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_CORTO_CONSEC_RIESGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_CORTO_CONSEC_RIESGO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_KRI",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_KRI",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "ULT_MEDICION_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ULT_MEDICION_KRI",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_KRI",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_KRI",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_KRI",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_KRI",
+									"type": "Decimal",
+									"physicalType": "DECIMAL"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_CORTO_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_CORTO_KRI",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_TENDENCIA_ABREVIADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TENDENCIA_ABREVIADO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDICION_FUERA_LIMITE_12_MESES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MEDICION_FUERA_LIMITE_12_MESES",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "ESTADO_DEL_KRI",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ESTADO_DEL_KRI",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDIA_ULT_12_MESES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MEDIA_ULT_12_MESES",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_COMENTARIO_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_COMENTARIO_KRI",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_COMENTARIO_RIESGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_COMENTARIO_RIESGO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_resumentendencia",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_resumentendencia",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_stg_dim_resumentendencia",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_sp_dl_dim_resumentendencia",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.RESUMEN_TENDENCIA_DETALLE_KRI_TD\" ",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FK_FECHA_CORTE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_FECHA_CORTE",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "FECHA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "FECHA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ANIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ANIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_RIESGO",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_RIESGO",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_CORTO_CONSEC_RIESGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_CORTO_CONSEC_RIESGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_KRI",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_KRI",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "ULT_MEDICION_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ULT_MEDICION_KRI",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_KRI",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_KRI",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_KRI",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_KRI",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_CORTO_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_CORTO_KRI",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_TENDENCIA_ABREVIADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TENDENCIA_ABREVIADO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDICION_FUERA_LIMITE_12_MESES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MEDICION_FUERA_LIMITE_12_MESES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESTADO_DEL_KRI",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ESTADO_DEL_KRI",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDIA_ULT_12_MESES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MEDIA_ULT_12_MESES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_COMENTARIO_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_COMENTARIO_KRI",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_COMENTARIO_RIESGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_COMENTARIO_RIESGO",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_resumentendencia",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_resumentendencia",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_fact_resumentendencia",
+				"description": "",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_stg_dim_resumentendencia",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT [FK_FECHA_CORTE]\n      ,[FECHA]\n      ,[PERIODO]\n\t  ,[ANIO]\n      ,[MES]\n      ,[ID_OBJETIVO]\n      ,[DESC_OBJETIVO]\n\t  ,CONCAT(CAST(FECHA AS DATE ), DESC_OBJETIVO) AS LLAVE\n\t  ,[FK_RIESGO]\n      ,[DESC_NOMBRE_CORTO_CONSEC_RIESGO]\n      ,[FK_KRI]\n      ,[ULT_MEDICION_KRI]\n      ,[VLR_KRI]\n      ,[VLR_LIMITE_KRI]\n      ,[DESC_NOMBRE_CORTO_KRI]\n      ,[DESC_UNIDAD_MEDIDA]\n      ,[DESC_FRECUENCIA]\n      ,[DESC_TENDENCIA_ABREVIADO]\n      ,[MEDICION_FUERA_LIMITE_12_MESES]\n      ,[ESTADO_DEL_KRI]\n      ,[MEDIA_ULT_12_MESES]\n      ,[DESC_COMENTARIO_KRI]\n      ,[DESC_COMENTARIO_RIESGO]\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -7, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_CARGA_SYNAPSE\n      ,CAST(CONCAT(CAST(GETDATE() AS DATE),' ',DATEPART(HOUR, dateadd(hour, -5, GETDATE())),':00:00.000')AS DATETIME) AS FECHA_PROXIMA_ACTUALIZA_SYNAPSE\n\n  FROM [ATOMO].[STG.RESUMEN_TENDENCIA_DETALLE_KRI_TD]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE [ATOMO].[DWH.FACT_RESUMEN_TENDENCIA_DETALLE]",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "FK_FECHA_CORTE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_FECHA_CORTE",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "FECHA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "FECHA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ANIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ANIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_RIESGO",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_RIESGO",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_CORTO_CONSEC_RIESGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_CORTO_CONSEC_RIESGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_KRI",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "FK_KRI",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "ULT_MEDICION_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ULT_MEDICION_KRI",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_KRI",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_KRI",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "VLR_LIMITE_KRI",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VLR_LIMITE_KRI",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_CORTO_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_CORTO_KRI",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "LLAVE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "LLAVE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_TENDENCIA_ABREVIADO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TENDENCIA_ABREVIADO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDICION_FUERA_LIMITE_12_MESES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MEDICION_FUERA_LIMITE_12_MESES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ESTADO_DEL_KRI",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ESTADO_DEL_KRI",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "MEDIA_ULT_12_MESES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "MEDIA_ULT_12_MESES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_COMENTARIO_KRI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_COMENTARIO_KRI",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_COMENTARIO_RIESGO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_COMENTARIO_RIESGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FECHA_CARGA_SYNAPSE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "FECHA_CARGA_SYNAPSE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_resumentendencia",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_fact_resumentendencia",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLComplejos_Fact"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

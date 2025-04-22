@@ -1,0 +1,23 @@
+{
+	"name": "saaeuecpdevatomo",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "atomo-storageaccount",
+				"secretVersion": "b3afff7e438d4bd89ef01c3a75566b95"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IRECPDEVATOMODM",
+			"type": "IntegrationRuntimeReference"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

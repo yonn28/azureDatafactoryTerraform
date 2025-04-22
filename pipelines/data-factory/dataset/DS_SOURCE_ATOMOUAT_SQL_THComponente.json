@@ -1,0 +1,57 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_THComponente",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "fkComponente",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fkPeriodo",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "vlrRealPeriodo",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrRealAcum",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "THComponente"
+		}
+	}
+}

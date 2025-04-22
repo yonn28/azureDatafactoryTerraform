@@ -1,0 +1,183 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimActividadesEntregableHito",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimActividadesEntregableHito",
+				"description": "  ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [gkActividadEntregableHito]\n      ,[idActividad]\n      ,[fkEntregableHito]\n      ,LEFT([descActividad],480) AS descActividad\n      ,[dtmFechaActividad]\n      ,[dtmFechaEjecucionActividad]\n      ,[descCumplePendiente]\n      ,[descComentariosActividad]\n      ,[dtmFechacarga]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n  FROM [TD].[DimActividadesEntregableHito]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_ACTIVIDADES_ENTREGABLE_HITO\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkActividadEntregableHito",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "GK_ACTIVIDAD_ENTREGABLE_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idActividad",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "ID_ACTIVIDAD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkEntregableHito",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "FK_ENTREGABLE_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descActividad",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ACTIVIDAD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaActividad",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_ACTIVIDAD",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaEjecucionActividad",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EJECUCION_ACTIVIDAD",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descCumplePendiente",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CUMPLE_PENDIENTE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descComentariosActividad",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_COMENTARIOS_ACTIVIDAD",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimActividadesEntregableHito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimActividadesEntregableHito",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:19Z"
+	}
+}

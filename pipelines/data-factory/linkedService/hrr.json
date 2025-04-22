@@ -1,0 +1,16 @@
+{
+	"name": "hrr",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=vhecpbipdb.hec.ecopetrol.com.co:30241;uid=e0902049",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkZDVjZDIzZS04YjQ3LTQ2ZmUtYTJmMy05ZWRhYjAwNTY2MTEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

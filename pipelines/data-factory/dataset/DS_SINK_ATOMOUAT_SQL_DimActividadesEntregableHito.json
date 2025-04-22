@@ -1,0 +1,74 @@
+{
+	"name": "DS_SINK_ATOMOUAT_SQL_DimActividadesEntregableHito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkActividadEntregableHito",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "idActividad",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fkEntregableHito",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descActividad",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaActividad",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaEjecucionActividad",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descCumplePendiente",
+				"type": "varchar"
+			},
+			{
+				"name": "descComentariosActividad",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimActividadesEntregableHito"
+		}
+	}
+}

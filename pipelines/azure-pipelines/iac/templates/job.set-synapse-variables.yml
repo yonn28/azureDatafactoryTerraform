@@ -1,0 +1,57 @@
+parameters:
+  - name: environment
+    type: string
+  - name: jobName
+    type: string
+  - name: dependsOnJob
+    type: string
+
+jobs:
+  - job: ${{ parameters.jobName }}
+    dependsOn: ${{ parameters.dependsOnJob }}
+    displayName: 'Publish Synapse Variables for ${{ parameters.environment }}'
+    pool:
+      vmImage: 'Ubuntu-20.04'
+    variables:
+      - template: ../../variable.environment.${{ parameters.environment }}.yml
+      - template: ../../variable.domain.yml
+    steps:
+      - task: AzureCLI@2
+        displayName: 'Capture sharedSynapsePublisherClientId variable'
+        inputs:
+          azureSubscription: ${{ variables.AzureServiceConnectionName }}
+          scriptType: bash
+          scriptLocation: inlineScript
+          addSpnToEnvironment: true
+          inlineScript: |
+            echo "##vso[task.setvariable variable=sharedSynapsePublisherClientId]$servicePrincipalId"
+
+      - task: PowerShell@2
+        displayName: 'Capture sharedSynapseServer and sharedSynapseServer variables'
+        inputs:
+          targetType: 'filePath'
+          filePath: scripts/azure-pipelines/synapse/Get-PropertiesFromProfile.ps1
+          arguments: >
+            -PublishProfileFile "synapse/profiles/${{ parameters.environment }}.publish.xml"
+        target:
+          settableVariables:
+            - sharedSynapseDatabase
+            - sharedSynapseServer
+
+      - task: PowerShell@2
+        displayName: 'Publish Outputs'
+        inputs:
+          filePath: scripts/azure-pipelines/iac/PublishOutputsFromVariables.ps1
+          arguments: >
+            -AzureDevOpsPAT "$(System.AccessToken)"
+            -AzureDevOpsOrganization $(System.TeamFoundationCollectionUri)
+            -AzureDevOpsProject "$(System.TeamProject)"
+            -GroupName "iac-cd-output-${{ variables.domainName }}-${{ parameters.environment }}"
+            -Variables sharedSynapsePublisherClientId, sharedSynapseDatabase, sharedSynapseServer
+          pwsh: true
+          showWarnings: true
+        env:
+          AzureDevOpsPAT: $(System.AccessToken)
+          sharedSynapsePublisherClientId: $(sharedSynapsePublisherClientId)
+          sharedSynapseDatabase: $(sharedSynapseDatabase)
+          sharedSynapseServer: $(sharedSynapseServer)

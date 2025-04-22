@@ -1,0 +1,25 @@
+{
+	"name": "TRG_CargaPlantillasExcel_Atomo",
+	"properties": {
+		"description": "Ejecución del PipeLine Maestro que realiza la carga de las plantillas de Excel a Átomo",
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "LMaster_Data_Excel_AtomoUAT",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 12,
+				"startTime": "2021-04-06T00:00:00",
+				"timeZone": "SA Pacific Standard Time"
+			}
+		}
+	}
+}

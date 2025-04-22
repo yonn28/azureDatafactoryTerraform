@@ -1,0 +1,142 @@
+{
+	"name": "DF_ATOMOUAT_DimConfiguracionTablero",
+	"properties": {
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_Excel_Configuracion_Tablero",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoConfiguracionTablero"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimIndicador"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParamIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimParamIndicador"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimConfiguracionTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimConfiguracionTablero"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEntregablesHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimConfiguracionTableroComodin"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimEjePalanca",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimEjePalanca"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimObjetivo",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimObjetivo"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimTablero"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimConfiguracionTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAtomoDimConfiguracionTableroType0"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimConfiguracionTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAtomoDimConfiguracionTableroType1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltConvertirAtributos"
+				},
+				{
+					"name": "UniSltConSouAtomoDimConfiguracionTableroComodin"
+				},
+				{
+					"name": "DrcLimpiezaDatos"
+				},
+				{
+					"name": "DrcLimpiezaDatosSouAtomoDimIndicador"
+				},
+				{
+					"name": "DrcQuitarTildesSouAtomoDimIndicador"
+				},
+				{
+					"name": "DrcQuitarTildesMayusculas"
+				},
+				{
+					"name": "JoiConfiguracionTableroDimIndicador"
+				},
+				{
+					"name": "JoiConfiguracionTableroDimParamIndicador"
+				},
+				{
+					"name": "DrcLimpiezaDatosSouAtomoDimParamIndicador"
+				},
+				{
+					"name": "SltFiltrarAtributos"
+				},
+				{
+					"name": "JoinDimConfiguracionTablero"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "DrcConvertToDate"
+				},
+				{
+					"name": "AltFilasTypo1"
+				},
+				{
+					"name": "JoinDimEjePalanca"
+				},
+				{
+					"name": "DrcgkEjepalanca"
+				},
+				{
+					"name": "JoinDimObjetivo"
+				},
+				{
+					"name": "JoinDimTablero"
+				}
+			],
+			"script": "source(output(\n\t\t{Año} as string,\n\t\t{Fecha registro} as date,\n\t\t{Desc. Sigla Área} as string,\n\t\t{ID Tablero} as string,\n\t\t{Versión} as string,\n\t\t{Eje / Palanca / Temática} as string,\n\t\t{ID Palanca} as string,\n\t\tObjetivo as string,\n\t\t{ID Objetivo} as string,\n\t\t{Hito / Indicador} as string,\n\t\t{Nombre Indicador} as string,\n\t\t{Detalle Indicador} as string,\n\t\t{ID Indicador} as string,\n\t\t{Tipo Tablero} as string,\n\t\tTBG as string,\n\t\t{Secuencia / Orden} as string,\n\t\t{Valor Peso Indicador} as string,\n\t\t{Corto Plazo / Largo Plazo} as string,\n\t\t{Valor Límite Inferior} as string,\n\t\t{Valor Límite Superior} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouAtomoConfiguracionTablero\nsource(output(\n\t\tgkIndicador as integer,\n\t\tidIndicador as integer,\n\t\tdescNombreIndicador as string,\n\t\tdtmVigenciaDesde as timestamp,\n\t\tdtmVigenciaHasta as timestamp,\n\t\tdescIndicadorHito as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT\\n\tDI.gkIndicador,\\n        DI.idIndicador,\\n\tDI.descNombreIndicador,\\n\tDI.dtmVigenciaDesde,\\n\tDI.dtmVigenciaHasta,\\n        DI.descIndicadorHito\\nFROM [TD].[DimIndicador] DI\\nWHERE DI.idIndicador <> \\'-999\\' ',\n\tformat: 'query') ~> SouAtomoDimIndicador\nsource(output(\n\t\tgkParamIndicador as integer,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistro as timestamp,\n\t\tdescDetalleIndicador as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT\\ndp.gkParamIndicador,\\ndp.fkIndicador,\\ndp.dtmFechaRegistro,\\ndp.descDetalleIndicador\\nFROM [TD].[DimParamIndicador] dp\\nWHERE dp.fkIndicador <> 1 AND isnull(descControlCarga,\\'\\') <> \\'INACTIVO\\'',\n\tformat: 'query') ~> SouAtomoDimParamIndicador\nsource(output(\n\t\tgkConfiguracionTablero as integer,\n\t\tdescAnnio as string,\n\t\tdtmFechaRegistro as timestamp,\n\t\tdescSiglaArea as string,\n\t\tfkTablero as integer,\n\t\tdescVersion as string,\n\t\tfkEjePalanca as integer,\n\t\tfkObjetivo as integer,\n\t\tdescHitoIndicador as string,\n\t\tfkParamIndicador as integer,\n\t\tfkIndicador as integer,\n\t\tdescTipoTablero as string,\n\t\tdescTBG as string,\n\t\tdescSecuenciaOrden as string,\n\t\tvlrPesoIndicador as decimal(30,10),\n\t\tdescCortoLargoPlazo as string,\n\t\tvlrLimiteInferior as decimal(30,10),\n\t\tvlrLimiteSuperior as decimal(30,10),\n\t\tdtmFechaCarga as timestamp,\n\t\tdescUsuarioCreacion as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescOrigen as string,\n\t\tfkTiposinconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimConfiguracionTablero\nsource(output(\n\t\tsrc_descAnnio as string,\n\t\tsrc_dtmFechaRegistro as date,\n\t\tsrc_descSiglaArea as string,\n\t\tsrc_fkTablero as string,\n\t\tsrc_descVersion as string,\n\t\tsrc_fkEjePalanca as string,\n\t\tsrc_fkObjetivo as string,\n\t\tsrc_descHitoIndicador as string,\n\t\tsrc_fkParamIndicador as string,\n\t\tsrc_fkIndicador as string,\n\t\tsrc_descTipoTablero as string,\n\t\tsrc_descTBG as string,\n\t\tsrc_descSecuenciaOrden as string,\n\t\tsrc_vlrPesoIndicador as string,\n\t\tsrc_descCortoLargoPlazo as string,\n\t\tsrc_vlrLimiteInferior as string,\n\t\tsrc_vlrLimiteSuperior as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_descAnnio,\\n\tCAST(NULL AS DATE) src_dtmFechaRegistro,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_descSiglaArea,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_fkTablero,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_descVersion,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_fkEjePalanca,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_fkObjetivo,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_descHitoIndicador,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_fkParamIndicador,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_fkIndicador,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_descTipoTablero,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_descTBG,\\n\tCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(1000)) src_descSecuenciaOrden,\\n\tCAST(NULL AS VARCHAR(1000)) src_vlrPesoIndicador,\\n\tCAST(\\'SIN CLASIFICAR\\' AS NVARCHAR(1000)) src_descCortoLargoPlazo,\\n\tCAST(NULL AS VARCHAR(1000)) src_vlrLimiteInferior,\\n\tCAST(NULL AS VARCHAR(1000)) src_vlrLimiteSuperior',\n\tformat: 'query') ~> SouAtomoDimConfiguracionTableroComodin\nsource(output(\n\t\tgkEjePalanca as long,\n\t\tidEjePalanca as string,\n\t\tdescEjePalanca as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select gkEjePalanca,idEjePalanca,descEjePalanca from TD.DimEjePalanca',\n\tformat: 'query') ~> SouAtomoDimEjePalanca\nsource(output(\n\t\tgkObjetivo as long,\n\t\tidObjetivo as string,\n\t\tdescObjetivo as string,\n\t\tdtmFechaIniVigenciaObjetivo as timestamp,\n\t\tdtmFechaFinVigenciaObjetivo as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimObjetivo\nsource(output(\n\t\tgkTablero as integer,\n\t\tidTablero as string,\n\t\tdescSiglaArea as string,\n\t\tdescTablero as string,\n\t\tdescContactoRedDesempeno as string,\n\t\tdescCargoContactoRedDesempeno as string,\n\t\tdtmFechaVigenciaDesde as timestamp,\n\t\tdtmFechaVigenciaHasta as timestamp,\n\t\tdtmFechaInicioReg as timestamp,\n\t\tdtmFechaFinReg as timestamp,\n\t\tdescEstadoReg as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimTablero\nSouAtomoConfiguracionTablero select(mapColumn(\n\t\tsrc_descAnnio = {Año},\n\t\tsrc_dtmFechaRegistro = {Fecha registro},\n\t\t{ src_descSiglaArea} = {Desc. Sigla Área},\n\t\tsrc_fkTablero = {ID Tablero},\n\t\tsrc_descVersion = {Versión},\n\t\tsrc_fkEjePalanca = {ID Palanca},\n\t\tsrc_fkObjetivo = {ID Objetivo},\n\t\tsrc_descHitoIndicador = {Hito / Indicador},\n\t\tsrc_fkIndicador = {Nombre Indicador},\n\t\tsrc_fkParamIndicador = {Detalle Indicador},\n\t\tsrc_descTipoTablero = {Tipo Tablero},\n\t\tsrc_descTBG = TBG,\n\t\tsrc_descSecuenciaOrden = {Secuencia / Orden},\n\t\tsrc_vlrPesoIndicador = {Valor Peso Indicador},\n\t\tsrc_descCortoLargoPlazo = {Corto Plazo / Largo Plazo},\n\t\tsrc_vlrLimiteInferior = {Valor Límite Inferior},\n\t\tsrc_vlrLimiteSuperior = {Valor Límite Superior}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltConvertirAtributos\nSouAtomoDimConfiguracionTableroComodin, SltConvertirAtributos union(byName: true)~> UniSltConSouAtomoDimConfiguracionTableroComodin\nUniSltConSouAtomoDimConfiguracionTableroComodin derive(src_descAnnio = trim(src_descAnnio),\n\t\tsrc_descSiglaArea = trim(src_descSiglaArea),\n\t\tsrc_fkTablero = toInteger(trim(src_fkTablero)),\n\t\tsrc_descVersion = trim(src_descVersion),\n\t\tsrc_fkEjePalanca = toInteger(trim(src_fkEjePalanca)),\n\t\tsrc_fkObjetivo = toInteger(trim(src_fkObjetivo)),\n\t\tsrc_descHitoIndicador = upper(trim(src_descHitoIndicador)),\n\t\tsrc_fkParamIndicador = trim(upper(src_fkParamIndicador)),\n\t\tsrc_fkIndicador = trim(upper(replace(replace(replace(replace(replace(src_fkIndicador, 'á', 'a'), 'é','e'), 'í', 'i'), 'ó', 'o'), 'ú','u'))),\n\t\tsrc_descTipoTablero = trim(src_descTipoTablero),\n\t\tsrc_descTBG = trim(src_descTBG),\n\t\tsrc_descSecuenciaOrden = trim(src_descSecuenciaOrden),\n\t\tsrc_vlrPesoIndicador = toDecimal(src_vlrPesoIndicador, 30, 10),\n\t\tsrc_descCortoLargoPlazo = trim(src_descCortoLargoPlazo),\n\t\tsrc_vlrLimiteInferior = toDecimal(src_vlrLimiteInferior, 30, 10),\n\t\tsrc_vlrLimiteSuperior = toDecimal(src_vlrLimiteSuperior, 30, 10),\n\t\tsrc_descUsuarioCreacion = 'adminatomo@ecopetrol.com.co',\n\t\tsrc_dtmFechaModificacion = 'NULL',\n\t\tsrc_descUsuarioModificacion = 'NULL',\n\t\tsrc_descOrigen = 'EXCEL:DMTD_Plantilla_ConfiguracionTableros.xlsx',\n\t\tsrc_fkTiposinconsistencia = 0) ~> DrcLimpiezaDatos\nSouAtomoDimIndicador derive(descNombreIndicador = trim(upper(replace(replace(replace(replace(replace(descNombreIndicador, 'á', 'a'), 'é','e'), 'í', 'i'), 'ó', 'o'), 'ú','u'))),\n\t\tdtmVigenciaDesde = toDate(dtmVigenciaDesde),\n\t\tdtmVigenciaHasta = toDate(dtmVigenciaHasta),\n\t\tdescIndicadorHito = trim(upper(descIndicadorHito))) ~> DrcLimpiezaDatosSouAtomoDimIndicador\nDrcLimpiezaDatosSouAtomoDimIndicador derive(descNombreIndicador = replace(replace(replace(replace(replace(descNombreIndicador, 'Á', 'A'), 'É','E'), 'Í', 'I'), 'Ó', 'O'), 'Ú','U')) ~> DrcQuitarTildesSouAtomoDimIndicador\nDrcLimpiezaDatos derive(src_fkIndicador = replace(replace(replace(replace(replace(src_fkIndicador, 'Á', 'A'), 'É','E'), 'Í', 'I'), 'Ó', 'O'), 'Ú','U')) ~> DrcQuitarTildesMayusculas\nDrcgkEjepalanca, DrcQuitarTildesSouAtomoDimIndicador join(src_fkIndicador == descNombreIndicador\n\t&& src_dtmFechaRegistro >= dtmVigenciaDesde\n\t&& src_dtmFechaRegistro <= dtmVigenciaHasta\n\t&& src_descHitoIndicador == descIndicadorHito,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'right')~> JoiConfiguracionTableroDimIndicador\nJoiConfiguracionTableroDimIndicador, DrcLimpiezaDatosSouAtomoDimParamIndicador join(src_dtmFechaRegistro == dtmFechaRegistro\n\t&& gkIndicador == fkIndicador\n\t&& src_fkParamIndicador == descDetalleIndicador,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoiConfiguracionTableroDimParamIndicador\nSouAtomoDimParamIndicador derive(dtmFechaRegistro = toDate(dtmFechaRegistro),\n\t\tdescDetalleIndicador = upper(descDetalleIndicador)) ~> DrcLimpiezaDatosSouAtomoDimParamIndicador\nJoiConfiguracionTableroDimParamIndicador select(mapColumn(\n\t\tsrc_descAnnio,\n\t\tsrc_dtmFechaRegistro,\n\t\t{ src_descSiglaArea},\n\t\tsrc_fkTablero,\n\t\tsrc_descVersion,\n\t\tsrc_fkEjePalanca,\n\t\tsrc_fkObjetivo,\n\t\tsrc_descHitoIndicador,\n\t\tsrc_fkParamIndicador = gkParamIndicador,\n\t\tsrc_fkIndicador = gkIndicador,\n\t\tsrc_descTipoTablero,\n\t\tsrc_descTBG,\n\t\tsrc_descSecuenciaOrden,\n\t\tsrc_vlrPesoIndicador,\n\t\tsrc_descCortoLargoPlazo,\n\t\tsrc_vlrLimiteInferior,\n\t\tsrc_vlrLimiteSuperior,\n\t\tsrc_descUsuarioCreacion,\n\t\tsrc_dtmFechaModificacion,\n\t\tsrc_descUsuarioModificacion,\n\t\tsrc_descOrigen,\n\t\tsrc_fkTiposinconsistencia,\n\t\tgkEjePalanca,\n\t\tgkTablero,\n\t\tgkObjetivo\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltFiltrarAtributos\nSltFiltrarAtributos, DrcConvertToDate join(gkTablero == fkTablero\n\t&& src_fkParamIndicador == fkParamIndicador\n\t&& src_descAnnio == descAnnio,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimConfiguracionTablero\nJoinDimConfiguracionTablero split((gkTablero == fkTablero) && (src_fkParamIndicador == fkParamIndicador) && (src_descAnnio == descAnnio),\n\tdisjoint: false) ~> ConditionalSplit1@(Match, NoMatch)\nSouAtomoDimConfiguracionTablero derive(dtmFechaRegistro = toDate(dtmFechaRegistro)) ~> DrcConvertToDate\nConditionalSplit1@Match alterRow(updateIf(1==1)) ~> AltFilasTypo1\nDrcQuitarTildesMayusculas, SouAtomoDimEjePalanca join(toString(src_fkEjePalanca) == idEjePalanca,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimEjePalanca\nJoinDimTablero derive(gkEjePalanca = iifNull(gkEjePalanca,1),\n\t\tgkObjetivo = iifNull(gkObjetivo,1),\n\t\tgkTablero = iifNull(gkTablero,1)) ~> DrcgkEjepalanca\nJoinDimEjePalanca, SouAtomoDimObjetivo join(toString(src_fkObjetivo) == idObjetivo,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimObjetivo\nJoinDimObjetivo, SouAtomoDimTablero join(toString(src_fkTablero) == idTablero,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimTablero\nConditionalSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkConfiguracionTablero as integer,\n\t\tdescAnnio as string,\n\t\tdtmFechaRegistro as timestamp,\n\t\tdescSiglaArea as string,\n\t\tfkTablero as integer,\n\t\tdescVersion as string,\n\t\tfkEjePalanca as integer,\n\t\tfkObjetivo as integer,\n\t\tdescHitoIndicador as string,\n\t\tfkParamIndicador as integer,\n\t\tfkIndicador as integer,\n\t\tdescTipoTablero as string,\n\t\tdescTBG as string,\n\t\tdescSecuenciaOrden as string,\n\t\tvlrPesoIndicador as decimal(30,10),\n\t\tdescCortoLargoPlazo as string,\n\t\tvlrLimiteInferior as decimal(30,10),\n\t\tvlrLimiteSuperior as decimal(30,10),\n\t\tdtmFechaCarga as timestamp,\n\t\tdescUsuarioCreacion as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescOrigen as string,\n\t\tfkTiposinconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tpostSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tdescAnnio = src_descAnnio,\n\t\tdtmFechaRegistro = src_dtmFechaRegistro,\n\t\tdescSiglaArea = { src_descSiglaArea},\n\t\tfkTablero = gkTablero,\n\t\tdescVersion = src_descVersion,\n\t\tfkEjePalanca = gkEjePalanca,\n\t\tfkObjetivo = gkObjetivo,\n\t\tdescHitoIndicador = src_descHitoIndicador,\n\t\tfkParamIndicador = src_fkParamIndicador,\n\t\tfkIndicador = src_fkIndicador,\n\t\tdescTipoTablero = src_descTipoTablero,\n\t\tdescTBG = src_descTBG,\n\t\tdescSecuenciaOrden = src_descSecuenciaOrden,\n\t\tvlrPesoIndicador = src_vlrPesoIndicador,\n\t\tdescCortoLargoPlazo = src_descCortoLargoPlazo,\n\t\tvlrLimiteInferior = src_vlrLimiteInferior,\n\t\tvlrLimiteSuperior = src_vlrLimiteSuperior,\n\t\tdescUsuarioCreacion = src_descUsuarioCreacion,\n\t\tdescOrigen = src_descOrigen,\n\t\tfkTiposinconsistencia = src_fkTiposinconsistencia\n\t)) ~> SinkAtomoDimConfiguracionTableroType0\nAltFilasTypo1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkConfiguracionTablero as integer,\n\t\tdescAnnio as string,\n\t\tdtmFechaRegistro as timestamp,\n\t\tdescSiglaArea as string,\n\t\tfkTablero as integer,\n\t\tdescVersion as string,\n\t\tfkEjePalanca as integer,\n\t\tfkObjetivo as integer,\n\t\tdescHitoIndicador as string,\n\t\tfkParamIndicador as integer,\n\t\tfkIndicador as integer,\n\t\tdescTipoTablero as string,\n\t\tdescTBG as string,\n\t\tdescSecuenciaOrden as string,\n\t\tvlrPesoIndicador as decimal(30,10),\n\t\tdescCortoLargoPlazo as string,\n\t\tvlrLimiteInferior as decimal(30,10),\n\t\tvlrLimiteSuperior as decimal(30,10),\n\t\tdtmFechaCarga as timestamp,\n\t\tdescUsuarioCreacion as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescOrigen as string,\n\t\tfkTiposinconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['fkTablero','fkParamIndicador','descAnnio'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tfkTablero = gkTablero,\n\t\tfkParamIndicador = src_fkParamIndicador,\n\t\tdescAnnio = src_descAnnio,\n\t\tdescHitoIndicador = src_descHitoIndicador,\n\t\tdescVersion = src_descVersion,\n\t\tdescTipoTablero = src_descTipoTablero,\n\t\tdescTBG = src_descTBG,\n\t\tdescSecuenciaOrden = src_descSecuenciaOrden,\n\t\tvlrPesoIndicador = src_vlrPesoIndicador,\n\t\tdescCortoLargoPlazo = src_descCortoLargoPlazo,\n\t\tvlrLimiteInferior = src_vlrLimiteInferior,\n\t\tvlrLimiteSuperior = src_vlrLimiteSuperior,\n\t\tfkEjePalanca = gkEjePalanca,\n\t\tfkObjetivo = gkObjetivo,\n\t\tdescSiglaArea = { src_descSiglaArea}\n\t)) ~> SinkAtomoDimConfiguracionTableroType1"
+		}
+	}
+}

@@ -1,0 +1,111 @@
+{
+	"name": "ds_syn_dwh_dim_componente",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_COMPONENTE",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ID_COMPONENTE",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_NOMBRE_COMPONENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_DETALLE_COMPONENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_COMPONENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RESPONSABLE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_UNIDAD_MEDIDA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_VISUALIZA_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_FRECUENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "CANT_DECIMALES_CALCULO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CANT_DECIMALES_REPORTE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_FUENTE_PROYECTADA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_FUENTE_REAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_VERSION",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_VIGENCIA_DESDE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_VIGENCIA_HASTA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_TIPO_COMPONENTE",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.DIM_COMPONENTE"
+		}
+	}
+}

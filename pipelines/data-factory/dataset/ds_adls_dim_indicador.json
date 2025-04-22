@@ -1,0 +1,188 @@
+{
+	"name": "ds_adls_dim_indicador",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Indicador",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "GK_INDICADOR",
+				"type": "INT64"
+			},
+			{
+				"name": "ID_INDICADOR",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_NOMBRE_INDICADOR",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_INDICADOR",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_FORMULA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_UNIDAD_MEDIDA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_SENTIDO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_FRECUENCIA",
+				"type": "UTF8"
+			},
+			{
+				"name": "CANT_DECIMALES_CALCULO",
+				"type": "INT32"
+			},
+			{
+				"name": "CANT_DECIMALES_REPORTE",
+				"type": "INT32"
+			},
+			{
+				"name": "DESC_VISUALIZA_PERIODO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_VISUALIZA_ACUMULADO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_VISUALIZA_ANNIO_CORRIDO",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_LIMITE_INFERIOR",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_LIMITE_SUPERIOR",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_CUMP_SATISFACCION",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_FUENTE_PROYECTADA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_FUENTE_REAL",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_VERSION",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_VIGENCIA_DESDE",
+				"type": "INT96"
+			},
+			{
+				"name": "DTM_VIGENCIA_HASTA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_USUARIO_RESP_CALCULO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_META_NORMALIZADA",
+				"type": "UTF8"
+			},
+			{
+				"name": "CANT_COMPONENTES",
+				"type": "INT32"
+			},
+			{
+				"name": "DESC_REFERENTE",
+				"type": "UTF8"
+			},
+			{
+				"name": "ID_HOJA_VIDA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_RESPONSABLE_META",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_RESPONSABLE_SEGUIMIENTO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_RESPONSABLE_REPORTE_RES",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_APROBADOR",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_APROBADOR_CARGO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_CALCULABLE_AUTOMATIZABLE",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_INDICADOR_HITO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_PROCESO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESCNOMBRERESPONSABLEDOCUMENTARHV",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESCCORREORESPONSABLEDOCUMENTARHV",
+				"type": "UTF8"
+			}
+		]
+	}
+}

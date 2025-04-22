@@ -1,0 +1,229 @@
+{
+	"name": "LoadT_Data_AtomoUAT_Hana_THHito",
+	"properties": {
+		"description": "flujo de datos que carga los datos de la plantilla de SQL_THHITO a HANA",
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_THHito",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [fkHito]\n      ,[fkParamIndicador]\n      ,[fkPeriodo]\n      ,[vlrPlanHito]\n      ,[vlrRealHito]\n      ,[prcCumpHito]\n      ,[vlrProyEscBajo]\n      ,[vlrProyEscMedio]\n      ,[vlrProyEscAlto]\n      ,[descCorreoUsuario]\n      ,[dtmFechaEventoRegistro]\n      ,[dtmFechacarga]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n      \n  FROM [TD].[THHito] where fkPeriodo>=( convert(varchar,dateadd(YY,-2,getdate()),112)/100)",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "DELETE FROM \"DMTOMADEDECISIONES\".\"TH_HITO\" WHERE FK_PERIODO>=LEFT(TO_VARCHAR( ADD_YEARS(  CURRENT_DATE,-2),'YYYYMMDD'),6)"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "fkHito",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkParamIndicador",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkPeriodo",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanHito",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "VLR_PLAN_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrRealHito",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "VLR_REAL_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "prcCumpHito",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "PRC_CUMP_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyEscBajo",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_BAJO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyEscMedio",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_MEDIO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyEscAlto",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 25
+								},
+								"sink": {
+									"name": "VLR_PROY_ESC_ALTO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoUsuario",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CORREO_USUARIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaEventoRegistro",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EVENTO_REGISTRO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_THHito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_THHito",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:21Z"
+	}
+}

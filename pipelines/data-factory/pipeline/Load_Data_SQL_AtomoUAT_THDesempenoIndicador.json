@@ -1,0 +1,402 @@
+{
+	"name": "Load_Data_SQL_AtomoUAT_THDesempenoIndicador",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_SQL_ATOMO_THDesempenoIndicador",
+				"description": "  ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [fkParamIndicador]\n      ,[fkPeriodo]\n      ,CAST([descPeriodo] AS VARCHAR(500)) AS descPeriodo\n      ,[vlrPlanPeriodo]\n      ,[vlrPlanPeriodoNS]\n      ,[vlrRealPeriodo]\n      ,CAST(LEft([descCausasDesempenoPeriodo],3900) AS VARCHAR(4000)) AS descCausasDesempenoPeriodo\n      ,[vlrPlanAcumulado]\n      ,[vlrPlanAcumuladoNS]\n      ,[vlrRealAcumulado]\n      ,CAST(LEFT([descCausasDesempenoAcumulado],3900 ) AS VARCHAR(4000)) AS descCausasDesempenoAcumulado\n      ,CAST([vlrProyeccion1] AS NUMERIC(30, 10)) AS vlrProyeccion1\n      ,CAST([vlrProyeccion2] AS NUMERIC(30, 10)) AS vlrProyeccion2\n      ,CAST([vlrProyeccion3] AS NUMERIC(30, 10)) AS vlrProyeccion3\n      ,[vlrMetaAno]\n      ,[vlrMetaAnoNS]\n      ,[vlrMetaAno1]\n      ,[vlrMetaAno2]\n      ,[vlrProyeccionEscBajo]\n      ,[vlrProyeccionEscMedio]\n      ,[vlrProyeccionEscAlto]\n      ,CAST([descPremisasEscAlto] AS VARCHAR(4000)) AS descPremisasEscAlto\n      ,CAST([descPremisasEscMedio] AS VARCHAR(4000)) AS descPremisasEscMedio\n      ,CAST([descPremisasEscBajo] AS VARCHAR(4000)) AS descPremisasEscBajo\n      ,CAST([descAccionesAseguramiento] AS VARCHAR(4000)) AS descAccionesAseguramiento\n      ,CAST([dtmFechaCarga] AS DATETIME) AS dtmFechaCarga\n      ,[descOrigen]\n      ,[fkInconsistencias]\nFROM [TD].[THDesempenoIndicador]\nWHERE fkPeriodo>=( CONVERT(VARCHAR,dateadd(YY,-2,getdate()),112)/100)\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "DELETE FROM \"DMTOMADEDECISIONES\".\"TH_DESEMPENO_INDICADOR\" \nWHERE FK_PERIODO>=LEFT(TO_VARCHAR( ADD_YEARS(  CURRENT_DATE,-2),'YYYYMMDD'),6)"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "fkParamIndicador",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkPeriodo",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "FK_PERIODO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descPeriodo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanPeriodo",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PLAN_PERIODO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanPeriodoNS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrRealPeriodo",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_REAL_PERIODO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descCausasDesempenoPeriodo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanAcumulado",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PLAN_ACUM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanAcumuladoNS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrRealAcumulado",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_REAL_ACUM",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descCausasDesempenoAcumulado",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyeccion1",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_1",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyeccion2",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_2",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyeccion3",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_PERIODO_3",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrMetaAno",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrMetaAnoNS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrMetaAno1",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO_1",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrMetaAno2",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_META_ANNIO_2",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyeccionEscBajo",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyeccionEscMedio",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrProyeccionEscAlto",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descPremisasEscAlto",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_ALTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descPremisasEscMedio",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_MEDIO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descPremisasEscBajo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_PREMISAS_ESC_BAJO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descAccionesAseguramiento",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkInconsistencias",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_THDesempenoIndicador",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_THDesempenoIndicador",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:22Z"
+	}
+}

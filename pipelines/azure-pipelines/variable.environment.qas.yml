@@ -1,0 +1,6 @@
+variables:
+  - name: location
+    value: eastus
+
+  - name: azureServiceConnectionName
+    value: Atomo-QAS

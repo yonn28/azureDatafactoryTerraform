@@ -1,0 +1,27 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_HANA_ComponentesAutomatizados",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "LS_DMTOMADEDECISIONES_DEV",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TablaCVCHana": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "OdbcTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": {
+				"value": "@dataset().TablaCVCHana",
+				"type": "Expression"
+			}
+		}
+	}
+}

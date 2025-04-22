@@ -1,0 +1,16 @@
+{
+	"name": "SapHana_ConsultaProyectos",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=hanap:32015;uid=CONSULTA_DMPROYECTOS",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxODQ0MDZmZS1lMGQ4LTQyNWMtOWMwOC1lOThmZjcyZmQ4ZDIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

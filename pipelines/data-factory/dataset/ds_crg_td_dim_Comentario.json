@@ -1,0 +1,93 @@
+{
+	"name": "ds_crg_td_dim_Comentario",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_UX/DS_SRC"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "descPeriodo",
+				"type": "varchar"
+			},
+			{
+				"name": "descDetalleIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "descNombreIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "descUsuario",
+				"type": "varchar"
+			},
+			{
+				"name": "idParametroIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descCorreoUsuario",
+				"type": "varchar"
+			},
+			{
+				"name": "descComentarioCausaPeriodo",
+				"type": "varchar"
+			},
+			{
+				"name": "descComentarioCausaAcumulado",
+				"type": "varchar"
+			},
+			{
+				"name": "descComentarioAccionesAseguramiento",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrEscenarioBajo",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "descComentarioEscenarioBajo",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrEscenarioMedio",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "descComentarioEscenarioMedio",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrEscenarioAlto",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "descComentarioEscenarioAlto",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimComentario"
+		}
+	}
+}

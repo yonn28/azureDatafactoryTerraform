@@ -1,0 +1,79 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_ExcelMaestro_ContextoHito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Contexto_Hito",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_ContextoEntregablesActividades_Hitos.xlsx",
+				"container": "plantillasexcel"
+			},
+			"range": "",
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Fecha Registro",
+				"type": "String"
+			},
+			{
+				"name": "Fecha usar",
+				"type": "String"
+			},
+			{
+				"name": "Hito",
+				"type": "String"
+			},
+			{
+				"name": "ID Hito",
+				"type": "String"
+			},
+			{
+				"name": "Sponsor",
+				"type": "String"
+			},
+			{
+				"name": "Correo Sponsor",
+				"type": "String"
+			},
+			{
+				"name": "Plan del Hito",
+				"type": "String"
+			},
+			{
+				"name": "Contexto y Motivación",
+				"type": "String"
+			},
+			{
+				"name": "Objetivo",
+				"type": "String"
+			},
+			{
+				"name": "Descripción del Impacto",
+				"type": "String"
+			},
+			{
+				"name": "Interdependencias",
+				"type": "String"
+			},
+			{
+				"name": "Riesgos Principales",
+				"type": "String"
+			},
+			{
+				"name": "Mitigantes del Riesgo",
+				"type": "String"
+			}
+		]
+	}
+}

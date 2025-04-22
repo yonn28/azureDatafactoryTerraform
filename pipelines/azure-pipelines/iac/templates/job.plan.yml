@@ -1,0 +1,37 @@
+parameters:
+- name: environment
+  type: string
+- name: jobName
+  type: string
+- name: planArtifactName
+  type: string
+
+jobs:
+  - job: ${{ parameters.jobName }}
+    displayName: 'Plan for ${{ parameters.environment }}'
+    pool:
+      vmImage: 'Ubuntu-20.04'
+    variables:
+      - template: ../../variable.environment.${{ parameters.environment }}.yml
+      - template: ../../variable.domain.yml
+      - name: azPowershellVersion
+        value: 5.5.0
+    steps:
+    - task: AzurePowerShell@4
+      displayName: 'Plan'
+      inputs:
+        azureSubscription: ${{ variables.AzureServiceConnectionName }}
+        scriptType: filePath
+        scriptPath: scripts/azure-pipelines/iac/Plan.ps1
+        scriptArguments: >
+          -Environment ${{ parameters.environment }}
+          -Location "$(location)"
+          -DomainName "$(domainName)"
+          -OutputPlanFile "$(System.DefaultWorkingDirectory)/plan.md"
+          -VersionDescription "$(Build.SourceVersionMessage)"
+          -VersionBuildId $(Build.BuildId)
+          -VersionAuthor $(Build.RequestedForEmail)
+        azurePowerShellVersion: 'OtherVersion'
+        preferredAzurePowerShellVersion: $(azPowershellVersion)
+    - publish: $(System.DefaultWorkingDirectory)/plan.md
+      artifact: ${{ parameters.planArtifactName }}

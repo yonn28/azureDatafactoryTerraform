@@ -1,0 +1,72 @@
+{
+	"name": "DF_ATOMOUAT_DimParametrizacion_Hito",
+	"properties": {
+		"description": "Data flows",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_ParametrizarHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelMaestroDimParamIndicador"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimParamIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimParamIndicador"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimIndicador"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimParamIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAtomoUpdateDimParamIndicador"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimParamIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoInsertDimParamIndicador"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelDimParamIndicador"
+				},
+				{
+					"name": "DrcValidacionEspacios"
+				},
+				{
+					"name": "JoinDimParamIndicador"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AltDimParamIndicador"
+				},
+				{
+					"name": "JoinDimIndicador"
+				}
+			],
+			"script": "source(output(\n\t\tIndicador as string,\n\t\t{ID Indicador} as integer,\n\t\t{ID Parametrización Indicador} as string,\n\t\t{Fecha del Registro} as date,\n\t\t{Nombre Responsable De Medición} as string,\n\t\t{Cargo Responsable De Medición} as string,\n\t\t{Correo Responsable de Medición} as string,\n\t\t{Área del Responsable de Medición} as string,\n\t\t{Código Unidad Organizativa} as string,\n\t\t{Nombre Responsable De Medición 2} as string,\n\t\t{Cargo Responsable De Medición 2} as string,\n\t\t{Correo Responsable de Medición 2} as string,\n\t\t{Área del Responsable de Medición 2} as string,\n\t\t{Código Unidad Organizativa 2} as string,\n\t\t{SIGLA (Estructura de Despliegue)} as string,\n\t\t{Detalle Indicador} as string,\n\t\t{Estado Carga} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouExcelMaestroDimParamIndicador\nsource(output(\n\t\tgkParamIndicador as long,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistro as timestamp,\n\t\tdescResponsableMedicion as string,\n\t\tdescCargoResponsableMedicion as string,\n\t\tdescCorreoResponsableMedicion as string,\n\t\tdescAreaResponsableMedicion as string,\n\t\tidUnidadOrganizativa as string,\n\t\tdescResponsableMedicion2 as string,\n\t\tdescCargoResponsableMedicion2 as string,\n\t\tdescCorreoResponsableMedicion2 as string,\n\t\tdescAreaResponsableMedicion2 as string,\n\t\tidUnidadOrganizativa2 as string,\n\t\tdescSiglaArea as string,\n\t\tdescDetalleIndicador as string,\n\t\tdescControlCarga as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescUsuarioCreacion as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimParamIndicador\nsource(output(\n\t\tgkIndicador as long,\n\t\tidIndicador as integer,\n\t\tdescNombreIndicador as string,\n\t\tdescIndicador as string,\n\t\tdescFormula as string,\n\t\tdescUnidadMedida as string,\n\t\tdescSentido as string,\n\t\tdescFrecuencia as string,\n\t\tcantDecimalesCalculo as integer,\n\t\tcantDecimalesReporte as integer,\n\t\tdescVisualizaPeriodo as string,\n\t\tdescVisualizaAcumulado as string,\n\t\tdescVisualizaAnnioCorrido as string,\n\t\tvlrLimiteInferior as decimal(30,10),\n\t\tvlrLimiteSuperior as decimal(30,10),\n\t\tvlrCumpSatisfaccion as decimal(30,10),\n\t\tdescFuenteProyectada as string,\n\t\tdescFuentereal as string,\n\t\tdescVersion as string,\n\t\tdtmVigenciaDesde as timestamp,\n\t\tdtmVigenciaHasta as timestamp,\n\t\tdescUsuarioRespCalculo as string,\n\t\tdescMetaNormalizada as string,\n\t\tcantComponentes as integer,\n\t\tdescReferente as string,\n\t\tidHojaVida as string,\n\t\tdescResponsableMeta as string,\n\t\tdescResponsableSeguimiento as string,\n\t\tdescResponsableReporteRes as string,\n\t\tdescAprobador as string,\n\t\tdescAprobadorCargo as string,\n\t\tdescCalculableAutomatizable as string,\n\t\tdescIndicadorHito as string,\n\t\tdescNombreResponsableDocumentarHV as string,\n\t\tdescCorreoResponsableDocumentarHV as string,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescCorreoUsuarioCarga as string,\n\t\tdtmFechaUltimaModificacion as timestamp,\n\t\tdescCorreoUsuarioUltimaModificacion as string,\n\t\tdescEstadoIndicador as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select * from TD.DimIndicador where descIndicadorHito=\\'Hito\\'',\n\tformat: 'query') ~> SouDimIndicador\nSouExcelMaestroDimParamIndicador select(mapColumn(\n\t\tsrc_Indicador = Indicador,\n\t\tsrc_IDIndicador = {ID Indicador},\n\t\tsrc_IDParametrizacionIndicador = {ID Parametrización Indicador},\n\t\tsrc_FechadelRegistro = {Fecha del Registro},\n\t\tsrc_NombreResponsableMedicion = {Nombre Responsable De Medición},\n\t\tsrc_CargoResponsableMedicion = {Cargo Responsable De Medición},\n\t\tsrc_CorreoResponsableMedicion = {Correo Responsable de Medición},\n\t\tsrc_AreaResponsableMedicion = {Área del Responsable de Medición},\n\t\tsrc_CodigoUnidadOrganizativa = {Código Unidad Organizativa},\n\t\tsrc_NombreResponsableMedicion2 = {Nombre Responsable De Medición 2},\n\t\tsrc_CargoResponsableMedicion2 = {Cargo Responsable De Medición 2},\n\t\tsrc_CorreoResponsableMedicion2 = {Correo Responsable de Medición 2},\n\t\tsrc_AreaResponsableMedicion2 = {Área del Responsable de Medición 2},\n\t\tsrc_CodigoUnidadOrganizativa2 = {Código Unidad Organizativa 2},\n\t\tsrc_SIGLA = {SIGLA (Estructura de Despliegue)},\n\t\tsrc_DetalleIndicador = {Detalle Indicador},\n\t\tsrc_EstadoCarga = {Estado Carga}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelDimParamIndicador\nSltExcelDimParamIndicador derive(src_Indicador = trim(src_Indicador),\n\t\tsrc_FechadelRegistro = toTimestamp(src_FechadelRegistro),\n\t\tsrc_IDParametrizacionIndicador = trim(src_IDParametrizacionIndicador),\n\t\tsrc_NombreResponsableMedicion = trim(src_NombreResponsableMedicion),\n\t\tsrc_CargoResponsableMedicion = trim(src_CargoResponsableMedicion),\n\t\tsrc_CorreoResponsableMedicion = trim(src_CorreoResponsableMedicion),\n\t\tsrc_AreaResponsableMedicion = trim(src_AreaResponsableMedicion),\n\t\tsrc_CodigoUnidadOrganizativa = trim(src_CodigoUnidadOrganizativa),\n\t\tsrc_NombreResponsableMedicion2 = trim(src_NombreResponsableMedicion2),\n\t\tsrc_CargoResponsableMedicion2 = trim(src_CargoResponsableMedicion2),\n\t\tsrc_CorreoResponsableMedicion2 = trim(src_CorreoResponsableMedicion2),\n\t\tsrc_AreaResponsableMedicion2 = trim(src_AreaResponsableMedicion2),\n\t\tsrc_CodigoUnidadOrganizativa2 = trim(src_CodigoUnidadOrganizativa2),\n\t\tsrc_SIGLA = trim(src_SIGLA),\n\t\tsrc_DetalleIndicador = trim(src_DetalleIndicador),\n\t\tsrc_EstadoCarga = upper(trim(src_EstadoCarga)),\n\t\tSrc_descOrigen = 'EXCEL:DMTD_Plantilla_DetalleDesempeño_Indicador:ConfiguracionIndicador',\n\t\tsrc_dtmFechaCarga = toTimestamp( currentDate())) ~> DrcValidacionEspacios\nJoinDimIndicador, SouAtomoDimParamIndicador join(gkIndicador == fkIndicador\n\t&& src_DetalleIndicador == descDetalleIndicador\n\t&& src_FechadelRegistro == dtmFechaRegistro,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimParamIndicador\nJoinDimParamIndicador split(gkIndicador==fkIndicador && src_DetalleIndicador==descDetalleIndicador && src_FechadelRegistro==dtmFechaRegistro,\n\tdisjoint: false) ~> ConditionalSplit1@(Match, NoMatch)\nConditionalSplit1@Match alterRow(updateIf(1==1)) ~> AltDimParamIndicador\nDrcValidacionEspacios, SouDimIndicador join(src_Indicador == descNombreIndicador\n\t&& src_FechadelRegistro >= dtmVigenciaDesde\n\t&& src_FechadelRegistro <= dtmVigenciaHasta,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'both')~> JoinDimIndicador\nAltDimParamIndicador sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkParamIndicador as long,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistro as timestamp,\n\t\tdescResponsableMedicion as string,\n\t\tdescCargoResponsableMedicion as string,\n\t\tdescCorreoResponsableMedicion as string,\n\t\tdescAreaResponsableMedicion as string,\n\t\tidUnidadOrganizativa as string,\n\t\tdescResponsableMedicion2 as string,\n\t\tdescCargoResponsableMedicion2 as string,\n\t\tdescCorreoResponsableMedicion2 as string,\n\t\tdescAreaResponsableMedicion2 as string,\n\t\tidUnidadOrganizativa2 as string,\n\t\tdescSiglaArea as string,\n\t\tdescDetalleIndicador as string,\n\t\tdescControlCarga as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescUsuarioCreacion as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['fkIndicador','descDetalleIndicador','dtmFechaRegistro'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tdescResponsableMedicion = src_NombreResponsableMedicion,\n\t\tdescCargoResponsableMedicion = src_CargoResponsableMedicion,\n\t\tdescCorreoResponsableMedicion = src_CorreoResponsableMedicion,\n\t\tdescAreaResponsableMedicion = src_AreaResponsableMedicion,\n\t\tidUnidadOrganizativa = src_CodigoUnidadOrganizativa,\n\t\tdescResponsableMedicion2 = src_NombreResponsableMedicion2,\n\t\tdescCargoResponsableMedicion2 = src_CargoResponsableMedicion2,\n\t\tdescCorreoResponsableMedicion2 = src_CorreoResponsableMedicion2,\n\t\tdescAreaResponsableMedicion2 = src_AreaResponsableMedicion2,\n\t\tidUnidadOrganizativa2 = src_CodigoUnidadOrganizativa2,\n\t\tdescSiglaArea = src_SIGLA,\n\t\tdescControlCarga = src_EstadoCarga,\n\t\tdescOrigen = Src_descOrigen,\n\t\tdtmFechaModificacion = src_dtmFechaCarga,\n\t\tfkIndicador = gkIndicador,\n\t\tdescDetalleIndicador = src_DetalleIndicador,\n\t\tdtmFechaRegistro = src_FechadelRegistro\n\t)) ~> SinkAtomoUpdateDimParamIndicador\nConditionalSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkParamIndicador as long,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistro as timestamp,\n\t\tdescResponsableMedicion as string,\n\t\tdescCargoResponsableMedicion as string,\n\t\tdescCorreoResponsableMedicion as string,\n\t\tdescAreaResponsableMedicion as string,\n\t\tidUnidadOrganizativa as string,\n\t\tdescResponsableMedicion2 as string,\n\t\tdescCargoResponsableMedicion2 as string,\n\t\tdescCorreoResponsableMedicion2 as string,\n\t\tdescAreaResponsableMedicion2 as string,\n\t\tidUnidadOrganizativa2 as string,\n\t\tdescSiglaArea as string,\n\t\tdescDetalleIndicador as string,\n\t\tdescControlCarga as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescUsuarioCreacion as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tfkIndicador = gkIndicador,\n\t\tdtmFechaRegistro = src_FechadelRegistro,\n\t\tdescResponsableMedicion = src_NombreResponsableMedicion,\n\t\tdescCargoResponsableMedicion = src_CargoResponsableMedicion,\n\t\tdescCorreoResponsableMedicion = src_CorreoResponsableMedicion,\n\t\tdescAreaResponsableMedicion = src_AreaResponsableMedicion,\n\t\tidUnidadOrganizativa = src_CodigoUnidadOrganizativa,\n\t\tdescResponsableMedicion2 = src_NombreResponsableMedicion2,\n\t\tdescCargoResponsableMedicion2 = src_CargoResponsableMedicion2,\n\t\tdescCorreoResponsableMedicion2 = src_CorreoResponsableMedicion2,\n\t\tdescAreaResponsableMedicion2 = src_AreaResponsableMedicion2,\n\t\tidUnidadOrganizativa2 = src_CodigoUnidadOrganizativa2,\n\t\tdescSiglaArea = src_SIGLA,\n\t\tdescDetalleIndicador = src_DetalleIndicador,\n\t\tdescControlCarga = src_EstadoCarga,\n\t\tdescOrigen = Src_descOrigen\n\t)) ~> SynAtomoInsertDimParamIndicador"
+		}
+	}
+}

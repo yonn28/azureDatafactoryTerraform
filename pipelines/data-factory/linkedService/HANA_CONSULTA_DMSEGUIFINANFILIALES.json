@@ -1,0 +1,23 @@
+{
+	"name": "HANA_CONSULTA_DMSEGUIFINANFILIALES",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "SERVERNODE=HANAP:32015;UID=CONSULTA_DMSEGUIFINANFILIALES",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "HANA-CONSULTA-DMSEGUIFINANFILIALES"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

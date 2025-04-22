@@ -1,0 +1,11 @@
+{
+	"name": "dbaeuecpuatatomotd",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=mi-asc-ecp-dev-mainsqlmidev.public.c105ff79c574.database.windows.net,3342;Initial Catalog=dbaeuecpdevatomotd"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

@@ -1,0 +1,172 @@
+{
+	"name": "Load_Data_AtomoUAT_Hana_DimTiempoCarga",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimTiempoCarga",
+				"description": "",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT  [descProcesoTipoCarga]\n      ,[descTipoCarga]\n      ,[descPeriodoCarga]\n      ,cast([dtmFechaInicio] as datetime) AS dtmFechaInicio\n      ,cast([dtmFechaFin] as datetime) AS dtmFechaFin\n      ,[descDetalle]\n      ,[descEntregable]\n      ,[dtmFechaCarga]\n      ,[descOrigen]\n      ,[descEstado]\n  FROM [TD].[DimTiempoCargaHana]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE  \"DMTOMADEDECISIONES\".\"DIM_TIEMPO_CARGA\" "
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "descProcesoTipoCarga",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_PROCESO_TIPO_CARGA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descTipoCarga",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_TIPO_CARGA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descPeriodoCarga",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "DESC_PERIODO_CARGA",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaInicio",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INICIO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaFin",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descDetalle",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_DETALLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEntregable",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_CARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEstado",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESTADO",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimTiempoCarga",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimTiempoCarga",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:19Z"
+	}
+}

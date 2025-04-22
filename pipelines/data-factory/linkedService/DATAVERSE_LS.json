@@ -1,0 +1,16 @@
+{
+	"name": "DATAVERSE_LS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "CommonDataServiceForApps",
+		"typeProperties": {
+			"deploymentType": "Online",
+			"serviceUri": "https://org27ab4acb.crm.dynamics.com",
+			"authenticationType": "AADServicePrincipal",
+			"servicePrincipalCredentialType": "ServicePrincipalKey",
+			"servicePrincipalId": "c68c515a-7edd-47e7-9eb4-7b90ba655c17",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRGLUFFVS1FQ1AtREVWLUdFU1RKVVJfNjRlNmRmM2QtZjAwOS00YWVmLThhY2UtYTg0NTE3MzU3N2FjIg0KfQ=="
+		}
+	}
+}

@@ -1,0 +1,54 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_Excel_Actividades_Entregables",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Actividades_Entregables",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_ContextoEntregablesActividades_Hitos.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Entregable",
+				"type": "String"
+			},
+			{
+				"name": "ID Entregable",
+				"type": "String"
+			},
+			{
+				"name": "ID Actividad",
+				"type": "String"
+			},
+			{
+				"name": "Descripción Actividad",
+				"type": "String"
+			},
+			{
+				"name": "Fecha de Actividad",
+				"type": "String"
+			},
+			{
+				"name": "Fecha de Ejecución Actividad",
+				"type": "String"
+			},
+			{
+				"name": "Comentarios de la Actividad",
+				"type": "String"
+			}
+		]
+	}
+}

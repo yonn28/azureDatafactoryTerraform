@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Atomo</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{c3219370-1554-4927-b594-cf6f064b43ec}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlDwDatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Atomo</RootNamespace>
+    <AssemblyName>Atomo</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DacApplicationName>Atomo</DacApplicationName>
+    <TargetFrameworkProfile />
+    <DefaultSchema>dbo</DefaultSchema>
+    <GenerateCreateScript>False</GenerateCreateScript>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SqlTargetName>Atomo</SqlTargetName>
+    <SuppressTSqlWarnings>71562,71502,71505</SuppressTSqlWarnings>
+    <NoWarn>71562,71502,71505</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SqlTargetName>Atomo</SqlTargetName>
+    <TreatTSqlWarningsAsErrors>false</TreatTSqlWarningsAsErrors>
+    <SuppressTSqlWarnings>71562,71502,71505</SuppressTSqlWarnings>
+    <NoWarn>71562,71502,71505</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Security\" />
+    <Folder Include="External Resources\" />
+    <Folder Include="Atomo\" />
+    <Folder Include="Atomo\Tables\1. STG\" />
+    <Folder Include="Atomo\Tables\3. STG ILP_UX\" />
+    <Folder Include="Atomo\Tables\2. DWH\" />
+    <Folder Include="Atomo\Tables\4. DWH ILP_UX\" />
+    <Folder Include="Atomo\Stored Procedure\" />
+    <Folder Include="Atomo\Views\" />
+    <Folder Include="Atomo\Tables\" />
+    <Folder Include="Atomo\Views\1. Desempeño Indicadores\" />
+    <Folder Include="Atomo\Views\2. Desempeño Empresarial\" />
+    <Folder Include="Atomo\Views\3. Seguimiento a Cargas\" />
+    <Folder Include="Atomo\Views\4. ILP_UX\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Security\Script.PreDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Security\Atomo.sql" />
+    <Build Include="Atomo\Tables\1. STG\1. CreateSTGDimActividadesEntregables_Hito.sql" />
+    <Build Include="Atomo\Tables\1. STG\2. CreateSTGDimConfiguracionTablero.sql" />
+    <Build Include="Atomo\Tables\1. STG\3. CreateSTGDimContextoHito.sql" />
+    <Build Include="Atomo\Tables\1. STG\4. CreateSTGDimEjePalanca.sql" />
+    <Build Include="Atomo\Tables\1. STG\5. CreateSTGDimEntregableHito.sql" />
+    <Build Include="Atomo\Tables\1. STG\6. CreateSTGDimEstructuraDespliegue.sql" />
+    <Build Include="Atomo\Tables\1. STG\7. CreateSTGDimIndicador.sql" />
+    <Build Include="Atomo\Tables\1. STG\8. CreateSTGDimObjetivo.sql" />
+    <Build Include="Atomo\Tables\1. STG\9. CreateSTGDimParamIndicador.sql" />
+    <Build Include="Atomo\Tables\1. STG\10. CreateSTGDimResumenTendeciaDetalleKRI.sql" />
+    <Build Include="Atomo\Tables\1. STG\11. CreateSTGDimTablero.sql" />
+    <Build Include="Atomo\Tables\1. STG\12. CreateSTGDimTiempoCarga.sql" />
+    <Build Include="Atomo\Tables\1. STG\13. CreateSTGTHActividadEntregableHito.sql" />
+    <Build Include="Atomo\Tables\1. STG\14. CreateSTGTHDesempenoIndicador.sql" />
+    <Build Include="Atomo\Tables\1. STG\15. CreateSTGTHEntregableHito.sql" />
+    <Build Include="Atomo\Tables\1. STG\16. CreateSTGTHHito.sql" />
+    <Build Include="Atomo\Tables\1. STG\17. CreateSTGTmpFechaCorteTd.sql" />
+    <Build Include="Atomo\Tables\1. STG\18. CreateSTGDimComponente.sql" />
+    <Build Include="Atomo\Tables\1. STG\19. CreateSTGTHComponente.sql" />
+    <Build Include="Atomo\Tables\1. STG\20. CreateSTGDimComponenteVista.sql" />
+    <Build Include="Atomo\Tables\1. STG\21. CreateSTGDimFormulaComponente.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\1. CreateSTGDimTablero_ilp.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\2. CreateSTGFactConfiguracionTablero_ilp.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\3. CreateSTGFactDesempenoIndicador_ilp.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\4. CreateSTGDimConfiguracionCVR_ux.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\5. CreateSTGDimEjePalanca_ux.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\6. CreateSTGDimEscenariosAnalisis_ux.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\7. CreateSTGDimFlujoDatosAuto_ux.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\8. CreateSTGDimObjetivo_ux.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\9. CreateSTGTHHito_ux.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\10. CreateSTGDimCVRIndicadorHito_ilp.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\11.CreateSTGDimConfiguracionTableroLog.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\12.CreateTEMPCVC_TH_ENTREGABLE_HITO_ILP_replica.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\13.CreateTMP2CVC_TH_ENTREGABLE_HITO_ILP.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\14.CreateTEMPCVC_INDICADORES_ILP_replica.sql" />
+    <Build Include="Atomo\Tables\3. STG ILP_UX\15.CreateTMP2CVC_INDICADORES_ILP.sql" />
+    <Build Include="Atomo\Tables\2. DWH\1. CreateDimActividadesEntregablesHito.sql" />
+    <Build Include="Atomo\Tables\2. DWH\2. CreateDimConfiguracionCVR.sql" />
+    <Build Include="Atomo\Tables\2. DWH\3. CreateDimContextoHito.sql" />
+    <Build Include="Atomo\Tables\2. DWH\4. CreateDimEjePalanca.sql" />
+    <Build Include="Atomo\Tables\2. DWH\5. CreateDimEntregablesHito.sql" />
+    <Build Include="Atomo\Tables\2. DWH\6. CreateDimEstructuraDespliegue.sql" />
+    <Build Include="Atomo\Tables\2. DWH\7. CreateDimIndicador.sql" />
+    <Build Include="Atomo\Tables\2. DWH\8. CreateDimObjetivo.sql" />
+    <Build Include="Atomo\Tables\2. DWH\9. CreateDimParamIndicador.sql" />
+    <Build Include="Atomo\Tables\2. DWH\10. CreateDimTablero.sql" />
+    <Build Include="Atomo\Tables\2. DWH\11. CreateDimTiempoCarga.sql" />
+    <Build Include="Atomo\Tables\2. DWH\12. CreateFactActividadesEntregablesHito.sql" />
+    <Build Include="Atomo\Tables\2. DWH\13. CreateFactConfiguracionTablero.sql" />
+    <Build Include="Atomo\Tables\2. DWH\14. CreateFactDesempenoIndicador.sql" />
+    <Build Include="Atomo\Tables\2. DWH\15. CreateFactEntregableHito.sql" />
+    <Build Include="Atomo\Tables\2. DWH\16. CreateFactHito.sql" />
+    <Build Include="Atomo\Tables\2. DWH\17. CreateFactResumenTendenciaKriTD.sql" />
+    <Build Include="Atomo\Tables\2. DWH\18. CreateDimFecha.sql" />
+    <Build Include="Atomo\Tables\2. DWH\19. CreateDimComponente.sql" />
+    <Build Include="Atomo\Tables\2. DWH\20. CreateFactComponente.sql" />
+    <Build Include="Atomo\Tables\2. DWH\21. CreateDimComponenteVista.sql" />
+    <Build Include="Atomo\Tables\2. DWH\22. CreateDimFormulaComponente.sql" />
+    <Build Include="Atomo\Tables\2. DWH\23. CreateTMP2CVC_DESEMPENO_TABLERO.sql" />
+    <Build Include="Atomo\Tables\4. DWH ILP_UX\1. CreateDWHFactDesempenoIndicador_ilp.sql" />
+    <Build Include="Atomo\Tables\4. DWH ILP_UX\2. CreateDWHDimEscenariosAnalisis_ux.sql" />
+    <Build Include="Atomo\Tables\4. DWH ILP_UX\3. CreateDWHDimFlujoDatosAuto_ux.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\1. CreateViewCVC_DESEMPENO_INDICADOR.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\2. CreateViewCVC_ENTREGABLES_HITO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\3. CreateViewCVC_RESUMEN_TENDENCIA_DETALLE_KRI_TD.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\4. CreateViewCVC_TH_ACTIVIDAD_ENTREGABLE_HITO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\5. CreateViewCVD_AUX_TIEMPO_CARGA.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\6. CreateViewCVD_INDICADOR.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\7. CreateViewCVD_PARAMETRIZACION_CVR.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\8. CreateViewCVD_TABLERO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\9. CreateViewCVD_TIEMPO_CARGA.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\10. CreateViewCVD_PARAMETRIZACION_INDICADOR.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\11. CreateViewCVD_ACTIVIDADES_ENTREGABLES_HITO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\12. CreateViewCVC_TH_ENTREGABLE_HITO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\13. CreateViewCVD_CONFIGURACION_TABLERO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\14. CreateViewCVC_TH_HITO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\15. CreateViewCVD_CONTEXTO_HITO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\16. CreateViewCVC_HITO_INDICADOR.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\17. CreateTable_CVC_DESEMPENO_TABLERO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\18. CreateViewCVC_HITO_TABLERO.sql" />
+    <Build Include="Atomo\Views\1. Desempeño Indicadores\19. CreateViewCVC_DESEMPENO_INDICADORES_TABLERO.sql" />
+    <Build Include="Atomo\Views\2. Desempeño Empresarial\1. CreateViewCVD_ESTRUCTURA_DESPLIEGUE.sql" />
+    <Build Include="Atomo\Views\3. Seguimiento a Cargas\1. CreateViewCVD_COMPONENTE.sql" />
+    <Build Include="Atomo\Views\3. Seguimiento a Cargas\2. CreateViewCVC_TH_COMPONENTE.sql" />
+    <Build Include="Atomo\Views\3. Seguimiento a Cargas\3. CreateViewCVD_FECHA_CORTE.sql" />
+    <Build Include="Atomo\Views\3. Seguimiento a Cargas\4. CreateViewCVS_COMPONENTE_INDICADOR.sql" />
+    <Build Include="Atomo\Views\4. ILP_UX\1. CreateViewCVD_CONFIGURACION_TABLERO_ILP.sql" />
+    <Build Include="Atomo\Views\4. ILP_UX\2. CreateViewCVC_DESEMPENO_INDICADOR_ILP.sql" />
+    <Build Include="Atomo\Views\4. ILP_UX\3. CreateViewCVC_TH_HITO_ILP.sql" />
+    <Build Include="Atomo\Views\4. ILP_UX\4. CreateViewCVC_HITO_INDICADOR_ILP.sql" />
+    <Build Include="Atomo\Views\4. ILP_UX\5. CreateViewCVC_HITO_TABLERO_ILP.sql" />
+    <Build Include="Atomo\Views\4. ILP_UX\6. CreateViewCVC_DESEMPENO_TABLERO_ILP.sql" />
+    <Build Include="Atomo\Views\4. ILP_UX\7. CreateViewCVC_DESEMPENO_INDICADORES_TABLERO_ILP.sql" />
+    <Build Include="Atomo\Views\4. ILP_UX\8. CreateViewCVC_TH_ENTREGABLE_HITO_ILP.sql" />
+    <Build Include="Atomo\Stored Procedure\CreateSP_DimFecha.sql" />
+    <Build Include="Atomo\Stored Procedure\CreateSP_CVC_DESEMPENO_TABLERO.sql" />
+    <Build Include="Atomo\Stored Procedure\CreateSP_CVC_DESEMPENO_INDICADORES_TABLERO_ILP.sql" />
+    <Build Include="Atomo\Stored Procedure\CreateSP_TH_ENTREGABLE_HITO_ILP.sql" />
+    <Build Include="Atomo\Stored Procedure\CreateSP_FACT_HITO_INICIAL.sql" />
+    <Build Include="Atomo\Stored Procedure\CreateSP_FACT_HITO_INCREMENTAL.sql" />       
+
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Security\Script.PostDeployment.sql" />
+  </ItemGroup>
+</Project>

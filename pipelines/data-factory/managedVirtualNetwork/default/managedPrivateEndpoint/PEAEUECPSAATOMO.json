@@ -1,0 +1,7 @@
+{
+	"name": "PEAEUECPSAATOMO",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/c818ac3b-d6f3-4229-a359-0d5ac47a4317/resourceGroups/RG-AEU-ECP-DEV-ATOMO/providers/Microsoft.Storage/storageAccounts/saaeuecpdevatomo",
+		"groupId": "blob"
+	}
+}

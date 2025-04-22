@@ -1,0 +1,224 @@
+{
+	"name": "ds_syn_dwh_fact_desempeno_indicador_ilp",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_ILP/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_DESEMP_INDICADOR_ILP",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "VLR_META_ANNIO_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_ANNIO_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_ANNIO_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_ANNIO_12",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_ANNIO_123",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_PLAN_ACUMULADO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_RETO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_NORM_ANNIO_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_NORM_ANNIO_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_NORM_ANNIO_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_NORM_ANNIO_12",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_META_NORM_ANNIO_123",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_PLAN_ACUM_NORM",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_REAL_ANNIO_1",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_REAL_ANNIO_2",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_REAL_ANNIO_3",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_REAL_ANNIO_12",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_REAL_ANNIO_123",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_REAL_ACUMULADO",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_REAL_ACUMULADO_MES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_PROYECCION_ANNIO_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_PROYECCION_ANNIO_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_PROYECCION_ANNIO_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_PROYECCION_ANNIO_12",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VLR_PROYECCION_ANNIO_123",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DESC_PREMISAS",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_MENSAJE_CLAVE_INDICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_PERIODO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_PARAM_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_TABLERO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_CORREOUSUARIOCARGO",
+				"type": "varchar"
+			},
+			{
+				"name": "PERIODO AÑO",
+				"type": "varchar"
+			},
+			{
+				"name": "PLAN ACUM PERIODOS",
+				"type": "varchar"
+			},
+			{
+				"name": "FECHA_CARGA_SYNAPSE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.FACT_DESEMPENO_INDICADOR_ILP"
+		}
+	}
+}

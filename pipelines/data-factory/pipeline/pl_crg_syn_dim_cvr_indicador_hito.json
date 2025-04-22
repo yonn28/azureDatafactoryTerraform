@@ -1,0 +1,98 @@
+{
+	"name": "pl_crg_syn_dim_cvr_indicador_hito",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_th_syn_stg_dim_cvr_indicador_hito",
+				"description": "  ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_CVR_INDICADOR_HITO\" ",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkDimCvrIndicadorHito",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GKDIMCVRINDICADORHITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkConfigCVR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FKCONFIGCVR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkIndicadorHito",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "FKINDICADORHITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descDetalleIndicadorHito",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCDETALLEINDICADORHITO",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_td_dim_cvr_indicador_hito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_cvr_indicador_hito",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_UX"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:09Z"
+	}
+}

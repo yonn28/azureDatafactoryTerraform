@@ -1,0 +1,24 @@
+parameters:
+- name: environment
+  type: string
+- name: domainName
+  type: string
+- name: pool
+  type: string
+- name: artifactsPath
+  type: string
+  default: '$(Pipeline.Workspace)\build'
+
+
+jobs:
+  - job: build
+    displayName: 'Build'
+    pool: ${{ parameters.pool }}
+    steps:
+    - template: step.db-build.yml
+      parameters:
+        solution: '*'
+        artifactsPath: ${{ parameters.artifactsPath }}
+    - publish: ${{ parameters.artifactsPath }}
+      displayName: 'Publish asset ${{ parameters.domainName }}'
+      artifact: ${{ parameters.domainName }}

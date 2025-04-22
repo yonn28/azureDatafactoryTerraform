@@ -1,0 +1,240 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimContextoHito",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimContextoHito",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "\nSelect gkContextoHito\n      ,[fkIndicador]\n      ,[dtmFechaRegistroContexto]\n      ,[dtmFechaUsar]\n      ,[descSponsor]\n      ,[descCorreoSponsor]\n      ,CASE WHEN descUnidadMedida IN ('%','Porcentaje') THEN ([vlrPlanHito]*100) ELSE vlrPlanHito  END AS [vlrPlanHito]\n      ,replace([descContextoMotivacion] ,CHAR(10),'') AS descContextoMotivacion\n      ,Left([descObjetivo],1968) AS [descObjetivo]\n      ,[descImpacto]\n      ,[descInterdependencias]\n      ,[descRiesgosPrincipales]\n      ,[descMitigantesRiesgos]\n      ,C.[dtmFechaCarga]\n      ,C.[descOrigen]\n      ,C.[fkTiposInconsistencia]\n  FROM [TD].[DimContextoHito] C inner JOIN TD.DimIndicador I ON gkIndicador=fkIndicador\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_CONTEXTO_HITO\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkContextoHito",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "GK_CONTEXTO_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkIndicador",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaRegistroContexto",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_REGISTRO_CONTEXTO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaUsar",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_USAR",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descSponsor",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_SPONSOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoSponsor",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CORREO_SPONSOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanHito",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PLAN_HITO",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descContextoMotivacion",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CONTEXTO_MOTIVACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descObjetivo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_OBJETIVO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descImpacto",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_IMPACTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descInterdependencias",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_INTERDEPENDENCIAS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descRiesgosPrincipales",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RIESGOS_PRINCIPALES",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descMitigantesRiesgos",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_MITIGANTES_RIESGO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimContextoHito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimContextoHito",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:22Z"
+	}
+}

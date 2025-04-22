@@ -1,0 +1,75 @@
+{
+	"name": "DF_ATOMOUAT_DimSegmento",
+	"properties": {
+		"description": "Data flows DIM SCDType1",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_Segmento",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelMaestroDimSegmento"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimSegmento",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimSegmento"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimSegmento",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimSegmentoComodin"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimSegmento",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoUpdateDimSegmento"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimSegmento",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoInsertDimSegmentoDetinationSQLType0"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelDimSegmento"
+				},
+				{
+					"name": "DrcValidacionEspacios"
+				},
+				{
+					"name": "JoinDimSegmento"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AltDimSegmento"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "ConditionalSplit2"
+				}
+			],
+			"script": "source(output(\n\t\tID_SEGMENTO as string,\n\t\tGRUPO_SEGMENTO as string,\n\t\tSEGMENTO as string,\n\t\tDTM_VIGENCIA_DESDE as date,\n\t\tDTM_VIGENCIA_HASTA as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouExcelMaestroDimSegmento\nsource(output(\n\t\tgkSegmento as long,\n\t\tidSegmento as string,\n\t\tdescGrupoSegmento as string,\n\t\tdescSegmento as string,\n\t\tdtmFechaIniVigenciaSegmento as timestamp,\n\t\tdtmFechaFinVigenciaSegmento as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouDimSegmento\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT CAST(-999 AS VARCHAR(4000)) src_idSegmento,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descGrupoSegmento,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descSegmento,\\nCAST(Null AS DATE) src_dtmFechaIniVigenciaSegmento,\\nCAST(Null AS DATE) src_dtmFechaFinVigenciaSegmento',\n\tformat: 'query') ~> SouDimSegmentoComodin\nSouExcelMaestroDimSegmento select(mapColumn(\n\t\tsrc_idSegmento = ID_SEGMENTO,\n\t\tsrc_descGrupoSegmento = GRUPO_SEGMENTO,\n\t\tsrc_descSegmento = SEGMENTO,\n\t\tsrc_dtmFechaIniVigenciaSegmento = DTM_VIGENCIA_DESDE,\n\t\tsrc_dtmFechaFinVigenciaSegmento = DTM_VIGENCIA_HASTA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelDimSegmento\nConditionalSplit2@NoNulos derive(src_descGrupoSegmento = trim(src_descGrupoSegmento),\n\t\tsrc_descSegmento = trim(src_descSegmento),\n\t\tsrc_origen = 'EXCEL:DMTD_Plantilla_Maestros:Segmento') ~> DrcValidacionEspacios\nDrcValidacionEspacios, SouDimSegmento join(src_idSegmento == idSegmento,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimSegmento\nJoinDimSegmento split(src_idSegmento==idSegmento,\n\tdisjoint: false) ~> ConditionalSplit1@(Match, NoMatch)\nConditionalSplit1@Match alterRow(updateIf(1==1)) ~> AltDimSegmento\nSouDimSegmentoComodin, SltExcelDimSegmento union(byName: true)~> Union1\nUnion1 split(isNull(src_idSegmento),\n\tdisjoint: false) ~> ConditionalSplit2@(Nulos, NoNulos)\nAltDimSegmento sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkSegmento as long,\n\t\tidSegmento as string,\n\t\tdescGrupoSegmento as string,\n\t\tdescSegmento as string,\n\t\tdtmFechaIniVigenciaSegmento as timestamp,\n\t\tdtmFechaFinVigenciaSegmento as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['idSegmento'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidSegmento,\n\t\tdescSegmento = src_descSegmento,\n\t\tdescGrupoSegmento = src_descGrupoSegmento,\n\t\tdtmFechaIniVigenciaSegmento = src_dtmFechaIniVigenciaSegmento,\n\t\tdtmFechaFinVigenciaSegmento = src_dtmFechaFinVigenciaSegmento,\n\t\tdescOrigen = src_origen\n\t)) ~> SynAtomoUpdateDimSegmento\nConditionalSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkSegmento as long,\n\t\tidSegmento as string,\n\t\tdescGrupoSegmento as string,\n\t\tdescSegmento as string,\n\t\tdtmFechaIniVigenciaSegmento as timestamp,\n\t\tdtmFechaFinVigenciaSegmento as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidSegmento = src_idSegmento,\n\t\tdescGrupoSegmento = src_descGrupoSegmento,\n\t\tdescSegmento = src_descSegmento,\n\t\tdtmFechaIniVigenciaSegmento = src_dtmFechaIniVigenciaSegmento,\n\t\tdtmFechaFinVigenciaSegmento = src_dtmFechaFinVigenciaSegmento,\n\t\tdescOrigen = src_origen\n\t)) ~> SynAtomoInsertDimSegmentoDetinationSQLType0"
+		}
+	}
+}

@@ -1,0 +1,208 @@
+{
+	"name": "DS_SINK_ATOMOUAT_SQL_DimIndicador",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "idIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descNombreIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "descIndicador",
+				"type": "varchar"
+			},
+			{
+				"name": "descFormula",
+				"type": "varchar"
+			},
+			{
+				"name": "descUnidadMedida",
+				"type": "varchar"
+			},
+			{
+				"name": "descSentido",
+				"type": "varchar"
+			},
+			{
+				"name": "descFrecuencia",
+				"type": "varchar"
+			},
+			{
+				"name": "cantDecimalesCalculo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "cantDecimalesReporte",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descVisualizaPeriodo",
+				"type": "varchar"
+			},
+			{
+				"name": "descVisualizaAcumulado",
+				"type": "varchar"
+			},
+			{
+				"name": "descVisualizaAnnioCorrido",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrLimiteInferior",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrLimiteSuperior",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "vlrCumpSatisfaccion",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "descFuenteProyectada",
+				"type": "varchar"
+			},
+			{
+				"name": "descFuentereal",
+				"type": "varchar"
+			},
+			{
+				"name": "descVersion",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmVigenciaDesde",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmVigenciaHasta",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descUsuarioRespCalculo",
+				"type": "varchar"
+			},
+			{
+				"name": "descMetaNormalizada",
+				"type": "varchar"
+			},
+			{
+				"name": "cantComponentes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descReferente",
+				"type": "varchar"
+			},
+			{
+				"name": "idHojaVida",
+				"type": "varchar"
+			},
+			{
+				"name": "descResponsableMeta",
+				"type": "varchar"
+			},
+			{
+				"name": "descResponsableSeguimiento",
+				"type": "varchar"
+			},
+			{
+				"name": "descResponsableReporteRes",
+				"type": "varchar"
+			},
+			{
+				"name": "descAprobador",
+				"type": "varchar"
+			},
+			{
+				"name": "descAprobadorCargo",
+				"type": "varchar"
+			},
+			{
+				"name": "descCalculableAutomatizable",
+				"type": "varchar"
+			},
+			{
+				"name": "descIndicadorHito",
+				"type": "varchar"
+			},
+			{
+				"name": "descNombreResponsableDocumentarHV",
+				"type": "varchar"
+			},
+			{
+				"name": "descCorreoResponsableDocumentarHV",
+				"type": "varchar"
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descCorreoUsuarioCarga",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaUltimaModificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descCorreoUsuarioUltimaModificacion",
+				"type": "varchar"
+			},
+			{
+				"name": "descEstadoIndicador",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimIndicador"
+		}
+	}
+}

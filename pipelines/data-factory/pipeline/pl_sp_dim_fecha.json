@@ -1,0 +1,33 @@
+{
+	"name": "pl_sp_dim_fecha",
+	"properties": {
+		"activities": [
+			{
+				"name": "SP_LoadDimFecha",
+				"description": "Store Procedure que realiza la carga de la Dimensión Transversal de Fecha ",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ATOMO].[LoadDimFecha]"
+				},
+				"linkedServiceName": {
+					"referenceName": "Synapse_DWAEUECPDEVMAIN",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:06Z"
+	}
+}

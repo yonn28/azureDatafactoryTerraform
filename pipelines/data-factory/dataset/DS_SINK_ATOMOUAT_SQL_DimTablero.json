@@ -1,0 +1,88 @@
+{
+	"name": "DS_SINK_ATOMOUAT_SQL_DimTablero",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkTablero",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "idTablero",
+				"type": "varchar"
+			},
+			{
+				"name": "descSiglaArea",
+				"type": "varchar"
+			},
+			{
+				"name": "descTablero",
+				"type": "varchar"
+			},
+			{
+				"name": "descContactoRedDesempeno",
+				"type": "varchar"
+			},
+			{
+				"name": "descCargoContactoRedDesempeno",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaVigenciaDesde",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaVigenciaHasta",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaInicioReg",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaFinReg",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descEstadoReg",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaCarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimTablero"
+		}
+	}
+}

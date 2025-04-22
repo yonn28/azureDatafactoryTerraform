@@ -1,0 +1,23 @@
+{
+	"name": "Oracle_SIO_GRB",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=10.6.125.2;port=1535;sid=SIOGCB;user id=_P01SIOBGRBDATAMART",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_Shared",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "SIOGRB-Oracle"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

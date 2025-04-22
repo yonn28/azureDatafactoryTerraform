@@ -1,0 +1,17 @@
+variables:
+  - name: domainName
+    value: Atomo
+
+  - name: dataFactoryRunAnalyzer
+    value: true
+
+  - name: dataFactoryDevelopmentOnly
+    value: false
+
+  - name: dataFactoryOverrideParameters
+    value:
+        -factoryName "$(dataFactoryName)"
+        -IrOnpremiseECP_properties_typeProperties_linkedInfo_resourceId "/subscriptions/$(SUBSCRIPTION_ID)/resourcegroups/$(sharedDataFactoryResourceGroup)/providers/Microsoft.DataFactory/factories/$(sharedDataFactoryName)/integrationruntimes/IrOnpremiseECP"
+        -KV_AEU_ECP_SHARED_properties_typeProperties_baseUrl "$(sharedKeyVaultURI)"
+        -KEYVAULT_properties_typeProperties_baseUrl "$(keyVaultURI)"
+        -DATALAKE_properties_typeProperties_url "$(datalakeURI)"

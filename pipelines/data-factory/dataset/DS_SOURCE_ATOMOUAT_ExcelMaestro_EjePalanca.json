@@ -1,0 +1,42 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_ExcelMaestro_EjePalanca",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Eje_Palanca",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_Maestros.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID_PALANCA",
+				"type": "String"
+			},
+			{
+				"name": "EJE_PALANCA",
+				"type": "String"
+			},
+			{
+				"name": "DTM_VIGENCIA_DESDE",
+				"type": "String"
+			},
+			{
+				"name": "DTM_VIGENCIA_HASTA",
+				"type": "String"
+			}
+		]
+	}
+}

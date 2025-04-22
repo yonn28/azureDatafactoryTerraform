@@ -1,0 +1,86 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_Excel_Entregables_Hito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "saaeuecpdevatomo",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Entregables_Hito",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DMTD_Plantilla_ContextoEntregablesActividades_Hitos.xlsx",
+				"container": "plantillasexcel"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID Parametrización Hito",
+				"type": "String"
+			},
+			{
+				"name": "Fecha usar",
+				"type": "String"
+			},
+			{
+				"name": "Hito",
+				"type": "String"
+			},
+			{
+				"name": "Detalle",
+				"type": "String"
+			},
+			{
+				"name": "ID Hito",
+				"type": "String"
+			},
+			{
+				"name": "ID Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Descripción Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Responsable del Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Correo Responsable del Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Fecha del Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Peso del Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Unidad de Medida Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Plan Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Comentarios del Entregable",
+				"type": "String"
+			},
+			{
+				"name": "Validacion (No Borrar)",
+				"type": "String"
+			}
+		]
+	}
+}

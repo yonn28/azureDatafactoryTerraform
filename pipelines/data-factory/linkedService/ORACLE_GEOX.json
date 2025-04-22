@@ -1,0 +1,17 @@
+{
+	"name": "ORACLE_GEOX",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Exploración ",
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=ecoexplo1-scan.red.ecopetrol.com.co;port=1547;servicename=GEOXDB;user id=datamartvex",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2OGRkYzY0ZS05NDY3LTRlODYtOWY4OC0yMGFkMzM4MDgzNTAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

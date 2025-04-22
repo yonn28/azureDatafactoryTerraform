@@ -1,0 +1,11 @@
+{
+	"name": "KV_AEU_ECP_SHARED",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-aeu-ecp-dev-shared.vault.azure.net/"
+		}
+	}
+}

@@ -1,0 +1,100 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_THHito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "fkHito",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fkParamIndicador",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "fkPeriodo",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "vlrPlanHito",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrRealHito",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "prcCumpHito",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrProyEscBajo",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrProyEscMedio",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "vlrProyEscAlto",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "descCorreoUsuario",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaEventoRegistro",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			},
+			{
+				"name": "cmResumen",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "THHito"
+		}
+	}
+}

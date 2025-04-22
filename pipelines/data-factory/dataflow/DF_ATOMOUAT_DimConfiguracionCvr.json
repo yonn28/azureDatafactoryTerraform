@@ -1,0 +1,69 @@
+{
+	"name": "DF_ATOMOUAT_DimConfiguracionCvr",
+	"properties": {
+		"description": "Data flows DIM SCDType1",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_ConfiguracionCvr",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelMaestroDimConfiguracionCvr"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_ConfiguracionCvr",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimConfiguracionCvr"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_ConfiguracionCvr",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimConfiguracionCvrComodin"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_ConfiguracionCvr",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoUpdateDimConfiguracionCvr"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_ConfiguracionCvr",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoInsertDimConfiguracionCvr"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelDimConfiguracionCvr"
+				},
+				{
+					"name": "JoinDimConfiguracionCvr"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AltDimConfiguracionCvr"
+				},
+				{
+					"name": "DrcValidacionEspacios"
+				}
+			],
+			"script": "source(output(\n\t\tID_CVR as string,\n\t\tVERSION as string,\n\t\tVLR_LIMITE_INFERIOR_CVR as string,\n\t\tVLR_LIMITE_SUPERIOR_CVR as string,\n\t\tVLR_META_CVR as string,\n\t\tVIGENCIA_DESDE as date,\n\t\tVIGENCIA_HASTA as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouExcelMaestroDimConfiguracionCvr\nsource(output(\n\t\tgkCvr as long,\n\t\tidCvr as string,\n\t\tdescVersion as string,\n\t\tprcLimiteInferiorCvr as decimal(25,10),\n\t\tprcLimiteSuperiorCvr as decimal(25,10),\n\t\tprcMetaCvr as decimal(25,10),\n\t\tdtmVigenciaDesde as timestamp,\n\t\tdtmVigenciaHasta as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouDimConfiguracionCvr\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT CAST(\\'-999\\' AS VARCHAR(50)) src_idCvr,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(50)) src_descVersion,\\nCAST(NULL AS VARCHAR(50)) src_prcLimiteInferiorCvr,\\nCAST(NULL AS VARCHAR(50)) src_prcLimiteSuperiorCvr,\\nCAST(NULL AS VARCHAR(50)) src_prcMetaCvr,\\nCAST(NULL AS date) src_dtmVigenciaDesde,\\nCAST(NULL AS DATE ) src_dtmVigenciaHasta',\n\tformat: 'query') ~> SouDimConfiguracionCvrComodin\nSouExcelMaestroDimConfiguracionCvr select(mapColumn(\n\t\tsrc_idCvr = ID_CVR,\n\t\tsrc_descVersion = VERSION,\n\t\tsrc_prcLimiteInferiorCvr = VLR_LIMITE_INFERIOR_CVR,\n\t\tsrc_prcLimiteSuperiorCvr = VLR_LIMITE_SUPERIOR_CVR,\n\t\tsrc_prcMetaCvr = VLR_META_CVR,\n\t\tsrc_dtmVigenciaDesde = VIGENCIA_DESDE,\n\t\tsrc_dtmVigenciaHasta = VIGENCIA_HASTA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelDimConfiguracionCvr\nDrcValidacionEspacios, SouDimConfiguracionCvr join(src_idCvr == idCvr,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimConfiguracionCvr\nJoinDimConfiguracionCvr split(src_idCvr==idCvr,\n\tdisjoint: false) ~> ConditionalSplit1@(Match, NoMatch)\nConditionalSplit1@Match alterRow(updateIf(1==1)) ~> AltDimConfiguracionCvr\nSltExcelDimConfiguracionCvr derive(src_idCvr = trim(src_idCvr),\n\t\tsrc_descOrigen = 'EXCEL:DMTD_Plantilla_Maestros.xlsx',\n\t\tsrc_dtmVigenciaDesde = toTimestamp(src_dtmVigenciaDesde),\n\t\tsrc_dtmVigenciaHasta = toTimestamp(src_dtmVigenciaHasta)) ~> DrcValidacionEspacios\nAltDimConfiguracionCvr sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkCvr as long,\n\t\tidCvr as string,\n\t\tdescVersion as string,\n\t\tprcLimiteInferiorCvr as decimal(25,10),\n\t\tprcLimiteSuperiorCvr as decimal(25,10),\n\t\tprcMetaCvr as decimal(25,10),\n\t\tdtmVigenciaDesde as timestamp,\n\t\tdtmVigenciaHasta as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['idCvr'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidCvr = src_idCvr,\n\t\tdescVersion = src_descVersion,\n\t\tprcLimiteInferiorCvr = src_prcLimiteInferiorCvr,\n\t\tprcLimiteSuperiorCvr = src_prcLimiteSuperiorCvr,\n\t\tprcMetaCvr = src_prcMetaCvr,\n\t\tdtmVigenciaDesde = src_dtmVigenciaDesde,\n\t\tdtmVigenciaHasta = src_dtmVigenciaHasta,\n\t\tdescOrigen = src_descOrigen\n\t)) ~> SynAtomoUpdateDimConfiguracionCvr\nConditionalSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkCvr as long,\n\t\tidCvr as string,\n\t\tdescVersion as string,\n\t\tprcLimiteInferiorCvr as decimal(25,10),\n\t\tprcLimiteSuperiorCvr as decimal(25,10),\n\t\tprcMetaCvr as decimal(25,10),\n\t\tdtmVigenciaDesde as timestamp,\n\t\tdtmVigenciaHasta as timestamp,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidCvr = src_idCvr,\n\t\tdescVersion = src_descVersion,\n\t\tprcLimiteInferiorCvr = src_prcLimiteInferiorCvr,\n\t\tprcLimiteSuperiorCvr = src_prcLimiteSuperiorCvr,\n\t\tprcMetaCvr = src_prcMetaCvr,\n\t\tdtmVigenciaDesde = src_dtmVigenciaDesde,\n\t\tdtmVigenciaHasta = src_dtmVigenciaHasta\n\t)) ~> SynAtomoInsertDimConfiguracionCvr"
+		}
+	}
+}

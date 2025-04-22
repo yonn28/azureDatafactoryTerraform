@@ -1,0 +1,109 @@
+{
+	"name": "DS_SOURCE_SYNAPSE_ATOMO_Componentes",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "SYNAPSE_DWAEUECP",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TablaCVCHana": {
+				"type": "string"
+			},
+			"EsquemaSynapse": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_INDICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "SIGLA_ESTRUCTURA_DESPLIEGUE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_COMP_1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_COMP_2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_COMP_3",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_COMP_4",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_COMP_5",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VLR_REAL_PERIODO",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 6
+			},
+			{
+				"name": "VLR_REAL_ACUM",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 6
+			},
+			{
+				"name": "VLR_REAL_PERIODO_COMP_1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VLR_REAL_PERIODO_COMP_2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VLR_REAL_PERIODO_COMP_3",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VLR_REAL_PERIODO_COMP_4",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VLR_REAL_PERIODO_COMP_5",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().EsquemaSynapse",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().TablaCVCHana",
+				"type": "Expression"
+			}
+		}
+	}
+}

@@ -1,0 +1,162 @@
+{
+	"name": "ds_syn_dwh_fact_configuracion_tablero",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_CONFIGURACION_TABLERO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_ANNIO",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_REGISTRO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_SIGLA_AREA",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TABLERO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_VERSION",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_EJE_PALANCA",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_OBJETIVO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_TIEMPO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_HITO_INDICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_PARAM_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "FK_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_TIPO_TABLERO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_TBG",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_SECUENCIA_ORDEN",
+				"type": "varchar"
+			},
+			{
+				"name": "VLR_PESO_INDICADOR",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DESC_CORTO_LARGO_PLAZO",
+				"type": "varchar"
+			},
+			{
+				"name": "VLR_LIMITE_INFERIOR",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "VLR_LIMITE_SUPERIOR",
+				"type": "decimal",
+				"precision": 25,
+				"scale": 10
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_TABLERO_CVR",
+				"type": "varchar"
+			},
+			{
+				"name": "FECHA_CARGA_SYNAPSE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FECHA_PROXIMA_ACTUALIZA_SYNAPSE",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_HITO_INDIC_HABILITADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "ACTIVOCUMPLIMIENTOMIN",
+				"type": "bit"
+			},
+			{
+				"name": "CUMPLIMIENTOMINIMO",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "RECONOCIMIENTOMINIMO",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.FACT_CONFIGURACION_TABLERO"
+		}
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"name": "TRG_DescargaInformacionAtomoHana_Alas00",
+	"properties": {
+		"description": "Ejecuta el PipeLine Maestro para descargar la información de ATOMO a HANA",
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "L_MASTER_TD_HANA_ATOMO",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2021-03-30T06:15:00",
+				"timeZone": "SA Pacific Standard Time",
+				"schedule": {
+					"minutes": [
+						0
+					],
+					"hours": [
+						5,
+						8,
+						11,
+						14,
+						17,
+						20,
+						23
+					]
+				}
+			}
+		}
+	}
+}

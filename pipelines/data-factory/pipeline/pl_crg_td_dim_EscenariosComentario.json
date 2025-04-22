@@ -1,0 +1,187 @@
+{
+	"name": "pl_crg_td_dim_EscenariosComentario",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_crg_td_dimEscenarios_Comentario",
+				"description": "",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "\nSELECT\nc.descPeriodo as numPeriodo,\nc.descDetalleIndicador as descDetalleIndicador,\nc.descCorreoUsuario as DesUsuarioCreacion,\nc.descComentarioCausaPeriodo as desCausaPeriodo,\nc.descComentarioCausaAcumulado as desCausaAcumulado,\nc.descComentarioAccionesAseguramiento as descAccion,\nc.vlrEscenarioBajo asdesEscBajo,\nc.descComentarioEscenarioBajo as descEscenBajo,\nc.vlrEscenarioMedio as desEscMedio,\nc.descComentarioEscenarioMedio as desEscenMedio,\nc.vlrEscenarioAlto as desEscAlto,\nc.descComentarioEscenarioAlto as desEscenAlto,\npar.fkIndicador as fkIndicador\nFROM TD.DimComentario c\nINNER JOIN TD.DimParamIndicador par ON c.idParametroIndicador=par.gkParamIndicador",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "fkIndicador",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "fkIndicador",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "desCausaAcumulado",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descCausaAcumulado",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "numPeriodo",
+									"type": "String"
+								},
+								"sink": {
+									"name": "numPeriodo",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "desCausaPeriodo",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descCausaPeriodo",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "asdesEscBajo",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "decEscBajo",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEscenBajo",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descEscenBajo",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "desEscMedio",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "decEscMedio",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "desEscenMedio",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descEscenMedio",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "desEscAlto",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "decEscAlto",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "desEscenAlto",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descEscenAlto",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descAccion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descrAccion",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DesUsuarioCreacion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descUsuarioCreacion",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descDetalleIndicador",
+									"type": "String"
+								},
+								"sink": {
+									"name": "descDetalleIndicador",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_crg_td_dim_Comentario",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_crg_td_Escenarios_Analisis",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_UX"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:05Z"
+	}
+}

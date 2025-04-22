@@ -1,0 +1,266 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimEntregablesHito",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimEntregablesHito",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT  [gkEntregableHito]\n      ,[idEntregable]\n      ,[fkIndicador]\n      ,[fkParamIndicador]\n      ,[dtmFechaUsar]\n      ,replace(replace([descEntregable] ,CHAR(10),''),'\\n','')AS [descEntregable]\n      ,[descResponsableEntregable]\n      ,[descCorreoResponsableEntregable]\n      ,[dtmFechaEntregable]\n      ,[vlrPesoEntregable]\n      ,[descUnidadMedida]\n      ,[vlrPlanEntregable]\n      ,[dtmFechaEjecucionEntregable]\n      ,[prcCumplimientoEntregable]\n      ,[descComentariosEntregable]\n      ,[dtmFechacarga]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n  FROM [TD].[DimEntregablesHito]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_ENTREGABLES_HITO\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkEntregableHito",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "GK_ENTREGABLE_HITO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idEntregable",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "ID_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkIndicador",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkParamIndicador",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "FK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaUsar",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_USAR",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descEntregable",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableEntregable",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoResponsableEntregable",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CORREO_RESPONSABLE_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaEntregable",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_ENTREGABLE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPesoEntregable",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PESO_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descUnidadMedida",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vlrPlanEntregable",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "VLR_PLAN_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaEjecucionEntregable",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_EJECUCION_ENTREGABLE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "prcCumplimientoEntregable",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 10,
+									"precision": 30
+								},
+								"sink": {
+									"name": "PRC_CUMPLIMIENTO_ENTREGABLE",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "descComentariosEntregable",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_COMENTARIOS_ENTREGABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimEntregablesHito",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimEntregableHito",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

@@ -1,0 +1,51 @@
+{
+	"name": "ds_src_syn_schemas",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Schemas": {
+				"type": "string"
+			},
+			"Tables": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "ATOMO_ILP/DS_SRC"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "TABLE_CATALOG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TABLE_SCHEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TABLE_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TABLE_TYPE",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().Schemas",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().Tables",
+				"type": "Expression"
+			}
+		}
+	}
+}

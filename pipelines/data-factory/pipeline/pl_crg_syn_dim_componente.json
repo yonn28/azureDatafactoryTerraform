@@ -1,0 +1,585 @@
+{
+	"name": "pl_crg_syn_dim_componente",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_dim_componente",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_COMPONENTE",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_COMPONENTE",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_COMPONENTE",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "ID_COMPONENTE",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_COMPONENTE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_DETALLE_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_DETALLE_COMPONENTE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_COMPONENTE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32",
+									"physicalType": "INT_32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_TIPO_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TIPO_COMPONENTE",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_dim_componente",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_dim_componente",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_dim_componente",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dim_componente",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_COMPONENTE\"",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_dim_componente",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_componente",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_componente",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_dim_componente",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT [GK_COMPONENTE]\r\n      ,[ID_COMPONENTE]\r\n      ,[DESC_NOMBRE_COMPONENTE]\r\n      ,[DESC_DETALLE_COMPONENTE]\r\n      ,[DESC_COMPONENTE]\r\n      ,[DESC_RESPONSABLE]\r\n      ,[DESC_UNIDAD_MEDIDA]\r\n      ,[DESC_VISUALIZA_PERIODO]\r\n      ,[DESC_FRECUENCIA]\r\n      ,[CANT_DECIMALES_CALCULO]\r\n      ,[CANT_DECIMALES_REPORTE]\r\n      ,[DESC_FUENTE_PROYECTADA]\r\n      ,[DESC_FUENTE_REAL]\r\n      ,[DESC_VERSION]\r\n      ,[DTM_VIGENCIA_DESDE]\r\n      ,[DTM_VIGENCIA_HASTA]\r\n      ,[DTM_FECHACARGA]\r\n      ,[DESC_ORIGEN]\r\n      ,[FK_TIPOSINCONSISTENCIA]\r\n      ,[DESC_TIPO_COMPONENTE]\r\n\t  \r\n  FROM [ATOMO].[STG.DIM_COMPONENTE]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_COMPONENTE\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_COMPONENTE",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_COMPONENTE",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_COMPONENTE",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "ID_COMPONENTE",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBRE_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBRE_COMPONENTE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_DETALLE_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_DETALLE_COMPONENTE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_COMPONENTE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPONSABLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_MEDIDA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISUALIZA_PERIODO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FRECUENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_CALCULO",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "CANT_DECIMALES_REPORTE",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_PROYECTADA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_FUENTE_REAL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_HASTA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_TIPO_COMPONENTE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TIPO_COMPONENTE",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_componente",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_componente",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:24Z"
+	}
+}

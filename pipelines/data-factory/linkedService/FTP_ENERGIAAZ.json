@@ -1,0 +1,25 @@
+{
+	"name": "FTP_ENERGIAAZ",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FtpServer",
+		"typeProperties": {
+			"host": "sv01.xm.com.co",
+			"port": 21,
+			"enableSsl": false,
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Basic",
+			"userName": "CNDRAS\\1030530784",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "XMPublico-FTP",
+				"secretVersion": "a490490fa8ec4407b293db9f0497a192"
+			}
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "TGG_PROYECTA_THU",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2021-01-21T12:15:00",
+				"timeZone": "SA Pacific Standard Time"
+			}
+		}
+	}
+}

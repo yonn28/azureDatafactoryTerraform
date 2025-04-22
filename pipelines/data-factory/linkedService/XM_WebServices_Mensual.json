@@ -1,0 +1,14 @@
+{
+	"name": "XM_WebServices_Mensual",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Linked Services XM Mensual ",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "http://servapibi.xm.com.co/annual",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		}
+	}
+}

@@ -1,0 +1,112 @@
+{
+	"name": "DF_ATOMOUAT_DimEntregablesHito",
+	"properties": {
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_Excel_Entregables_Hito",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoEntregablesHito"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimIndicador"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParamIndicador",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimParamIndicador"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEntregablesHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimEntregablesHito"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEntregablesHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimEntregablesHitoComodin"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEntregablesHito",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAtomoDimEntregablesHitoType0"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimEntregablesHito",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAtomoDimEntregablesHitoType1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltConvertirAtributos"
+				},
+				{
+					"name": "UniSltConSouAtomoDimEntregablesHitoComodin"
+				},
+				{
+					"name": "DrcLimpiezaDatos"
+				},
+				{
+					"name": "DrcLimpiezaDatosSouAtomoDimIndicador"
+				},
+				{
+					"name": "DrcQuitarTildesSouAtomoDimIndicador"
+				},
+				{
+					"name": "DrcQuitarTildesMayusculas"
+				},
+				{
+					"name": "JoiEntregablesHitoDimIndicador"
+				},
+				{
+					"name": "JoiEntregablesHitoDimParamIndicador"
+				},
+				{
+					"name": "DrcLimpiezaDatosSouAtomoDimParamIndicador"
+				},
+				{
+					"name": "SltFiltrarAtributos"
+				},
+				{
+					"name": "DrcConvertPorctaje"
+				},
+				{
+					"name": "JoiEntregablesHitoDimEntregablesHito"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "DrcConvertToDate"
+				},
+				{
+					"name": "AltFilasTypo1"
+				}
+			],
+			"script": "source(output(\n\t\t{ID Parametrización Hito} as string,\n\t\t{Fecha usar} as date,\n\t\tHito as string,\n\t\tDetalle as string,\n\t\t{ID Hito} as string,\n\t\t{ID Entregable} as string,\n\t\t{Descripción Entregable} as string,\n\t\t{Responsable del Entregable} as string,\n\t\t{Correo Responsable del Entregable} as string,\n\t\t{Fecha del Entregable} as date,\n\t\t{Peso del Entregable} as string,\n\t\t{Unidad de Medida Entregable} as string,\n\t\t{Plan Entregable} as string,\n\t\t{Comentarios del Entregable} as string,\n\t\t{Validacion (No Borrar)} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouAtomoEntregablesHito\nsource(output(\n\t\tgkIndicador as integer,\n\t\tdescNombreIndicador as string,\n\t\tdtmVigenciaDesde as timestamp,\n\t\tdtmVigenciaHasta as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT\\n\tDI.gkIndicador,\\n\tDI.descNombreIndicador,\\n\tDI.dtmVigenciaDesde,\\n\tDI.dtmVigenciaHasta\\nFROM [TD].[DimIndicador] DI\\nWHERE DI.idIndicador <> \\'-999\\'\\n',\n\tformat: 'query') ~> SouAtomoDimIndicador\nsource(output(\n\t\tgkParamIndicador as integer,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistro as timestamp,\n\t\tdescDetalleIndicador as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT\\ndp.gkParamIndicador,\\ndp.fkIndicador,\\ndp.dtmFechaRegistro,\\ndp.descDetalleIndicador\\nFROM [TD].[DimParamIndicador] dp\\nWHERE dp.fkIndicador <> 1 AND isnull(descControlCarga,\\'\\') <> \\'INACTIVO\\'',\n\tformat: 'query') ~> SouAtomoDimParamIndicador\nsource(output(\n\t\tgkEntregableHito as integer,\n\t\tidEntregable as integer,\n\t\tfkIndicador as integer,\n\t\tfkParamIndicador as integer,\n\t\tdtmFechaUsar as timestamp,\n\t\tdescEntregable as string,\n\t\tdescResponsableEntregable as string,\n\t\tdescCorreoResponsableEntregable as string,\n\t\tdtmFechaEntregable as timestamp,\n\t\tvlrPesoEntregable as decimal(30,10),\n\t\tdescUnidadMedida as string,\n\t\tvlrPlanEntregable as decimal(30,10),\n\t\tdtmFechaEjecucionEntregable as timestamp,\n\t\tprcCumplimientoEntregable as decimal(30,10),\n\t\tdescComentariosEntregable as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimEntregablesHito\nsource(output(\n\t\tsrc_idEntregable as string,\n\t\tsrc_fkIndicador as string,\n\t\tsrc_fkParamIndicador as string,\n\t\tsrc_dtmFechaUsar as date,\n\t\tsrc_descEntregable as string,\n\t\tsrc_descResponsableEntregable as string,\n\t\tsrc_descCorreoResponsableEntregable as string,\n\t\tsrc_dtmFechaEntregable as date,\n\t\tsrc_vlrPesoEntregable as string,\n\t\tsrc_descUnidadMedida as string,\n\t\tsrc_vlrPlanEntregable as string,\n\t\tsrc_descComentariosEntregable as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT\\nCAST(\\'-999\\' AS VARCHAR(4000)) src_idEntregable,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_fkIndicador,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_fkParamIndicador,\\nCAST(NULL AS DATE) src_dtmFechaUsar,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descEntregable,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descResponsableEntregable,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descCorreoResponsableEntregable,\\nCAST(Null AS DATE) src_dtmFechaEntregable,\\nCAST(Null AS VARCHAR (4000)) src_vlrPesoEntregable,\\nCAST(Null AS VARCHAR (4000)) src_descUnidadMedida,\\nCAST(Null AS VARCHAR (4000)) src_vlrPlanEntregable,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descComentariosEntregable',\n\tformat: 'query') ~> SouAtomoDimEntregablesHitoComodin\nSouAtomoEntregablesHito select(mapColumn(\n\t\tsrc_idEntregable = {ID Entregable},\n\t\tsrc_fkIndicador = Hito,\n\t\tsrc_fkParamIndicador = Detalle,\n\t\tsrc_dtmFechaUsar = {Fecha usar},\n\t\tsrc_descEntregable = {Descripción Entregable},\n\t\tsrc_descResponsableEntregable = {Responsable del Entregable},\n\t\tsrc_descCorreoResponsableEntregable = {Correo Responsable del Entregable},\n\t\tsrc_dtmFechaEntregable = {Fecha del Entregable},\n\t\tsrc_vlrPesoEntregable = {Peso del Entregable},\n\t\tsrc_descUnidadMedida = {Unidad de Medida Entregable},\n\t\tsrc_vlrPlanEntregable = {Plan Entregable},\n\t\tsrc_descComentariosEntregable = {Comentarios del Entregable}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltConvertirAtributos\nSouAtomoDimEntregablesHitoComodin, SltConvertirAtributos union(byName: true)~> UniSltConSouAtomoDimEntregablesHitoComodin\nUniSltConSouAtomoDimEntregablesHitoComodin derive(src_idEntregable = toInteger(src_idEntregable),\n\t\tsrc_fkIndicador = trim(upper(replace(replace(replace(replace(replace(src_fkIndicador, 'á', 'a'), 'é','e'), 'í', 'i'), 'ó', 'o'), 'ú','u'))),\n\t\tsrc_fkParamIndicador = trim(upper(src_fkParamIndicador)),\n\t\tsrc_descEntregable = substring(trim(src_descEntregable),1,500),\n\t\tsrc_descResponsableEntregable = trim(src_descResponsableEntregable),\n\t\tsrc_descCorreoResponsableEntregable = trim(src_descCorreoResponsableEntregable),\n\t\tsrc_vlrPesoEntregable = toDecimal(src_vlrPesoEntregable, 30, 10),\n\t\tsrc_descUnidadMedida = trim(src_descUnidadMedida),\n\t\tsrc_vlrPlanEntregable = toDecimal(src_vlrPlanEntregable, 30, 10),\n\t\tsrc_dtmFechaEjecucionEntregable = 'NULL',\n\t\tsrc_prcCumplimientoEntregable = 'NULL',\n\t\tsrc_descComentariosEntregable = trim(src_descComentariosEntregable),\n\t\tsrc_descOrigen = 'DMTD_Plantilla_EntregablesActividades_Hitos.xlsx||Entregables_Hito',\n\t\tsrc_fkTiposInconsistencia = '0') ~> DrcLimpiezaDatos\nSouAtomoDimIndicador derive(descNombreIndicador = trim(upper(replace(replace(replace(replace(replace(descNombreIndicador, 'á', 'a'), 'é','e'), 'í', 'i'), 'ó', 'o'), 'ú','u'))),\n\t\tdtmVigenciaDesde = toDate(dtmVigenciaDesde),\n\t\tdtmVigenciaHasta = toDate(dtmVigenciaHasta)) ~> DrcLimpiezaDatosSouAtomoDimIndicador\nDrcLimpiezaDatosSouAtomoDimIndicador derive(descNombreIndicador = replace(replace(replace(replace(replace(descNombreIndicador, 'Á', 'A'), 'É','E'), 'Í', 'I'), 'Ó', 'O'), 'Ú','U')) ~> DrcQuitarTildesSouAtomoDimIndicador\nDrcLimpiezaDatos derive(src_fkIndicador = replace(replace(replace(replace(replace(src_fkIndicador, 'Á', 'A'), 'É','E'), 'Í', 'I'), 'Ó', 'O'), 'Ú','U')) ~> DrcQuitarTildesMayusculas\nDrcQuitarTildesMayusculas, DrcQuitarTildesSouAtomoDimIndicador join(src_fkIndicador == descNombreIndicador\n\t&& src_dtmFechaUsar >= dtmVigenciaDesde\n\t&& src_dtmFechaUsar <= dtmVigenciaHasta,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'right')~> JoiEntregablesHitoDimIndicador\nJoiEntregablesHitoDimIndicador, DrcLimpiezaDatosSouAtomoDimParamIndicador join(src_dtmFechaUsar == dtmFechaRegistro\n\t&& src_fkParamIndicador == descDetalleIndicador\n\t&& gkIndicador == fkIndicador,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoiEntregablesHitoDimParamIndicador\nSouAtomoDimParamIndicador derive(dtmFechaRegistro = toDate(dtmFechaRegistro),\n\t\tdescDetalleIndicador = upper(descDetalleIndicador)) ~> DrcLimpiezaDatosSouAtomoDimParamIndicador\nJoiEntregablesHitoDimParamIndicador select(mapColumn(\n\t\tsrc_idEntregable,\n\t\tsrc_fkIndicador = gkIndicador,\n\t\tsrc_fkParamIndicador = gkParamIndicador,\n\t\tsrc_dtmFechaUsar,\n\t\tsrc_descEntregable,\n\t\tsrc_descResponsableEntregable,\n\t\tsrc_descCorreoResponsableEntregable,\n\t\tsrc_dtmFechaEntregable,\n\t\tsrc_vlrPesoEntregable,\n\t\tsrc_descUnidadMedida,\n\t\tsrc_vlrPlanEntregable,\n\t\tsrc_dtmFechaEjecucionEntregable,\n\t\tsrc_prcCumplimientoEntregable,\n\t\tsrc_descComentariosEntregable,\n\t\tsrc_descOrigen,\n\t\tsrc_fkTiposInconsistencia\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltFiltrarAtributos\nSltFiltrarAtributos derive(src_vlrPesoEntregable = src_vlrPesoEntregable/100,\n\t\tsrc_dtmFechaEjecucionEntregable = toDate(src_dtmFechaEjecucionEntregable),\n\t\tsrc_prcCumplimientoEntregable = toDecimal(src_prcCumplimientoEntregable, 30, 10)) ~> DrcConvertPorctaje\nDrcConvertPorctaje, DrcConvertToDate join(src_idEntregable == idEntregable\n\t&& src_dtmFechaUsar == dtmFechaUsar,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoiEntregablesHitoDimEntregablesHito\nJoiEntregablesHitoDimEntregablesHito split((src_idEntregable==idEntregable) && (src_dtmFechaUsar==dtmFechaUsar),\n\tdisjoint: false) ~> ConditionalSplit1@(Match, NoMatch)\nSouAtomoDimEntregablesHito derive(dtmFechaUsar = toDate(dtmFechaUsar)) ~> DrcConvertToDate\nConditionalSplit1@Match alterRow(updateIf(1==1)) ~> AltFilasTypo1\nConditionalSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkEntregableHito as integer,\n\t\tidEntregable as integer,\n\t\tfkIndicador as integer,\n\t\tfkParamIndicador as integer,\n\t\tdtmFechaUsar as timestamp,\n\t\tdescEntregable as string,\n\t\tdescResponsableEntregable as string,\n\t\tdescCorreoResponsableEntregable as string,\n\t\tdtmFechaEntregable as timestamp,\n\t\tvlrPesoEntregable as decimal(30,10),\n\t\tdescUnidadMedida as string,\n\t\tvlrPlanEntregable as decimal(30,10),\n\t\tdtmFechaEjecucionEntregable as timestamp,\n\t\tprcCumplimientoEntregable as decimal(30,10),\n\t\tdescComentariosEntregable as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidEntregable = src_idEntregable,\n\t\tfkIndicador = src_fkIndicador,\n\t\tfkParamIndicador = src_fkParamIndicador,\n\t\tdtmFechaUsar = src_dtmFechaUsar,\n\t\tdescEntregable = src_descEntregable,\n\t\tdescResponsableEntregable = src_descResponsableEntregable,\n\t\tdescCorreoResponsableEntregable = src_descCorreoResponsableEntregable,\n\t\tdtmFechaEntregable = src_dtmFechaEntregable,\n\t\tvlrPesoEntregable = src_vlrPesoEntregable,\n\t\tdescUnidadMedida = src_descUnidadMedida,\n\t\tvlrPlanEntregable = src_vlrPlanEntregable,\n\t\tdtmFechaEjecucionEntregable = src_dtmFechaEjecucionEntregable,\n\t\tprcCumplimientoEntregable = src_prcCumplimientoEntregable,\n\t\tdescComentariosEntregable = src_descComentariosEntregable,\n\t\tdescOrigen = src_descOrigen,\n\t\tfkTiposInconsistencia = src_fkTiposInconsistencia\n\t)) ~> SinkAtomoDimEntregablesHitoType0\nAltFilasTypo1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkEntregableHito as integer,\n\t\tidEntregable as integer,\n\t\tfkIndicador as integer,\n\t\tfkParamIndicador as integer,\n\t\tdtmFechaUsar as timestamp,\n\t\tdescEntregable as string,\n\t\tdescResponsableEntregable as string,\n\t\tdescCorreoResponsableEntregable as string,\n\t\tdtmFechaEntregable as timestamp,\n\t\tvlrPesoEntregable as decimal(30,10),\n\t\tdescUnidadMedida as string,\n\t\tvlrPlanEntregable as decimal(30,10),\n\t\tdtmFechaEjecucionEntregable as timestamp,\n\t\tprcCumplimientoEntregable as decimal(30,10),\n\t\tdescComentariosEntregable as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['idEntregable','dtmFechaUsar'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidEntregable,\n\t\tdtmFechaUsar,\n\t\tfkIndicador = src_fkIndicador,\n\t\tfkParamIndicador = src_fkParamIndicador,\n\t\tdescEntregable = src_descEntregable,\n\t\tdescResponsableEntregable = src_descResponsableEntregable,\n\t\tdescCorreoResponsableEntregable = src_descCorreoResponsableEntregable,\n\t\tdtmFechaEntregable = src_dtmFechaEntregable,\n\t\tvlrPesoEntregable = src_vlrPesoEntregable,\n\t\tdescUnidadMedida = src_descUnidadMedida,\n\t\tvlrPlanEntregable = src_vlrPlanEntregable,\n\t\tdtmFechaEjecucionEntregable = src_dtmFechaEjecucionEntregable,\n\t\tprcCumplimientoEntregable = src_prcCumplimientoEntregable,\n\t\tdescComentariosEntregable = src_descComentariosEntregable\n\t)) ~> SinkAtomoDimEntregablesHitoType1"
+		}
+	}
+}

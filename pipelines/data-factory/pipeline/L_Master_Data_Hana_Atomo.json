@@ -1,0 +1,626 @@
+{
+	"name": "L_Master_Data_Hana_Atomo",
+	"properties": {
+		"description": "Se encarga de cargar la información de  SAP/HANA a Atomo",
+		"activities": [
+			{
+				"name": "Exec_Pipeline_DimActividadesEntregHito",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimFecha",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_actividades_entregable_hito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimContextoHito",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimActividadesEntregHito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_contexto_hito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimEjePalanca",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimContextoHito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_eje_palanca",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimEntregablesHito",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimEjePalanca",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_entregables_hito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimEstructuraDespliegue",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimEntregablesHito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_estructura_despliegue",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimIndicador",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimEstructuraDespliegue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_indicador",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimObjetivo",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimIndicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_objetivo",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimParamIndicador",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimObjetivo",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_paramindicador",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimTiempoCarga",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimParamIndicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_tiempocarga",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimTablero",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimTiempoCarga",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_tablero",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_TmpFechaCorteTD",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimTablero",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_tmp_fecha_corte_td",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DesempenoIndicador",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_FactEntregableHito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_desempenoindicador",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_FactResumenTendencia",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DesempenoIndicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_resumentendencia",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_FactActividadEntregableHito",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_FactConfiguracionTablero",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_actividad_entregable_hito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_FactConfiguracionTablero",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_L_Master_Data_TH_Atomo_ILP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_configuraciontablero",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_FactEntregableHito",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_FactHito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_entregable_hito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_FactHito",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_TmpFechaCorteTD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_hito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SC_Update_Fechas",
+				"description": "Script para la actualización de fechas de ejecución de carga a Synapse y Próxima Actualización",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimFormulaComponente",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Synapse_DWAEUECPDEVMAIN",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "NonQuery",
+							"text": "---------------------- FECHA CARGA SYNAPSE---------------------\r\nUpdate [ATOMO].[DWH.FACT_ACTIVIDAD_ENTREGABLE_HITO] SET [FECHA_CARGA_SYNAPSE] = \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\t\r\nfrom [ATOMO].[DWH.FACT_ACTIVIDAD_ENTREGABLE_HITO]\r\n\r\nUpdate [ATOMO].[DWH.FACT_RESUMEN_TENDENCIA_DETALLE] SET [FECHA_CARGA_SYNAPSE] = \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\t\r\nfrom [ATOMO].[DWH.FACT_RESUMEN_TENDENCIA_DETALLE]\r\n\r\nUpdate [ATOMO].[DWH.FACT_CONFIGURACION_TABLERO] SET [FECHA_CARGA_SYNAPSE] =            \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\t\r\nfrom [ATOMO].[DWH.FACT_CONFIGURACION_TABLERO]\r\n\r\nUpdate [ATOMO].[DWH.FACT_DESEMPENO_INDICADOR] SET [FECHA_CARGA_SYNAPSE]\t= \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\t\r\nfrom [ATOMO].[DWH.FACT_DESEMPENO_INDICADOR]\r\n\r\nUpdate [ATOMO].[DWH.FACT_ENTREGABLE_HITO] SET [FECHA_CARGA_SYNAPSE]\t=            \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\t\r\nfrom [ATOMO].[DWH.FACT_ENTREGABLE_HITO]\r\n\r\nUpdate [ATOMO].[DWH.FACT_HITO] SET [FECHA_CARGA_SYNAPSE] =           \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\t\r\nfrom [ATOMO].[DWH.FACT_HITO]\r\n\r\nUpdate [ATOMO].[DWH.FACT_COMPONENTE] SET [FECHA_CARGA_SYNAPSE] =            \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\t\r\nfrom [ATOMO].[DWH.FACT_COMPONENTE]\r\n-------------- FECHA PROXIMA ACTUALIZA SYNAPSE---------------------------\r\nUpdate [ATOMO].[DWH.FACT_ACTIVIDAD_ENTREGABLE_HITO] SET [FECHA_PROXIMA_ACTUALIZA_SYNAPSE] = \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\r\nfrom [ATOMO].[DWH.FACT_ACTIVIDAD_ENTREGABLE_HITO]\r\n\r\nUpdate [ATOMO].[DWH.FACT_CONFIGURACION_TABLERO] SET [FECHA_PROXIMA_ACTUALIZA_SYNAPSE] = \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\r\nfrom [ATOMO].[DWH.FACT_CONFIGURACION_TABLERO]\r\n\r\nUpdate [ATOMO].[DWH.FACT_RESUMEN_TENDENCIA_DETALLE] SET [FECHA_PROXIMA_ACTUALIZA_SYNAPSE] =    \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\r\nfrom [ATOMO].[DWH.FACT_RESUMEN_TENDENCIA_DETALLE]\r\n\r\nUpdate [ATOMO].[DWH.FACT_DESEMPENO_INDICADOR] SET [FECHA_PROXIMA_ACTUALIZA_SYNAPSE] = \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\r\nfrom [ATOMO].[DWH.FACT_DESEMPENO_INDICADOR]\r\n\r\nUpdate [ATOMO].[DWH.FACT_ENTREGABLE_HITO] SET [FECHA_PROXIMA_ACTUALIZA_SYNAPSE] = \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\r\nfrom [ATOMO].[DWH.FACT_ENTREGABLE_HITO]\r\n\r\nUpdate [ATOMO].[DWH.FACT_HITO] SET [FECHA_PROXIMA_ACTUALIZA_SYNAPSE] = \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\r\nfrom [ATOMO].[DWH.FACT_HITO]\r\n\r\nUpdate [ATOMO].[DWH.FACT_COMPONENTE] SET [FECHA_PROXIMA_ACTUALIZA_SYNAPSE] = \r\nCASE WHEN (DATEPART(hour, GETDATE()) = 10) or (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','08:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 11 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 12) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','09:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 13) or (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','11:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 14 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 15)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','12:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 16) or (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','14:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 17 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 18)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','15:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 19) or (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','17:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 20 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 21)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','18:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 22) or (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','20:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 23 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 00)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','21:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 1) or (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 0 AND 30)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','23:00:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) = 2 and DATEPART(minute, GETDATE()) BETWEEN 31 AND 59) or (DATEPART(hour, GETDATE()) = 3)\r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','00:30:00.000')AS DATETIME)\r\n WHEN (DATEPART(hour, GETDATE()) BETWEEN 4 AND 9) \r\n\tTHEN CAST(CONCAT(CAST(dateadd(hour, -5, GETDATE()) AS DATE),' ','06:30:00.000')AS DATETIME)\r\nELSE 0\r\nEND\r\nfrom [ATOMO].[DWH.FACT_COMPONENTE]\r\n"
+						}
+					]
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimFecha",
+				"description": " ",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_LoadM_Data_AtomoUAT_Hana_DimConfiLog",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_sp_dim_fecha",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimComponente",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_FactActividadEntregableHito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_componente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_FactComponente",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimComponente",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_fact_componente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SP_LoadCvc_Desem_Tablero",
+				"description": "Store Procedure que realiza la carga de la Vista Cvc Desempeño Tablero",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "SC_Update_Fechas",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ATOMO].[SP_DESEMPENO_TABLERO]"
+				},
+				"linkedServiceName": {
+					"referenceName": "Synapse_DWAEUECPDEVMAIN",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimComponenteVista",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_FactComponente",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_componente_vista",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_Pipeline_DimFormulaComponente",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_DimComponenteVista",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_crg_syn_dim_formula_componente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exec_LoadM_Data_AtomoUAT_Hana_DimConfiLog",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_L_Master_Data_TH_Atomo_UX",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimConfiguracionTableroLog",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SP_LoadCvc_Desem_Indca_Tablero_ILP",
+				"description": "Store Procedure que realiza la carga de la Vista Cvc Desempeño Indicadores Tablero ILP",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "SP_LoadCvc_Desem_Tablero",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ATOMO].[SP_DESEMPENO_INDICADORES_TABLERO_ILP]"
+				},
+				"linkedServiceName": {
+					"referenceName": "Synapse_DWAEUECPDEVMAIN",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Exec_Pipeline_L_Master_Data_TH_Atomo_ILP",
+				"description": "Pipeline que ejecuta la carga de los Procesos de Atomo ILP",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Exec_Pipeline_FactResumenTendencia",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "L_Master_Data_TH_Atomo_ILP",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SP_LoadCvc_Th_Entregables_Hito_ILP_replicas",
+				"description": "Store Procedure que realiza la carga de la Vista TH Entregables Hito ILP replicas",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "SP_LoadCvc_Desem_Indca_Tablero_ILP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ATOMO].[SP_TH_ENTREGABLE_HITO_ILP]"
+				},
+				"linkedServiceName": {
+					"referenceName": "Synapse_DWAEUECPDEVMAIN",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Exec_Pipeline_L_Master_Data_TH_Atomo_UX",
+				"description": "Pipeline que ejecuta la carga de los Procesos de Atomo UX",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "L_Master_Data_TH_Atomo_UX",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "ATOMO"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:28Z"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Trigger_wi0",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 24,
+				"startTime": "2020-09-16T10:00:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

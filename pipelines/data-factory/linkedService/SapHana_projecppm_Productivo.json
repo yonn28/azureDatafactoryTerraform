@@ -1,0 +1,17 @@
+{
+	"name": "SapHana_projecppm_Productivo",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "LS SapHana_projecppm_Productivo...",
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=10.76.36.22:30241;uid=PROJECPPM",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjYjAyNjVhZi1mNGVmLTQyOTktYjkwMy05Y2NlZTg4ZTYzY2EiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

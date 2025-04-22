@@ -1,0 +1,75 @@
+{
+	"name": "DF_ATOMOUAT_DimEstructuraDespliegue",
+	"properties": {
+		"description": "Data flows DIM SCDType2",
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_ExcelMaestro_EstructuraDespliegue",
+						"type": "DatasetReference"
+					},
+					"name": "SourceExcelMaestro"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_EstructuraDespliegue",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimEstructuraDespliegue"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_EstructuraDespliegue",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimEstructuraDespliegueComodin"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_EstructuraDespliegue",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoUpdateDimEstructuraDespliegue"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_EstructuraDespliegue",
+						"type": "DatasetReference"
+					},
+					"name": "SynAtomoInsertDimEstructuraDespliegue"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltExcelDimEstructuraDespliegue"
+				},
+				{
+					"name": "validacionEspacios"
+				},
+				{
+					"name": "JoinDimEstructuraDespliegue"
+				},
+				{
+					"name": "CspMatch"
+				},
+				{
+					"name": "AltDimEstructuraDespliegue"
+				},
+				{
+					"name": "UniExcelComodin"
+				},
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTRUCTURA as integer,\n\t\tDESC_GRUPO as string,\n\t\tDESC_EMPRESA as string,\n\t\tDESC_VP_EJECUTIVA as string,\n\t\tDESC_GRUPO_SEGMENTO as string,\n\t\tDESC_SEGMENTO as string,\n\t\tDESC_UNIDAD_NEGOCIO_NVL_2 as string,\n\t\tDESC_UNIDAD_NEGOCIO_NVL_3 as string,\n\t\tDESC_GERENCIA as string,\n\t\tDESC_RUTINA as string,\n\t\tDTM_VIGENCIA_DESDE as date,\n\t\tDTM_VIGENCIA_HASTA as date,\n\t\tSIGLA as string,\n\t\tNIVEL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SourceExcelMaestro\nsource(output(\n\t\tgkEstructuraDespliegue as integer,\n\t\tidEstructura as integer,\n\t\tdescGrupo as string,\n\t\tdescEmpresa as string,\n\t\tdescVPEjecutiva as string,\n\t\tdescGrupoSegmento as string,\n\t\tdescSegmento as string,\n\t\tdescUnidadNegocioNivel2 as string,\n\t\tdescUnidadNegocioNivel3 as string,\n\t\tdescGerencia as string,\n\t\tdescRutina as string,\n\t\tdtmFechaVigenciaDesde as timestamp,\n\t\tdtmFechaVigenciaHasta as timestamp,\n\t\tdescSigla as string,\n\t\tdescNivel as string,\n\t\tdescEstadoReg as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposinconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouDimEstructuraDespliegue\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT \\nCAST(\\'-999\\' AS int)  src_idEstructura,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_Nivel,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descGrupo,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descEmpresa,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descVPEjecutiva,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descGrupoSegmento,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descSegmento,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descUnidadNegocioNivel2,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descUnidadNegocioNivel3,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descGerencia,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000))  src_descRutina,\\nCAST(Null AS DATE) src_dtmFechaVigenciaDesde,\\nCAST(\\'2099-12-31\\'AS DATE) src_dtmFechaVigenciaHasta,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descSigla\\n',\n\tformat: 'query') ~> SouDimEstructuraDespliegueComodin\nSourceExcelMaestro select(mapColumn(\n\t\tsrc_idEstructura = ID_ESTRUCTURA,\n\t\tsrc_Nivel = NIVEL,\n\t\tsrc_descGrupo = DESC_GRUPO,\n\t\tsrc_descEmpresa = DESC_EMPRESA,\n\t\tsrc_descVPEjecutiva = DESC_VP_EJECUTIVA,\n\t\tsrc_descGrupoSegmento = DESC_GRUPO_SEGMENTO,\n\t\tsrc_descSegmento = DESC_SEGMENTO,\n\t\tsrc_descUnidadNegocioNivel2 = DESC_UNIDAD_NEGOCIO_NVL_2,\n\t\tsrc_descUnidadNegocioNivel3 = DESC_UNIDAD_NEGOCIO_NVL_3,\n\t\tsrc_descGerencia = DESC_GERENCIA,\n\t\tsrc_descRutina = DESC_RUTINA,\n\t\tsrc_dtmFechaVigenciaDesde = DTM_VIGENCIA_DESDE,\n\t\tsrc_dtmFechaVigenciaHasta = DTM_VIGENCIA_HASTA,\n\t\tsrc_descSigla = SIGLA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltExcelDimEstructuraDespliegue\nConditionalSplit1@NoNulos derive(src_descGrupo = trim(src_descGrupo),\n\t\tsrc_descEmpresa = trim(src_descEmpresa),\n\t\tsrc_descVPEjecutiva = trim(src_descVPEjecutiva),\n\t\tsrc_descGrupoSegmento = trim(src_descGrupoSegmento),\n\t\tsrc_descSegmento = trim(src_descSegmento),\n\t\tsrc_descUnidadNegocioNivel2 = trim(src_descUnidadNegocioNivel2),\n\t\tsrc_descUnidadNegocioNivel3 = trim(src_descUnidadNegocioNivel3),\n\t\tsrc_descGerencia = trim(src_descGerencia),\n\t\tsrc_descRutina = trim(src_descRutina),\n\t\tsrc_descSigla = trim(src_descSigla),\n\t\tsrcdescOrigen = 'EXCEL:DMTD_Plantilla_DetalleDesempeño_Indicador:ConfiguracionIndicador',\n\t\tsrc_descEstado = iif(currentDate()<=src_dtmFechaVigenciaHasta,'ACTIVO','INACTIVO'),\n\t\tsrc_fkTipoInconsistencia = 0,\n\t\tsrc_dtmFechaVigenciaHasta = coalesce(src_dtmFechaVigenciaHasta ,toDate( '31/12/2099','DD/MM/YYYY'))) ~> validacionEspacios\nvalidacionEspacios, SouDimEstructuraDespliegue join(src_descSigla == descSigla,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimEstructuraDespliegue\nJoinDimEstructuraDespliegue split(src_descSigla==descSigla,\n\tdisjoint: false) ~> CspMatch@(Match, NoMatch)\nCspMatch@Match alterRow(updateIf(1==1)) ~> AltDimEstructuraDespliegue\nSouDimEstructuraDespliegueComodin, SltExcelDimEstructuraDespliegue union(byName: true)~> UniExcelComodin\nUniExcelComodin split(isNull(src_idEstructura),\n\tdisjoint: false) ~> ConditionalSplit1@(Nulos, NoNulos)\nAltDimEstructuraDespliegue sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkEstructuraDespliegue as integer,\n\t\tidEstructura as integer,\n\t\tdescGrupo as string,\n\t\tdescEmpresa as string,\n\t\tdescVPEjecutiva as string,\n\t\tdescGrupoSegmento as string,\n\t\tdescSegmento as string,\n\t\tdescUnidadNegocioNivel2 as string,\n\t\tdescUnidadNegocioNivel3 as string,\n\t\tdescGerencia as string,\n\t\tdescRutina as string,\n\t\tdtmFechaVigenciaDesde as timestamp,\n\t\tdtmFechaVigenciaHasta as timestamp,\n\t\tdescSigla as string,\n\t\tdescNivel as string,\n\t\tdescEstadoReg as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposinconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['descSigla'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidEstructura = src_idEstructura,\n\t\tdescGrupo = src_descGrupo,\n\t\tdescEmpresa = src_descEmpresa,\n\t\tdescVPEjecutiva = src_descVPEjecutiva,\n\t\tdescGrupoSegmento = src_descGrupoSegmento,\n\t\tdescSegmento = src_descSegmento,\n\t\tdescUnidadNegocioNivel2 = src_descUnidadNegocioNivel2,\n\t\tdescUnidadNegocioNivel3 = src_descUnidadNegocioNivel3,\n\t\tdescGerencia = src_descGerencia,\n\t\tdescRutina = src_descRutina,\n\t\tdtmFechaVigenciaDesde = src_dtmFechaVigenciaDesde,\n\t\tdtmFechaVigenciaHasta = src_dtmFechaVigenciaHasta,\n\t\tdescSigla = src_descSigla,\n\t\tdescNivel = src_Nivel,\n\t\tdescEstadoReg = src_descEstado,\n\t\tdescOrigen = srcdescOrigen\n\t)) ~> SynAtomoUpdateDimEstructuraDespliegue\nCspMatch@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkEstructuraDespliegue as integer,\n\t\tidEstructura as integer,\n\t\tdescGrupo as string,\n\t\tdescEmpresa as string,\n\t\tdescVPEjecutiva as string,\n\t\tdescGrupoSegmento as string,\n\t\tdescSegmento as string,\n\t\tdescUnidadNegocioNivel2 as string,\n\t\tdescUnidadNegocioNivel3 as string,\n\t\tdescGerencia as string,\n\t\tdescRutina as string,\n\t\tdtmFechaVigenciaDesde as timestamp,\n\t\tdtmFechaVigenciaHasta as timestamp,\n\t\tdescSigla as string,\n\t\tdescNivel as string,\n\t\tdescEstadoReg as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposinconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidEstructura = src_idEstructura,\n\t\tdescGrupo = src_descGrupo,\n\t\tdescEmpresa = src_descEmpresa,\n\t\tdescVPEjecutiva = src_descVPEjecutiva,\n\t\tdescGrupoSegmento = src_descGrupoSegmento,\n\t\tdescSegmento = src_descSegmento,\n\t\tdescUnidadNegocioNivel2 = src_descUnidadNegocioNivel2,\n\t\tdescUnidadNegocioNivel3 = src_descUnidadNegocioNivel3,\n\t\tdescGerencia = src_descGerencia,\n\t\tdescRutina = src_descRutina,\n\t\tdtmFechaVigenciaDesde = src_dtmFechaVigenciaDesde,\n\t\tdtmFechaVigenciaHasta = src_dtmFechaVigenciaHasta,\n\t\tdescSigla = src_descSigla,\n\t\tdescNivel = src_Nivel,\n\t\tdescEstadoReg = src_descEstado,\n\t\tdescOrigen = srcdescOrigen,\n\t\tfkTiposinconsistencia = src_fkTipoInconsistencia\n\t)) ~> SynAtomoInsertDimEstructuraDespliegue"
+		}
+	}
+}

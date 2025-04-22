@@ -1,0 +1,170 @@
+{
+	"name": "ds_adls_th_desempenoindicador",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DesempenoIndicador.parquet",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "FK_PARAM_INDICADOR",
+				"type": "INT64"
+			},
+			{
+				"name": "FK_PERIODO",
+				"type": "INT64"
+			},
+			{
+				"name": "DESC_PERIODO",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_PLAN_PERIODO",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PLAN_SENSIB_NORM",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_REAL_PERIODO",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_CAUSAS_DESEMPENO_PERIODO",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_PLAN_ACUM",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PLAN_SENSIB_NORM_ACUM",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_REAL_ACUM",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_CAUSAS_DESEMPENO_ACUM",
+				"type": "UTF8"
+			},
+			{
+				"name": "VLR_PROYECCION_PERIODO_1",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PROYECCION_PERIODO_2",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PROYECCION_PERIODO_3",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_META_ANNIO",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PLAN_SENSIB_NORM_ANNIO",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_META_ANNIO_1",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_META_ANNIO_2",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PROYECCION_ANNIO_ESC_BAJO",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PROYECCION_ANNIO_ESC_MEDIO",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "VLR_PROYECCION_ANNIO_ESC_ALTO",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "DESC_PREMISAS_ESC_ALTO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_PREMISAS_ESC_MEDIO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_PREMISAS_ESC_BAJO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_ACCIONES_DE_ASEGURAMIENTO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "UTF8"
+			}
+		]
+	}
+}

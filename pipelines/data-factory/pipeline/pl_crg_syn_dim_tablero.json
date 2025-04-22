@@ -1,0 +1,426 @@
+{
+	"name": "pl_crg_syn_dim_tablero",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_dim_tablero",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_TABLERO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_TABLERO",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_TABLERO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_TABLERO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_SIGLA_AREA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SIGLA_AREA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_TABLERO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TABLERO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CONTACTO_RED_DESEMPENO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CONTACTO_RED_DESEMPENO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CARGO_CONTACTO_RED_DESEMPENO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CARGO_CONTACTO_RED_DESEMPENO",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_VIGENCIA_DESDE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_VIGENCIA_DESDE",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_VIGENCIA_HASTA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_VIGENCIA_HASTA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_dim_tablero",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_dim_tablero",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_dim_tablero",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dim_tablero",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_TABLERO\" ",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_dim_tablero",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_tablero",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_tablero",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_dim_tablero",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT A.[GK_TABLERO] ,\r\n\tA.[ID_TABLERO] ,\r\n\tA.[DESC_SIGLA_AREA],\r\n\tA.[DESC_TABLERO],\r\n\tA.[DESC_CONTACTO_RED_DESEMPENO] ,\r\n\tA.[DESC_CARGO_CONTACTO_RED_DESEMPENO] ,\r\n\tA.[DTM_FECHA_VIGENCIA_DESDE] ,\r\n\tA.[DTM_FECHA_VIGENCIA_HASTA] ,\r\n\tA.[DTM_FECHACARGA] ,\r\n\tA.[DESC_ORIGEN] ,\r\n\tA.[FK_TIPOSINCONSISTENCIA],\r\n\tB.[DESC_DESCRIP_TABLERO] AS [DESC_DESCRIP_TABLERO] ,\r\n\tB.[DESC_RESP_CONFIG_ATOMO] AS [DESC_RESP_CONFIG_ATOMO],\r\n\tB.[DESC_BACK_RESP_CONFIG_ATOMO] AS [DESC_BACK_RESP_CONFIG_ATOMO]\r\n\r\nFROM [ATOMO].[STG.DIM_TABLERO] A\r\nLEFT JOIN [ATOMO].[STG.DIM_TABLERO_ILP] B\r\n\tON A.[GK_TABLERO] = B.[GK_TABLERO]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_TABLERO\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_TABLERO",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_TABLERO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_TABLERO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_TABLERO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_SIGLA_AREA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SIGLA_AREA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_TABLERO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TABLERO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CONTACTO_RED_DESEMPENO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CONTACTO_RED_DESEMPENO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_CARGO_CONTACTO_RED_DESEMPENO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CARGO_CONTACTO_RED_DESEMPENO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_VIGENCIA_DESDE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_VIGENCIA_DESDE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_VIGENCIA_HASTA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_VIGENCIA_HASTA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_DESCRIP_TABLERO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_DESCRIP_TABLERO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESP_CONFIG_ATOMO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESP_CONFIG_ATOMO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_BACK_RESP_CONFIG_ATOMO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_BACK_RESP_CONFIG_ATOMO",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_tablero",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_tablero",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:21Z"
+	}
+}

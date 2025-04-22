@@ -1,0 +1,64 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_DimConfiguracion_CVR",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkSegmento",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "idSegmento",
+				"type": "varchar"
+			},
+			{
+				"name": "descGrupoSegmento",
+				"type": "varchar"
+			},
+			{
+				"name": "descSegmento",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaIniVigenciaSegmento",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaFinVigenciaSegmento",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimConfiguracionCvr"
+		}
+	}
+}

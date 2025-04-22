@@ -1,0 +1,41 @@
+{
+	"name": "DF_ATOMO_EliminarConfiguracionTablero",
+	"properties": {
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_Excel_EliminaConfiguracion_Tablero",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoConfiguracionTablero"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMO_SQL_stgEliminarConfiguracionTablero",
+						"type": "DatasetReference"
+					},
+					"name": "SinkStgEliminarConfiguracionTablero"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltConvertirAtributos"
+				},
+				{
+					"name": "DrcLimpiezaDatos"
+				},
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\t{Año} as string,\n\t\t{Fecha registro} as string,\n\t\t{Desc. Sigla Área} as string,\n\t\t{ID Tablero} as string,\n\t\t{Versión} as string,\n\t\t{Eje / Palanca / Temática} as string,\n\t\t{ID Palanca} as string,\n\t\tObjetivo as string,\n\t\t{ID Objetivo} as string,\n\t\t{Hito / Indicador} as string,\n\t\t{Nombre Indicador} as string,\n\t\t{Detalle Indicador} as string,\n\t\t{ID Indicador} as string,\n\t\t{Tipo Tablero} as string,\n\t\tTBG as string,\n\t\t{Secuencia / Orden} as string,\n\t\t{Valor Peso Indicador} as string,\n\t\t{Corto Plazo / Largo Plazo} as string,\n\t\t{Valor Límite Inferior} as string,\n\t\t{Valor Límite Superior} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouAtomoConfiguracionTablero\nSouAtomoConfiguracionTablero select(mapColumn(\n\t\tsrc_descAnnio = {Año},\n\t\tsrc_dtmFechaRegistro = {Fecha registro},\n\t\tsrc_descSiglaArea = {Desc. Sigla Área},\n\t\tsrc_idTablero = {ID Tablero},\n\t\tsrc_descVersion = {Versión},\n\t\tsrc_idEjePalanca = {ID Palanca},\n\t\tsrc_idObjetivo = {ID Objetivo},\n\t\tsrc_descHitoIndicador = {Hito / Indicador},\n\t\tsrc_NombreIndicador = {Nombre Indicador},\n\t\tsrc_DetalleIndicador = {Detalle Indicador},\n\t\tsrc_descTipoTablero = {Tipo Tablero},\n\t\tsrc_descTBG = TBG,\n\t\tsrc_descSecuenciaOrden = {Secuencia / Orden},\n\t\tsrc_vlrPesoIndicador = {Valor Peso Indicador},\n\t\tsrc_descCortoLargoPlazo = {Corto Plazo / Largo Plazo},\n\t\tsrc_vlrLimiteInferior = {Valor Límite Inferior},\n\t\tsrc_vlrLimiteSuperior = {Valor Límite Superior}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltConvertirAtributos\nSltConvertirAtributos derive(src_descAnnio = toInteger(trim(src_descAnnio)),\n\t\t{ src_descSiglaArea} = trim(src_descSiglaArea),\n\t\tsrc_idTablero = toInteger(trim(src_idTablero)),\n\t\tsrc_descVersion = trim(src_descVersion),\n\t\tsrc_idEjePalanca = toInteger(trim(src_idEjePalanca)),\n\t\tsrc_idObjetivo = toInteger(trim(src_idObjetivo)),\n\t\tsrc_descHitoIndicador = trim(src_descHitoIndicador),\n\t\tsrc_DetalleIndicador = trim(upper(src_DetalleIndicador)),\n\t\tsrc_NombreIndicador = trim(src_NombreIndicador),\n\t\tsrc_descTipoTablero = trim(src_descTipoTablero),\n\t\tsrc_descTBG = trim(src_descTBG),\n\t\tsrc_descSecuenciaOrden = trim(src_descSecuenciaOrden),\n\t\tsrc_vlrPesoIndicador = toDecimal(src_vlrPesoIndicador, 30, 10),\n\t\tsrc_descCortoLargoPlazo = trim(src_descCortoLargoPlazo),\n\t\tsrc_vlrLimiteInferior = toDecimal(src_vlrLimiteInferior, 30, 10),\n\t\tsrc_vlrLimiteSuperior = toDecimal(src_vlrLimiteSuperior, 30, 10),\n\t\tsrc_descUsuarioCreacion = 'adminatomo@ecopetrol.com.co',\n\t\tsrc_dtmFechaModificacion = 'NULL',\n\t\tsrc_descUsuarioModificacion = 'NULL',\n\t\tsrc_descOrigen = 'EXCEL:DMTD_Plantilla_ConfiguracionTableros.xlsx',\n\t\tsrc_fkTiposinconsistencia = 0) ~> DrcLimpiezaDatos\nDrcLimpiezaDatos split(isNull(src_descAnnio),\n\tdisjoint: false) ~> ConditionalSplit1@(NULL, NOTNULL)\nConditionalSplit1@NOTNULL sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tdescNombreIndicador as string,\n\t\tdtmVigenciaIndicador as integer,\n\t\tdescDetalleIndicador as string,\n\t\tdescIndicadorHito as string,\n\t\tidTablero as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tdescNombreIndicador = src_NombreIndicador,\n\t\tdtmVigenciaIndicador = src_descAnnio,\n\t\tdescDetalleIndicador = src_DetalleIndicador,\n\t\tidTablero = src_idTablero,\n\t\tdescIndicadorHito = src_descHitoIndicador\n\t)) ~> SinkStgEliminarConfiguracionTablero"
+		}
+	}
+}

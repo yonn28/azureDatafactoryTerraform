@@ -1,0 +1,16 @@
+{
+	"name": "LS_DMPROYECTOS_SAPHANA_DEV",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapHana",
+		"typeProperties": {
+			"connectionString": "servernode=10.11.24.92:31215;uid=DMPROYECTOS",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkNzRiNWNlZS03ZjI0LTRkZTUtYjE1MC1hYTFiODE3M2NjOWUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

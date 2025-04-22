@@ -1,0 +1,73 @@
+parameters:
+- name: environment
+  type: string
+- name: serviceConnection
+  type: string
+- name: solution
+  type: string
+- name: artifactsPath
+  type: string
+- name: profilePath
+  type: string
+- name: haltOnConnectivityIssues
+  type: boolean
+- name: haltOnDataIssues
+  type: boolean
+
+steps:
+- task: PowerShell@2
+  displayName: 'Look for ${{ parameters.environment }}''s publish profile'
+  inputs:
+    targetType: 'filePath'
+    filePath: scripts\azure-pipelines\synapse\Check-SqlPackageProfile.ps1
+    arguments: >
+      -Environment "${{ parameters.environment }}"
+      -ProfilesDirectory "${{ parameters.profilePath }}"
+- task: AzurePowerShell@5
+  displayName: Verify authentication
+  name: connectivity
+  inputs:
+    azureSubscription: ${{ parameters.serviceConnection }}
+    ScriptPath: 'scripts\azure-pipelines\synapse\Get-SPAuthenticationToken.ps1'
+    azurePowerShellVersion: LatestVersion
+    ScriptArguments: >
+      -PublishProfilePath "${{ parameters.profilePath }}\${{ parameters.environment }}.publish.xml"
+      -HaltOnConnectivityIssues ${{ parameters.haltOnConnectivityIssues }}
+  target:
+     settableVariables:
+      - sqlToken
+      - foundConnectivityIssues
+- task: CmdLine@2
+  displayName: 'Identify proposed changes'
+  name: identify
+  inputs:
+    script: |
+      "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" ^
+      /action:DeployReport ^
+      /sourcefile:${{ parameters.artifactsPath }}\${{ parameters.solution }}.dacpac ^
+      /Profile:${{ parameters.profilePath }}\${{ parameters.environment }}.publish.xml ^
+      /AccessToken:$(sqlToken) ^
+      /outputpath:${{ parameters.artifactsPath }}\sqlpackage_deployreport.xml
+  condition: eq(variables['connectivity.foundConnectivityIssues'], false)
+- task: PowerShell@2
+  name: validation
+  displayName: 'Verify proposed changes'
+  inputs:
+    targetType: 'filePath'
+    filePath: scripts\azure-pipelines\synapse\Parse-SqlPackageDeployReport.ps1
+    arguments: >
+      -SqlPackageReport "${{ parameters.artifactsPath }}\sqlpackage_deployreport.xml"
+      -OutputFilePath "$(System.DefaultWorkingDirectory)\summary_page.MD"
+      -Environment "${{ parameters.environment }}"
+  target:
+     settableVariables:
+      - foundDataIssues
+  condition: eq(variables['connectivity.foundConnectivityIssues'], false)
+- powershell: |
+    Write-Host "##vso[task.uploadsummary]$(System.DefaultWorkingDirectory)\summary_page.MD"
+  displayName: 'Publish validation page'
+  condition: eq(variables['connectivity.foundConnectivityIssues'], false)
+- powershell: |
+    Write-Host "##vso[task.complete result=Failed;]Validation found data issues"
+  displayName: 'Collecting validation errors'
+  condition: and(${{ parameters.haltOnDataIssues }}, eq(variables['validation.foundDataIssues'], true))

@@ -1,0 +1,25 @@
+{
+	"name": "FTPXM_Private",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FtpServer",
+		"typeProperties": {
+			"host": "sv01.xm.com.co/UsuariosK/ECTC/Sic/COMERCIA/",
+			"port": 21,
+			"enableSsl": false,
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Basic",
+			"userName": "CNDRAS\\ECTCSICC",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KV_AEU_ECP_SHARED",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "XMPrivado-FTP",
+				"secretVersion": "579ea5f78b1d419da058abdf0fb369c7"
+			}
+		}
+	}
+}

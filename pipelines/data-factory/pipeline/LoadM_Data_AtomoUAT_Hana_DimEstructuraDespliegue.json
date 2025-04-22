@@ -1,0 +1,271 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimEstructuraDespliegue",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_Data_Atomo_Hana_DimEstructuraDespliegue",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [gkEstructuraDespliegue]\n      ,[idEstructura]\n      ,[descGrupo]\n      ,[descEmpresa]\n      ,[descVPEjecutiva]\n      ,[descGrupoSegmento]\n      ,[descSegmento]\n      ,[descUnidadNegocioNivel2]\n      ,[descUnidadNegocioNivel3]\n      ,[descGerencia]\n      ,[descRutina]\n      ,[dtmFechaVigenciaDesde]\n      ,[dtmFechaVigenciaHasta]\n      ,[descSigla]\n      ,[descNivel]\n      ,[descEstadoReg]\n      ,[dtmFechacarga]\n      ,[descOrigen]\n      ,[fkTiposinconsistencia]\n  FROM [TD].[DimEstructuraDespliegue]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_ESTRUCTURA_DESPLIEGUE\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkEstructuraDespliegue",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "GK_ESTRUCTURA_DESPLIEGUE",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idEstructura",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "ID_ESTRUCTURA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descGrupo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_GRUPO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEmpresa",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_EMPRESA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descVPEjecutiva",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_VP_EJECUTIVA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descGrupoSegmento",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_GRUPO_SEGMENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descSegmento",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_SEGMENTO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descUnidadNegocioNivel2",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_NEGOCIO_NVL_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descUnidadNegocioNivel3",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_UNIDAD_NEGOCIO_NVL_3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descGerencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_GERENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descRutina",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RUTINA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaVigenciaDesde",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_VIGENCIA_DESDE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaVigenciaHasta",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_VIGENCIA_HASTA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descSigla",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_SIGLA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descNivel",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_NIVEL",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEstadoReg",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESTADO_REG",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposinconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DIMEstructuraDespliegue",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DIMEstructuraDespliegue",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:22Z"
+	}
+}

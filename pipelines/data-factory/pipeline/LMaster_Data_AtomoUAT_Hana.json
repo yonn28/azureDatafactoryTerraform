@@ -1,0 +1,576 @@
+{
+	"name": "LMaster_Data_AtomoUAT_Hana",
+	"properties": {
+		"description": "Se encarga de bajar la información de átomo a HANA",
+		"activities": [
+			{
+				"name": "DIM_OBJETIVO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_TIEMPO_CARGA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimObjetivo",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_EJE_PALANCA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_CONFIGURACION_CVR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimEjePalanca",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_TABLERO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_ESTRUCTURA_DESPLIEGUE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimTablero",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_ESTRUCTURA_DESPLIEGUE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_OBJETIVO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimEstructuraDespliegue",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_CONFIGURACION_TABLERO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_TABLERO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimConfiguracionTablero",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_ENTREGABLES_HITO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_EJE_PALANCA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimEntregablesHito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_ACTIVIDADES_ENTREGABLE_HITO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_ENTREGABLES_HITO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimActividadesEntregableHito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_CONTEXTO_HITO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_ACTIVIDADES_ENTREGABLE_HITO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimContextoHito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_CONFIGURACION_CVR",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_CONFIGURACION_TABLERO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimConfiguracionCVR",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_SEGMENTO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_CONTEXTO_HITO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimSegmento",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_COMPONENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_SEGMENTO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimComponente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_COMPONENTE_VISTA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_COMPONENTE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimComponenteVista",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_INDICADOR",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_COMPONENTE_VISTA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load_Data_AtomoUAT_Hana_DimIndicador",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_PARAM_INDICADOR",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_INDICADOR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadM_Data_AtomoUAT_Hana_DimParamIndicador",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_TIEMPO_CARGA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "SPCargaTHDesempenoIndicador",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load_Data_AtomoUAT_Hana_DimTiempoCarga",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DIM_FORMULA_COMPONENETE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_PARAM_INDICADOR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load_Data_AtomoUAT_Hana_DimFormulaComponente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TH_ACTIVIDAD_ENTREGABLE_HITO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "DIM_FORMULA_COMPONENETE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadT_Data_AtomoUAT_Hana_THActividadEntregableHito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TH_COMPONENTE",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "TH_HITO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load_Data_AtomoUAT_Hana_THComponente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TH_DESEMPENO_INDICADOR",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "TH_COMPONENTE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load_Data_SQL_AtomoUAT_THDesempenoIndicador",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TH_ENTREGABLE_HITO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "TH_ACTIVIDAD_ENTREGABLE_HITO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadT_Data_AtomoUAT_Hana_THEntregableHito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TH_HITO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "TH_ENTREGABLE_HITO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadT_Data_AtomoUAT_Hana_THHito",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SPCargarDimTiempoCarga",
+				"description": " ",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[TD].[Sp_DimTiempoCarga_Hana]"
+				},
+				"linkedServiceName": {
+					"referenceName": "dbaeuecpuatatomotd",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SPCargaTHDesempenoIndicador",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "SPTHActividadesEntregableHito",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[TD].[Sp_Cargar_THDesempenoIndicador]"
+				},
+				"linkedServiceName": {
+					"referenceName": "dbaeuecpuatatomotd",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ComponentesAutomatizadosHana",
+				"description": " ",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "SPCargarDimTiempoCarga",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadT_Data_Hana_AtomoUAT_THComponente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SPComponenteAutomatizado",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ComponentesAutomatizadosSynapse",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[TD].[Sp_Cargar_THComponente_Automatizados]"
+				},
+				"linkedServiceName": {
+					"referenceName": "dbaeuecpuatatomotd",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ComponentesAutomatizadosSynapse",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "ComponentesAutomatizadosHana",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "LoadT_Data_Synapse_Atomo_THComponente",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SPTHActividadesEntregableHito",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "SPComponenteAutomatizado",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[TD].[Sp_Cargar_Base_THActividadEntregableHito]"
+				},
+				"linkedServiceName": {
+					"referenceName": "dbaeuecpuatatomotd",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:28Z"
+	}
+}

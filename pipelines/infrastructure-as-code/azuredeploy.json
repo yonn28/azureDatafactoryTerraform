@@ -1,0 +1,632 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "type": "string",
+      "allowedValues": [ "dev", "qas", "prd" ],
+      "metadata": {
+        "description": "Environment target for this infrastructure"
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Location for domain resources"
+      }
+    },
+    "domainName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 9,
+      "metadata": {
+        "description": "Name suffix to be used for resource creation"
+      }
+    },
+    "domainResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource Group name used by all domain resources"
+      }
+    },
+    "sharedDataFactoryResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource Group name where the shared Data Factory containing shared Integration Runtimes is deployed"
+      }
+    },
+    "sharedKeyVaultResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource Group name where the shared KeyVault is deployed"
+      }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "defaultValue": "[ecopetrol.NamingConvention('kv', parameters('domainName'), parameters('environment'))]",
+      "metadata": {
+        "description": "name of the domain key vault to be deployed on domainResourceGroup, please only overwrite it in case you want to use a custom name instead of the default naming convention"
+      }
+    },
+    "keyVaultEnablePurgeProtection": {
+      "type": "bool",
+      "metadata": {
+        "description": "Flag that enables or not Purge Protection on the domain Key Vault"
+      }
+    },
+    "storageName": {
+      "type": "string",
+      "defaultValue": "[ecopetrol.NamingConventionNoDash('dl', parameters('domainName'), parameters('environment'))]",
+      "metadata": {
+        "description": "name of the domain storage account to be deployed on domainResourceGroup, please only overwrite it in case you want to use a custom name instead of the default naming convention"
+      }
+    },
+    "storageContainers": {
+      "type": "array",
+      "metadata": {
+        "description": "list of containers names to create in the storage account"
+      }
+    },
+    "storageBlobStorageDataContributors": {
+      "type": "array",
+      "metadata": {
+        "description": "List of additional PrinicipalIds that will be assigned as Blob Storage Data Contributor in the storage account of the domain"
+      },
+      "defaultValue": []
+    },
+    "dataFactoryName": {
+      "type": "string",
+      "defaultValue": "[ecopetrol.NamingConvention('df', parameters('domainName'), parameters('environment'))]",
+      "metadata": {
+        "description": "name of the domain data factory to be deployed on domainResourceGroup, please only overwrite it in case you want to use a custom name instead of the default naming convention"
+      }
+    },
+    "dataFactoryAzureDevOpsAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure DevOps account name used to link Azure Data Factory"
+      },
+      "defaultValue": ""
+    },
+    "dataFactoryAzureDevOpsProjectName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure DevOps project name used to link Azure Data Factory"
+      },
+      "defaultValue": ""
+    },
+    "dataFactoryAzureDevOpsRepositoryName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure DevOps repository's name used to link Azure Data Factory"
+      },
+      "defaultValue": ""
+    },
+    "dataFactoryAzureDevOpsCollaborationBranch": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure DevOps repository's collaboration branch name used to link Azure Data Factory"
+      },
+      "defaultValue": ""
+    },
+    "dataFactoryAzureDevOpsRootFolder": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure DevOps repository's folder name used to link Azure Data Factory"
+      },
+      "defaultValue": ""
+    },
+    "sharedDataFactoryName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Azure Data Factory used to share Integration Runtimes"
+      }
+    },
+    "sharedDataFactoryIntegrationRuntimes": {
+      "type": "array",
+      "metadata": {
+        "description": "Object with the array of shared integration runtime"
+      }
+    },
+    "sharedKeyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the key vault shared over the domains, to add an access policy for the domain's ADF"
+      }
+    },
+    "resourcesTags": {
+      "type": "object",
+      "metadata": {
+        "description": "List of tags applied to the resources"
+      },
+      "defaultValue": {
+        "environment": "[parameters('environment')]"
+      }
+    },
+    "author": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "commitId": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "buildId": {
+      "type": "string",
+      "defaultValue": ""
+    }
+  },
+  "functions": [
+    {
+      "namespace": "ecopetrol",
+      "members": {
+        "NamingConvention": {
+          "parameters": [
+            {
+              "name": "resourceType",
+              "type": "string"
+            },
+            {
+              "name": "workload",
+              "type": "string"
+            },
+            {
+              "name": "environment",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type": "string",
+            "value": "[concat(toUpper(parameters('resourceType')),'-AEU-ECP-', toUpper(parameters('environment')),'-', toUpper(parameters('workload')))]"
+          }
+        },
+        "NamingConventionNoDash": {
+          "parameters": [
+            {
+              "name": "resourceType",
+              "type": "string"
+            },
+            {
+              "name": "workload",
+              "type": "string"
+            },
+            {
+              "name": "environment",
+              "type": "string"
+            }
+          ],
+          "output": {
+            "type": "string",
+            "value": "[concat(toLower(parameters('resourceType')),'aeuecp', toLower(parameters('environment')), toLower(parameters('workload')))]"
+          }
+        }
+      }
+    }
+  ],
+  "variables": {
+    "domainDeploymentName": "[concat('domain-',parameters('domainName'),'-', parameters('environment'),'-', deployment().name)]",
+    "sharedKvAccessPolicyDeploymentName": "[concat('shared-key-vault-accesspolicy-',parameters('domainName'),'-', parameters('environment'),'-', deployment().name)]",
+    "sharedIrRoleAssignmentDeploymentName": "[concat('sharedIr-roleAssignment-',parameters('domainName'),'-', parameters('environment'),'-', deployment().name)]",
+    "deploymentTags": {
+      "author": "[parameters('author')]",
+      "commitId": "[parameters('commitId')]",
+      "buildId": "[parameters('buildId')]"
+    },
+    "dataFactoryRepoConfiguration": {
+      "type": "FactoryVSTSConfiguration",
+      "tenantId": "[subscription().tenantId]",
+      "accountName": "[parameters('dataFactoryAzureDevOpsAccountName')]",
+      "projectName": "[parameters('dataFactoryAzureDevOpsProjectName')]",
+      "repositoryName": "[parameters('dataFactoryAzureDevOpsRepositoryName')]",
+      "collaborationBranch": "[parameters('dataFactoryAzureDevOpsCollaborationBranch')]",
+      "rootFolder": "[parameters('dataFactoryAzureDevOpsRootFolder')]"
+    }
+  },
+  "resources": [
+    {
+      "name": "[variables('domainDeploymentName')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "resourceGroup": "[parameters('domainResourceGroup')]",
+      "tags": "[variables('deploymentTags')]",
+      "properties": {
+        "mode": "Incremental",
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
+        "parameters": {
+          "dataFactoryName": {
+            "value": "[parameters('dataFactoryName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "dataFactoryRepoConfiguration": {
+            "value": "[variables('dataFactoryRepoConfiguration')]"
+          },
+          "keyVaultName": {
+            "value": "[parameters('keyVaultName')]"
+          },
+          "storageName": {
+            "value": "[parameters('storageName')]"
+          },
+          "containerNames": {
+            "value": "[parameters('storageContainers')]"
+          },
+          "storageBlobStorageDataContributors": {
+            "value": "[parameters('storageBlobStorageDataContributors')]"
+          },
+          "enablePurgeProtection": {
+            "value": "[parameters('keyVaultEnablePurgeProtection')]"
+          },
+          "environment": {
+            "value": "[parameters('environment')]"
+          },
+          "resourcesTags": {
+            "value": "[parameters('resourcesTags')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "environment": {
+              "type": "string"
+            },
+            "dataFactoryName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "dataFactoryRepoConfiguration": {
+              "type": "object"
+            },
+            "keyVaultName": {
+              "type": "string"
+            },
+            "storageName": {
+              "type": "string"
+            },
+            "storageBlobStorageDataContributors": {
+              "type": "array"
+            },
+            "enablePurgeProtection": {
+              "type": "bool"
+            },
+            "containerNames": {
+              "type": "array"
+            },
+            "resourcesTags": {
+              "type": "object",
+              "metadata": {
+                "description": "List of tags applied to the resources"
+              }
+            }
+          },
+          "variables": {
+            "isDevelopmentEnvironment": "[equals(parameters('environment'), 'dev')]",
+            "role": {
+              "BlobStorageDataContributor": "[resourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')]"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.DataFactory/factories",
+              "apiVersion": "2018-06-01",
+              "name": "[parameters('dataFactoryName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "repoConfiguration": "[if(variables('isDevelopmentEnvironment'),parameters('dataFactoryRepoConfiguration'), json('null') )]"
+              },
+              "identity": {
+                "type": "SystemAssigned"
+              },
+              "tags": "[parameters('resourcesTags')]"
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts",
+              "apiVersion": "2021-01-01",
+              "name": "[parameters('storageName')]",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+              },
+              "tags": "[parameters('resourcesTags')]",
+              "kind": "StorageV2",
+              "properties": {
+                "minimumTlsVersion": "TLS1_2",
+                "allowBlobPublicAccess": false,
+                "allowSharedKeyAccess": true,
+                "isHnsEnabled": true,
+                "networkAcls": {
+                  "bypass": "AzureServices",
+                  "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                  "services": {
+                    "file": {
+                      "keyType": "Account",
+                      "enabled": true
+                    },
+                    "blob": {
+                      "keyType": "Account",
+                      "enabled": true
+                    }
+                  },
+                  "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+              }
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+              "apiVersion": "2019-06-01",
+              "name": "[concat(parameters('storageName'), '/default/', parameters('containerNames')[copyIndex()])]",
+              "copy": {
+                "name": "storageContainerLoop",
+                "count": "[length(parameters('containerNames'))]"
+              },
+              "dependsOn": [
+                "[parameters('storageName')]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+              "apiVersion": "2021-04-01-preview",
+              "name": "[concat(parameters('storageName'),'/Microsoft.Authorization/', guid(resourceId('Microsoft.Storage/storageAccounts',  parameters('storageName')), variables('role')['BlobStorageDataContributor'], 'adfDomain'))]",
+              "properties": {
+                "roleDefinitionId": "[variables('role')['BlobStorageDataContributor']]",
+                "principalId": "[reference(parameters('dataFactoryName'), '2018-06-01', 'Full').identity.principalId]"
+              },
+              "dependsOn": [
+                "[parameters('storageName')]",
+                "[parameters('dataFactoryName')]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+              "apiVersion": "2021-04-01-preview",
+              "name": "[concat(parameters('storageName'),'/Microsoft.Authorization/', guid(resourceId('Microsoft.Storage/storageAccounts',  parameters('storageName')), variables('role')['BlobStorageDataContributor'], parameters('storageBlobStorageDataContributors')[copyIndex()]))]",
+              "properties": {
+                "roleDefinitionId": "[variables('role')['BlobStorageDataContributor']]",
+                "principalId": "[parameters('storageBlobStorageDataContributors')[copyIndex()]]"
+              },
+              "copy": {
+                "name": "storage-additional-assignments",
+                "count": "[length(parameters('storageBlobStorageDataContributors'))]"
+              },
+              "dependsOn": [
+                "[parameters('storageName')]"
+              ]
+            },
+            {
+              "type": "Microsoft.KeyVault/vaults",
+              "apiVersion": "2019-09-01",
+              "name": "[parameters('keyVaultName')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('resourcesTags')]",
+              "properties": {
+                "tenantId": "[subscription().tenantId]",
+                "sku": {
+                  "family": "A",
+                  "name": "Standard"
+                },
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": false,
+                "enableSoftDelete": true,
+                "softDeleteRetentionInDays": 90,
+                "enablePurgeProtection": "[if(parameters('enablePurgeProtection'), parameters('enablePurgeProtection'), null())]",
+                "accessPolicies": [
+                  {
+                    "tenantId": "[subscription().tenantId]",
+                    "objectId": "[reference(parameters('dataFactoryName'), '2018-06-01', 'Full').identity.principalId]",
+                    "permissions": {
+                      "secrets": [
+                        "get",
+                        "list"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "dependsOn": [
+                "[parameters('dataFactoryName')]"
+              ]
+            }
+          ],
+          "outputs": {
+            "datalakeURI": {
+              "type": "string",
+              "value": "[reference(parameters('storageName'), '2021-01-01', 'Full').properties.primaryEndpoints.dfs]"
+            },
+            "keyVaultURI": {
+              "type": "string",
+              "value": "[reference(parameters('keyVaultName'), '2019-09-01', 'Full').properties.vaultUri]"
+            },
+            "dataFactoryMsi": {
+              "type": "string",
+              "value": "[reference(parameters('dataFactoryName'), '2018-06-01', 'Full').identity.principalId]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "condition": "[greater(length(parameters('sharedDataFactoryIntegrationRuntimes')), 0)]",
+      "name": "[variables('sharedIrRoleAssignmentDeploymentName')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "resourceGroup": "[parameters('sharedDataFactoryResourceGroup')]",
+      "tags": "[variables('deploymentTags')]",
+      "properties": {
+        "mode": "Incremental",
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
+        "parameters": {
+          "sharedDataFactoryIntegrationRuntimes": {
+            "value": "[parameters('sharedDataFactoryIntegrationRuntimes')]"
+          },
+          "sharedDataFactoryName": {
+            "value": "[parameters('sharedDataFactoryName')]"
+          },
+          "adfDomainPrincipalId": {
+            "value": "[reference(variables('domainDeploymentName')).outputs.dataFactoryMsi.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "adfDomainPrincipalId": {
+              "type": "string"
+            },
+            "sharedDataFactoryName": {
+              "type": "string"
+            },
+            "sharedDataFactoryIntegrationRuntimes": {
+              "type": "array"
+            }
+          },
+          "variables": {
+            "role": {
+              "Contributor": "[resourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.DataFactory/factories/integrationRuntimes/providers/roleAssignments",
+              "apiVersion": "2020-04-01-preview",
+              "name": "[concat(parameters('sharedDataFactoryName'),'/',parameters('sharedDataFactoryIntegrationRuntimes')[copyIndex()], '/Microsoft.Authorization/', guid(resourceId('Microsoft.DataFactory/factories/integrationRuntimes', parameters('sharedDataFactoryName'), parameters('sharedDataFactoryIntegrationRuntimes')[copyIndex()]), variables('role')['Contributor'], parameters('adfDomainPrincipalId')))]",
+              "properties": {
+                "roleDefinitionId": "[variables('role')['Contributor']]",
+                "principalId": "[parameters('adfDomainPrincipalId')]"
+              },
+              "copy": {
+                "name": "adf-integrationRuntimes",
+                "count": "[length(parameters('sharedDataFactoryIntegrationRuntimes'))]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[variables('domainDeploymentName')]"
+      ]
+    },
+    {
+      "name": "[variables('sharedKvAccessPolicyDeploymentName')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "resourceGroup": "[parameters('sharedKeyVaultResourceGroup')]",
+      "tags": "[variables('deploymentTags')]",
+      "properties": {
+        "mode": "Incremental",
+        "expressionEvaluationOptions": {
+          "scope": "Inner"
+        },
+        "parameters": {
+          "keyVaultName": {
+            "value": "[parameters('sharedKeyVaultName')]"
+          },
+          "adfDomainPrincipalId": {
+            "value": "[reference(variables('domainDeploymentName')).outputs.dataFactoryMsi.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "keyVaultName": {
+              "type": "string"
+            },
+            "adfDomainPrincipalId": {
+              "type": "string"
+            },
+            "tenantId": {
+              "type": "string",
+              "defaultValue": "[subscription().tenantId]"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.KeyVault/vaults/accessPolicies",
+              "name": "[concat(parameters('keyVaultName'), '/add')]",
+              "apiVersion": "2019-09-01",
+              "properties": {
+                "accessPolicies": [
+                  {
+                    "tenantId": "[parameters('tenantId')]",
+                    "objectId": "[parameters('adfDomainPrincipalId')]",
+                    "permissions": {
+                      "secrets": [ "get", "list" ]
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs":{
+            "keyVaultURI": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), '2019-09-01', 'Full').properties.vaultUri]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[variables('domainDeploymentName')]"
+      ]
+    }
+  ],
+  "outputs": {
+    "location": {
+      "type": "string",
+      "value": "[parameters('location')]"
+    },
+    "resourceGroup": {
+      "type": "string",
+      "value": "[parameters('domainResourceGroup')]"
+    },
+    "dataFactoryName": {
+      "type": "string",
+      "value": "[parameters('dataFactoryName')]"
+    },
+    "datalakeURI": {
+      "type": "string",
+      "value": "[reference(variables('domainDeploymentName')).outputs.datalakeURI.value]"
+    },
+    "keyVaultName": {
+      "type": "string",
+      "value": "[parameters('keyVaultName')]"
+    },
+    "keyVaultURI": {
+      "type": "string",
+      "value": "[reference(variables('domainDeploymentName')).outputs.keyVaultURI.value]"
+    },
+    "sharedKeyVaultName": {
+      "type": "string",
+      "value": "[parameters('sharedKeyVaultName')]"
+    },
+    "sharedKeyVaultResourceGroup": {
+      "type": "string",
+      "value": "[parameters('sharedKeyVaultResourceGroup')]"
+    },
+    "sharedKeyVaultURI": {
+      "type": "string",
+      "value": "[reference(variables('sharedKvAccessPolicyDeploymentName')).outputs.keyVaultURI.value]"
+    },
+    "sharedDataFactoryName":{
+      "type": "string",
+      "value": "[parameters('sharedDataFactoryName')]"
+    },
+    "sharedDataFactoryResourceGroup":{
+      "type": "string",
+      "value": "[parameters('sharedDataFactoryResourceGroup')]"
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+	"name": "DS_SINK_ATOMOUAT_SQL_DimEntregablesHito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkEntregableHito",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "idEntregable",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fkIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "fkParamIndicador",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "dtmFechaUsar",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descEntregable",
+				"type": "varchar"
+			},
+			{
+				"name": "descResponsableEntregable",
+				"type": "varchar"
+			},
+			{
+				"name": "descCorreoResponsableEntregable",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaEntregable",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "vlrPesoEntregable",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "descUnidadMedida",
+				"type": "varchar"
+			},
+			{
+				"name": "vlrPlanEntregable",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "dtmFechaEjecucionEntregable",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "prcCumplimientoEntregable",
+				"type": "decimal",
+				"precision": 30,
+				"scale": 10
+			},
+			{
+				"name": "descComentariosEntregable",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposInconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimEntregablesHito"
+		}
+	}
+}

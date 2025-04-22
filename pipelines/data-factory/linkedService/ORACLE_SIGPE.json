@@ -1,0 +1,17 @@
+{
+	"name": "ORACLE_SIGPE",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Exploración",
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=10.100.31.14;port=1541;servicename=SIGEXP;user id=SEISMICPROJECTS_READER",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyNDE5MjFmZS0yNzQ5LTRlY2EtOWQwOC05ODI0YTM3NWMwZjIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IrOnpremiseECP",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

@@ -1,0 +1,38 @@
+{
+	"name": "DF_ATOMOUAT_ComponentesAutomatizados",
+	"properties": {
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimParametrizacion"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimComponente",
+						"type": "DatasetReference"
+					},
+					"name": "DSSinkDimComponentes"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimContextoHito",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tgkParametrizacion as long,\n\t\tdescDataMart as string,\n\t\tdescNombrePaquete as string,\n\t\tdescVistaCalculada as string,\n\t\tdescResponsableVcOrigen as string,\n\t\tdescEstadoConsulta as string,\n\t\tdescResponsableParametrizacion as string,\n\t\tdescConsulta as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouDimParametrizacion\nsource(output(\n\t\tgkEjePalanca as long,\n\t\tidEjePalanca as string,\n\t\tdescEjePalanca as string,\n\t\tdtmFechaIniVigenciaPalanca as timestamp,\n\t\tdtmFechaFinVigenciaPalanca as timestamp,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DSSinkDimComponentes\nSouDimParametrizacion sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkContextoHito as long,\n\t\tfkIndicador as integer,\n\t\tdtmFechaRegistroContexto as timestamp,\n\t\tdtmFechaUsar as timestamp,\n\t\tdescSponsor as string,\n\t\tdescCorreoSponsor as string,\n\t\tvlrPlanHito as decimal(30,10),\n\t\tdescContextoMotivacion as string,\n\t\tdescObjetivo as string,\n\t\tdescImpacto as string,\n\t\tdescInterdependencias as string,\n\t\tdescRiesgosPrincipales as string,\n\t\tdescMitigantesRiesgos as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tdescUsuarioCarga as string,\n\t\tdtmFechaModificacion as timestamp,\n\t\tdescUsuarioModificacion as string,\n\t\tdescEstadoContextoHito as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1"
+		}
+	}
+}

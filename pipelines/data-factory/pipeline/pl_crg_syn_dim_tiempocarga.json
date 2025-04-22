@@ -1,0 +1,1003 @@
+{
+	"name": "pl_crg_syn_dim_tiempocarga",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lkp_dwh_DimTiempo",
+				"description": " ",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT COUNT(*) AS Conteo FROM [ATOMO].[DWH.DIM_TIEMPO_CARGA]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_syn_dwh_fact_desempenoindicador",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "If_Condition_TiempoCarga",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lkp_dwh_DimTiempo",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Lkp_dwh_DimTiempo').output.firstRow.Conteo,0)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "cd_sp_dl_dim_tiempocarga_Delta",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OdbcSource",
+									"query": "SELECT DESC_PROCESO_TIPO_CARGA,\n    DESC_TIPO_CARGA,\n    DESC_PERIODO_CARGA,\n    DTM_FECHA_INICIO,\n    DTM_FECHA_FIN,\n    DESC_DETALLE,\n    DESC_ENTREGABLE,\n    DTM_FECHA_CARGA,\n    DESC_ORIGEN,\n    DESC_ESTADO\n\nFROM DMTOMADEDECISIONES.DIM_TIEMPO_CARGA\nWHERE CAST(DTM_FECHA_CARGA AS DATE) >= ADD_DAYS (TO_DATE (CURRENT_DATE, 'YYYY-MM-DD'), -5) ",
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32",
+												"physicalType": "INT_32"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime",
+												"physicalType": "INT_96"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime",
+												"physicalType": "INT_96"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_DETALLE",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime",
+												"physicalType": "INT_96"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ESTADO",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_src_saphana_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_adls_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "cd_dl_syn_stg_dim_tiempocarga_Delta",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "cd_sp_dl_dim_tiempocarga_Delta",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ParquetSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									}
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_TIEMPO_CARGA\" ",
+									"allowCopyCommand": true,
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_adls_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_syn_stg_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "cd_syn_stg_dwh_dim_tiempocarga_Delta",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "cd_dl_syn_stg_dim_tiempocarga_Delta",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlDWSource",
+									"sqlReaderQuery": "SELECT DESC_TIPO_CARGA,\nDESC_PROCESO_TIPO_CARGA,\n\t DESC_PERIODO_CARGA ,\n\t DTM_FECHA_INICIO ,\n\t DTM_FECHA_FIN ,\n\t DESC_DETALLE,\n\t DESC_ENTREGABLE,\n\t DTM_FECHA_CARGA ,\n\t DESC_ORIGEN,\n\t DESC_ESTADO\n\nFROM [ATOMO].[STG.DIM_TIEMPO_CARGA] \n\n\n\n\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "DELETE FROM \"ATOMO\".\"DWH.DIM_TIEMPO_CARGA\" WHERE CAST([DTM_FECHA_CARGA] AS DATE) >= CONVERT(char(10), GetDate()-5,126)",
+									"writeBehavior": "Insert",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_syn_stg_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_syn_dwh_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "cd_sp_dl_dim_tiempocarga",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "OdbcSource",
+									"query": "SELECT DESC_PROCESO_TIPO_CARGA,\n    DESC_TIPO_CARGA,\n    DESC_PERIODO_CARGA,\n    DTM_FECHA_INICIO,\n    DTM_FECHA_FIN,\n    DESC_DETALLE,\n    DESC_ENTREGABLE,\n    DTM_FECHA_CARGA,\n    DESC_ORIGEN,\n    DESC_ESTADO\n\nFROM DMTOMADEDECISIONES.DIM_TIEMPO_CARGA",
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32",
+												"physicalType": "INT_32"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime",
+												"physicalType": "INT_96"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime",
+												"physicalType": "INT_96"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_DETALLE",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime",
+												"physicalType": "INT_96"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ESTADO",
+												"type": "String",
+												"physicalType": "UTF8"
+											}
+										}
+									],
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_src_saphana_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_adls_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "cd_dl_syn_stg_dim_tiempocarga",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "cd_sp_dl_dim_tiempocarga",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ParquetSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									}
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_TIEMPO_CARGA\" ",
+									"allowCopyCommand": true,
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_adls_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_syn_stg_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "cd_syn_stg_dwh_dim_tiempocarga",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "cd_dl_syn_stg_dim_tiempocarga",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlDWSource",
+									"sqlReaderQuery": "SELECT DESC_TIPO_CARGA,\nDESC_PROCESO_TIPO_CARGA,\n\t DESC_PERIODO_CARGA ,\n\t DTM_FECHA_INICIO ,\n\t DTM_FECHA_FIN ,\n\t DESC_DETALLE,\n\t DESC_ENTREGABLE,\n\t DTM_FECHA_CARGA ,\n\t DESC_ORIGEN,\n\t DESC_ESTADO\n\nFROM [ATOMO].[STG.DIM_TIEMPO_CARGA] \n\n\n\n\n",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_TIEMPO_CARGA\"",
+									"writeBehavior": "Insert",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_PROCESO_TIPO_CARGA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_TIPO_CARGA",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											},
+											"sink": {
+												"name": "DESC_PERIODO_CARGA",
+												"type": "Int32"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_INICIO",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_FIN",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_DETALLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ENTREGABLE",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											},
+											"sink": {
+												"name": "DTM_FECHA_CARGA",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ORIGEN",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											},
+											"sink": {
+												"name": "DESC_ESTADO",
+												"type": "String"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_syn_stg_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_syn_dwh_dim_tiempocarga",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:19Z"
+	}
+}

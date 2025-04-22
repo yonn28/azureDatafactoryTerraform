@@ -1,0 +1,271 @@
+{
+	"name": "LoadM_Data_AtomoUAT_Hana_DimParamIndicador",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_Atomo_Hana_DimParamIndicador",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT [gkParamIndicador]\n      ,[fkIndicador]\n      ,[dtmFechaRegistro]\n      ,[descResponsableMedicion]\n      ,[descCargoResponsableMedicion]\n      ,[descCorreoResponsableMedicion]\n      ,[descAreaResponsableMedicion]\n      ,[idUnidadOrganizativa]\n      ,[descResponsableMedicion2]\n      ,[descCargoResponsableMedicion2]\n      ,[descCorreoResponsableMedicion2]\n      ,[descAreaResponsableMedicion2]\n      ,[idUnidadOrganizativa2]\n      ,[descSiglaArea]\n      ,[descDetalleIndicador]\n      ,ISNULL([descControlCarga],'') AS descControlCarga\n      ,[dtmFechacarga]\n      ,[descUsuarioCreacion]\n      ,[dtmFechaModificacion]\n      ,[descUsuarioModificacion]\n      ,[descOrigen]\n      ,[fkTiposInconsistencia]\n  FROM [TD].[DimParamIndicador]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "OdbcSink",
+						"writeBatchSize": 0,
+						"preCopyScript": "TRUNCATE TABLE \"DMTOMADEDECISIONES\".\"DIM_PARAM_INDICADOR\""
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkParamIndicador",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "GK_PARAM_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "fkIndicador",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "FK_INDICADOR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaRegistro",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_REGISTRO",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableMedicion",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_MEDICION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCargoResponsableMedicion",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CARGO_RESPONSABLE_MEDICION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoResponsableMedicion",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CORREO_RESPONSABLE_MEDICION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descAreaResponsableMedicion",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_AREA_RESPONSABLE_MEDICION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "idUnidadOrganizativa",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ID_UNIDAD_ORGANIZATIVA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descResponsableMedicion2",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPONSABLE_MEDICION_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCargoResponsableMedicion2",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CARGO_RESPONSABLE_MEDICION_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCorreoResponsableMedicion2",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CORREO_RESPONSABLE_MEDICION_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descAreaResponsableMedicion2",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_AREA_RESPONSABLE_MEDICION_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "idUnidadOrganizativa2",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ID_UNIDAD_ORGANIZATIVA_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descSiglaArea",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_SIGLA_AREA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descDetalleIndicador",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_DETALLE_INDICADOR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descControlCarga",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_CONTROL_CARGA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParamIndicador",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SINK_ATOMOUAT_HANA_DimParamIndicador",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:19Z"
+	}
+}

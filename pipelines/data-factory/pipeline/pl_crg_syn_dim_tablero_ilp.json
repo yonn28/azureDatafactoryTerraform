@@ -1,0 +1,198 @@
+{
+	"name": "pl_crg_syn_dim_tablero_ilp",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_th_syn_stg_dim_tablero_ilp",
+				"description": "",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT * \nFROM [TD].[DimTablero]\nWHERE [descSiglaArea] = 'ILP'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_TABLERO_ILP\" ",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkTablero",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_TABLERO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "idTablero",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_TABLERO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descSiglaArea",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SIGLA_AREA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descTablero",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_TABLERO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descContactoRedDesempeno",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CONTACTO_RED_DESEMPENO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descCargoContactoRedDesempeno",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_CARGO_CONTACTO_RED_DESEMPENO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaVigenciaDesde",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_VIGENCIA_DESDE",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaVigenciaHasta",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_VIGENCIA_HASTA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaCarga",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fkTiposInconsistencia",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_DESCRIP_TABLERO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_DESCRIP_TABLERO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESP_CONFIG_ATOMO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESP_CONFIG_ATOMO",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_BACK_RESP_CONFIG_ATOMO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_BACK_RESP_CONFIG_ATOMO",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_td_dim_tablero_ilp",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_tablero_ilp",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_ILP"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:09Z"
+	}
+}

@@ -1,0 +1,100 @@
+{
+	"name": "ds_syn_dwh_dim_escenariosanalisis_ux",
+	"properties": {
+		"description": "  ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_UX/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_ESCENARIO_ANALISIS",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_CAUSA_ACUMULADO",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_PERIODO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_CAUSA_PERIODO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ESC_BAJO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ESCEN_BAJO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ESC_MEDIO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ESCEN_MEDIO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ESC_ALTO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_ESCEN_ALTO",
+				"type": "varchar"
+			},
+			{
+				"name": "DESCR_ACCION",
+				"type": "varchar"
+			},
+			{
+				"name": "DESCR_COMENTARIO",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_INDICADOR",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_USUARIO_CREACION",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_MODIFICACION",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_USUARIO_MODIFICACION",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_DETALLE_INDICADOR",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.DIM_ESCENARIOSANALISIS_UX"
+		}
+	}
+}

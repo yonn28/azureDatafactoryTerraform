@@ -1,0 +1,77 @@
+parameters:
+  - name: iacCdVariableGroupPrefix
+    type: string
+  - name: domain
+    type: string
+  - name: environment
+    type: string
+  - name: pipelineArtifactDirectory
+    type: string
+  - name: azureServiceConnectionName
+    type: string
+  - name: dataFactoryOverrideParameters
+    type: string
+  - name: dependsOnJob
+    type: object
+    default: []
+
+jobs:
+  - deployment: deploy
+    dependsOn: ${{ parameters.dependsOnJob }}
+    displayName: 'Deploy Data Factory pipelines to ${{ parameters.environment }}'
+    condition: succeeded()
+    pool:
+      vmImage: 'Ubuntu-20.04'
+    variables:
+      - group: '${{ parameters.iacCdVariableGroupPrefix }}-${{ parameters.domain }}-${{ parameters.environment }}'
+      - template: ../../variable.environment.${{ parameters.environment }}.yml
+    environment: ${{ parameters.domain }}-${{ parameters.environment }}-data-factory
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@1
+            displayName: "SETUP: Set Azure Credentials"
+            inputs:
+              azureSubscription: ${{ parameters.azureServiceConnectionName }}
+              scriptLocation: inlineScript
+              inlineScript: |
+                set -eu
+                subscriptionId=$(az account show --query id -o tsv)
+                echo "##vso[task.setvariable variable=SUBSCRIPTION_ID]$subscriptionId"
+              addSpnToEnvironment: true
+
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifact: 'ArmTemplates-${{ parameters.environment }}'
+              path: ${{ parameters.pipelineArtifactDirectory }}
+
+          - task: AzurePowerShell@4
+            displayName: 'Pre-deployment'
+            inputs:
+              azureSubscription: ${{ parameters.azureServiceConnectionName }}
+              ScriptPath: '${{ parameters.pipelineArtifactDirectory }}/PrePostDeploymentScript.ps1'
+              ScriptArguments: '-predeployment $True -armTemplate "${{ parameters.pipelineArtifactDirectory }}/ARMTemplateForFactory.json" -ResourceGroupName "$(resourceGroup)" -DataFactoryName "$(dataFactoryName)"'
+              azurePowerShellVersion: LatestVersion
+
+          - script: echo ${{ parameters.dataFactoryOverrideParameters }}
+            displayName: "DEBUG: Show Override Parameters for the ADF."
+
+          - task: AzureResourceGroupDeployment@2
+            displayName: 'Deploy to Azure Subscription'
+            inputs:
+              azureSubscription: ${{ parameters.azureServiceConnectionName }}
+              resourceGroupName: '$(resourceGroup)'
+              location: '$(location)'
+              csmFile: '${{ parameters.pipelineArtifactDirectory }}/ARMTemplateForFactory.json'
+              csmParametersFile: '${{ parameters.pipelineArtifactDirectory }}/ARMTemplateParametersForFactory.json'
+              overrideParameters: ${{ parameters.dataFactoryOverrideParameters }}
+              deploymentMode: Incremental
+
+          - task: AzurePowerShell@4
+            displayName: 'Post-deployment'
+            inputs:
+              azureSubscription: ${{ parameters.azureServiceConnectionName }}
+              ScriptPath: '${{ parameters.pipelineArtifactDirectory }}/PrePostDeploymentScript.ps1'
+              ScriptArguments: '-predeployment $False -armTemplate "${{ parameters.pipelineArtifactDirectory }}/ARMTemplateForFactory.json" -ResourceGroupName "$(resourceGroup)" -DataFactoryName "$(dataFactoryName)"'
+              azurePowerShellVersion: LatestVersion

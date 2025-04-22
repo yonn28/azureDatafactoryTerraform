@@ -1,0 +1,106 @@
+{
+	"name": "DS_SOURCE_ATOMOUAT_SQL_DIM_ESTRUCTURA_DESPLIEGUE",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "gkEstructuraDespliegue",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "idEstructura",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "descGrupo",
+				"type": "varchar"
+			},
+			{
+				"name": "descEmpresa",
+				"type": "varchar"
+			},
+			{
+				"name": "descVPEjecutiva",
+				"type": "varchar"
+			},
+			{
+				"name": "descGrupoSegmento",
+				"type": "varchar"
+			},
+			{
+				"name": "descSegmento",
+				"type": "varchar"
+			},
+			{
+				"name": "descUnidadNegocioNivel2",
+				"type": "varchar"
+			},
+			{
+				"name": "descUnidadNegocioNivel3",
+				"type": "varchar"
+			},
+			{
+				"name": "descGerencia",
+				"type": "varchar"
+			},
+			{
+				"name": "descRutina",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechaVigenciaDesde",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "dtmFechaVigenciaHasta",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descSigla",
+				"type": "varchar"
+			},
+			{
+				"name": "descNivel",
+				"type": "varchar"
+			},
+			{
+				"name": "descEstadoReg",
+				"type": "varchar"
+			},
+			{
+				"name": "dtmFechacarga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "descOrigen",
+				"type": "varchar"
+			},
+			{
+				"name": "fkTiposinconsistencia",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "DimEstructuraDespliegue"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

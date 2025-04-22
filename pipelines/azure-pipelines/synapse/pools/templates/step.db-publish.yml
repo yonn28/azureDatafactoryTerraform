@@ -1,0 +1,34 @@
+parameters:
+- name: environment
+  type: string
+- name: serviceConnection
+  type: string
+- name: solution
+  type: string
+- name: artifactsPath
+  type: string
+- name: profilePath
+  type: string
+- name: haltOnConnectivityIssues
+  type: boolean
+  default: true
+
+steps:
+- task: AzurePowerShell@5
+  displayName: Verify Authentication
+  inputs:
+    azureSubscription: ${{ parameters.serviceConnection }}
+    ScriptPath: 'scripts\azure-pipelines\synapse\Get-SPAuthenticationToken.ps1'
+    azurePowerShellVersion: LatestVersion
+    ScriptArguments: >
+     -PublishProfilePath "${{ parameters.profilePath }}\${{ parameters.environment }}.publish.xml"
+     -HaltOnConnectivityIssues ${{ parameters.haltOnConnectivityIssues }}
+- task: CmdLine@2
+  displayName: 'Deploy proposed changes'
+  inputs:
+    script: |
+      "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" ^
+      /action:Publish ^
+      /sourcefile:${{ parameters.artifactsPath }}\${{ parameters.solution }}.dacpac ^
+      /Profile:${{ parameters.profilePath }}\${{ parameters.environment }}.publish.xml ^
+      /AccessToken:$(sqlToken)

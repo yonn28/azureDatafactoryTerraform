@@ -1,0 +1,73 @@
+{
+	"name": "ds_syn_dwh_dim_actividadentregable",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "Synapse_DWAEUECPDEVMAIN",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SYN/DWH"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "GK_ACTIVIDAD_ENTREGABLE_HITO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ID_ACTIVIDAD",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_ENTREGABLE_HITO",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_ACTIVIDAD",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHA_ACTIVIDAD",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DTM_FECHA_EJECUCION_ACTIVIDAD",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_CUMPLE_PENDIENTE",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_COMENTARIOS_ACTIVIDAD",
+				"type": "varchar"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "varchar"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ATOMO",
+			"table": "DWH.DIM_ACTIVIDADES_ENTREGABLE_HITO"
+		}
+	}
+}

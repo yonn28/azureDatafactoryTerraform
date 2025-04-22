@@ -1,0 +1,24 @@
+{
+    "requests": [
+      {
+        "title": "Unused Linked Services",
+        "query": "match (ls:LinkedService) where not ((:Dataset)-[:HAS_LINKED_SERVICE]->(ls)) return ls",
+        "skip": false
+      },
+      {
+        "title": "Unused Datasets",
+        "query": "match (ds:Dataset) where not (()-->(ds)) return ds",
+        "skip": false
+      },
+      {
+        "title": "Unused Dataflows",
+        "query": "match (df:Dataflow) where not (()-->(df)) return df",
+        "skip": false
+      },
+      {
+        "title": "Linked Services not using Key Vault to store credentials",
+        "query": "MATCH (ls:LinkedService) WHERE ls.HasCredentials='True' RETURN ls",
+        "skip": false
+      }
+    ]
+  }

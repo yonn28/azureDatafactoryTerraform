@@ -1,0 +1,42 @@
+parameters:
+- name: environment
+  type: string
+- name: domainName
+  type: string
+- name: azureServiceConnectionName
+  type: string
+- name: waitForBuild
+  type: boolean
+  default: true
+- name: profilePath
+  type: string
+  default: '$(System.DefaultWorkingDirectory)\synapse\profiles'
+- name: haltOnConnectivityIssues
+  type: boolean
+  default: true
+- name: pool
+  type: string
+
+jobs:
+  - deployment: '${{ parameters.environment }}Deploy'
+    displayName: 'Deployment'
+    ${{ if eq(parameters['waitForBuild'], true) }}:
+      dependsOn: validate
+      condition: succeeded()
+    pool: ${{ parameters.pool }}
+    environment: ${{ parameters.domainName }}-${{ parameters.environment }}-synapse
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            displayName: "Download artifacts"
+            artifact: ${{ parameters.domainName }}
+          - template: step.db-publish.yml
+            parameters:
+              environment: ${{ parameters.environment }}
+              solution: ${{ parameters.domainName }}
+              serviceConnection: ${{ parameters.azureServiceConnectionName }}
+              artifactsPath: '$(Pipeline.Workspace)\${{ parameters.domainName }}'
+              profilePath: ${{ parameters.profilePath }}
+              haltOnConnectivityIssues: ${{ parameters.haltOnConnectivityIssues }}

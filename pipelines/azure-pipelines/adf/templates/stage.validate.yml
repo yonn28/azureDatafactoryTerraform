@@ -1,0 +1,51 @@
+parameters:
+  - name: azureServiceConnectionName
+    type: string
+  - name: analyzerDockerRegistry
+    type: string
+  - name: analyzerDockerImage
+    type: string
+  - name: neo4jDockerImage
+    type: string
+  - name: workingDirectory
+    type: string
+  - name: condition
+    type: boolean
+
+stages:
+- stage: validate
+  displayName: 'Validate'
+  jobs:
+  - job: adf_analyzer_job
+    displayName: "Run ADF Analyzer"
+    condition: and(succeeded(), ${{ parameters.condition }} )
+    pool: 
+      vmImage: 'Ubuntu-20.04'
+    steps:
+    - script: |
+        docker run --rm -d -p 7687:7687 -e NEO4J_AUTH=none --name neo4j ${{ parameters.neo4jDockerImage }}
+        echo Waiting for Neo4J...
+        docker exec -t neo4j bash -c "until echo 'match (n) return count(n);' | bin/cypher-shell -a bolt://localhost:7687; do echo $? ; sleep 1; done"
+      displayName: Start Neo4J
+
+    - task: AzureCLI@1
+      displayName: "Pull ADF Analyzer Image"
+      inputs:
+        azureSubscription: ${{ parameters.azureServiceConnectionName }}
+        scriptLocation: inlineScript
+        inlineScript: |
+          az acr login --name ${{ parameters.analyzerDockerRegistry }}
+          docker pull ${{ parameters.analyzerDockerImage }}
+
+    - script: |
+        docker run -v $(pwd):/repo --net=host ${{ parameters.analyzerDockerImage }} --repo /repo --neo4j-uri bolt://localhost:7687/ \
+          --log-level 2 --linting-input /repo/linting.json --linting-output /repo/output.xml --linting-output-format NUnit
+      displayName: Run ADF Analyzer
+      workingDirectory: ${{ parameters.workingDirectory }}
+
+    - task: PublishTestResults@2
+      displayName: Publish Results
+      inputs:
+        testResultsFormat: 'NUnit'
+        testResultsFiles: '${{ parameters.workingDirectory }}/output.xml'
+        failTaskOnFailedTests: false

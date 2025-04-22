@@ -1,0 +1,19 @@
+{
+	"name": "ds_src_saphana_dim_actividades_entregable_hito",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "LS_DMTOMADEDECISIONES_DEV",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_SRC"
+		},
+		"annotations": [],
+		"type": "OdbcTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "\"DMTOMADEDECISIONES\".\"DIM_ACTIVIDADES_ENTREGABLE_HITO\""
+		}
+	}
+}

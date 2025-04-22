@@ -1,0 +1,64 @@
+{
+	"name": "DF_ATOMO_ExcelComponentesAutomatizados",
+	"properties": {
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_Excel_ComponentesAutomatizados",
+						"type": "DatasetReference"
+					},
+					"name": "SouExcelComponenteAutomatizado"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"name": "SouDimParametrizacionComponentesAutomatizados"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"name": "Insert"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimParametrizacion",
+						"type": "DatasetReference"
+					},
+					"name": "updateDimParametrizacion"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltConvertirAtributos"
+				},
+				{
+					"name": "DrcLimpiezaDatos"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "JoinDimParametrizacion"
+				},
+				{
+					"name": "Match"
+				},
+				{
+					"name": "Update"
+				}
+			],
+			"script": "source(output(\n\t\tID as string,\n\t\t{Datamart Origen} as string,\n\t\t{Nombre Paquete} as string,\n\t\t{Vista Calculada} as string,\n\t\t{Responsable Vista calculada Origen} as string,\n\t\t{Estado consulta} as string,\n\t\t{Responsable Parametrización} as string,\n\t\t{Sistema Fuente} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouExcelComponenteAutomatizado\nsource(output(\n\t\tgkParametrizacion as long,\n\t\tdescDataMart as string,\n\t\tdescNombrePaquete as string,\n\t\tdescVistaCalculada as string,\n\t\tdescResponsableVcOrigen as string,\n\t\tdescEstadoConsulta as string,\n\t\tdescResponsableParametrizacion as string,\n\t\tdescConsulta as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string,\n\t\tdescSistemaFuente as string,\n\t\tidDatamart as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouDimParametrizacionComponentesAutomatizados\nSouExcelComponenteAutomatizado select(mapColumn(\n\t\tsrc_ID = ID,\n\t\tsrc_DatamartOrigen = {Datamart Origen},\n\t\tsrc_NombrePaquete = {Nombre Paquete},\n\t\tsrc_VistaCalculada = {Vista Calculada},\n\t\tsrc_ResponsableVistacalculadaOrigen = {Responsable Vista calculada Origen},\n\t\tsrc_Estadoconsulta = {Estado consulta},\n\t\tsrc_ResponsableParametrizacion = {Responsable Parametrización},\n\t\tsrc_SistemaFuente = {Sistema Fuente}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltConvertirAtributos\nSltConvertirAtributos derive(src_ID = toInteger(trim(src_ID)),\n\t\tsrc_DatamartOrigen = trim(src_DatamartOrigen),\n\t\tsrc_NombrePaquete = trim(src_NombrePaquete),\n\t\tsrc_VistaCalculada = trim(src_VistaCalculada),\n\t\tsrc_ResponsableVistacalculadaOrigen = trim(src_ResponsableVistacalculadaOrigen),\n\t\tsrc_Estadoconsulta = upper(trim(src_Estadoconsulta)),\n\t\tsrc_ResponsableParametrizacion = trim(src_ResponsableParametrizacion),\n\t\tsrc_SistemaFuente = trim(src_SistemaFuente),\n\t\tstrConsulta = iif(trim(upper(src_SistemaFuente))=='HANA', concat(concat(concat(concat('_SYS_BIC\".\"\"',trim(upper(src_NombrePaquete))),'/'),trim(upper(src_VistaCalculada))),'\"\"\"\"\"'), concat(concat(trim(upper(src_NombrePaquete)),'.'),trim(upper(src_VistaCalculada)))),\n\t\tsrc_Origen = 'EXCEL:COMPONENTES_FORMULA:PARAM_COMPONENTES',\n\t\tsrc_dtmFechaCarga = toTimestamp( currentDate())) ~> DrcLimpiezaDatos\nDrcLimpiezaDatos split(isNull(src_ID),\n\tdisjoint: false) ~> ConditionalSplit1@(NULL, NOTNULL)\nConditionalSplit1@NOTNULL, SouDimParametrizacionComponentesAutomatizados join(src_ID == idDatamart,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDimParametrizacion\nJoinDimParametrizacion split(src_ID==idDatamart,\n\tdisjoint: false) ~> Match@(Match, NoMatch)\nMatch@Match alterRow(updateIf(1==1)) ~> Update\nMatch@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkParametrizacion as long,\n\t\tdescDataMart as string,\n\t\tdescNombrePaquete as string,\n\t\tdescVistaCalculada as string,\n\t\tdescResponsableVcOrigen as string,\n\t\tdescEstadoConsulta as string,\n\t\tdescResponsableParametrizacion as string,\n\t\tdescConsulta as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string,\n\t\tdescSistemaFuente as string,\n\t\tidDatamart as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tdescDataMart = src_DatamartOrigen,\n\t\tdescNombrePaquete = src_NombrePaquete,\n\t\tdescVistaCalculada = src_VistaCalculada,\n\t\tdescResponsableVcOrigen = src_ResponsableVistacalculadaOrigen,\n\t\tdescEstadoConsulta = src_Estadoconsulta,\n\t\tdescResponsableParametrizacion = src_ResponsableParametrizacion,\n\t\tdescConsulta = strConsulta,\n\t\tdtmFechaCarga = src_dtmFechaCarga,\n\t\tdescOrigen = src_Origen,\n\t\tdescSistemaFuente = src_SistemaFuente,\n\t\tidDatamart = src_ID\n\t)) ~> Insert\nUpdate sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkParametrizacion as long,\n\t\tdescDataMart as string,\n\t\tdescNombrePaquete as string,\n\t\tdescVistaCalculada as string,\n\t\tdescResponsableVcOrigen as string,\n\t\tdescEstadoConsulta as string,\n\t\tdescResponsableParametrizacion as string,\n\t\tdescConsulta as string,\n\t\tdtmFechaCarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string,\n\t\tdescSistemaFuente as string,\n\t\tidDatamart as integer\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['idDatamart'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tdescNombrePaquete = src_NombrePaquete,\n\t\tdescVistaCalculada = src_VistaCalculada,\n\t\tdescResponsableVcOrigen = src_ResponsableVistacalculadaOrigen,\n\t\tdescEstadoConsulta = src_Estadoconsulta,\n\t\tdescResponsableParametrizacion = src_ResponsableParametrizacion,\n\t\tdescConsulta = strConsulta,\n\t\tidDatamart = src_ID,\n\t\tdescOrigen = src_Origen,\n\t\tdescSistemaFuente = src_SistemaFuente,\n\t\tdescDataMart = src_DatamartOrigen\n\t)) ~> updateDimParametrizacion"
+		}
+	}
+}

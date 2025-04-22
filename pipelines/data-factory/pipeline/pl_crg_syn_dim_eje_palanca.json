@@ -1,0 +1,343 @@
+{
+	"name": "pl_crg_syn_dim_eje_palanca",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_sp_dl_dim_eje_palanca",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OdbcSource",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_EJE_PALANCA",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_EJE_PALANCA",
+									"type": "Int64",
+									"physicalType": "INT_64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_EJE_PALANCA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_EJE_PALANCA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_EJE_PALANCA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_EJE_PALANCA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_INI_VIGENCIA_PALANCA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INI_VIGENCIA_PALANCA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_PALANCA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_PALANCA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime",
+									"physicalType": "INT_96"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_saphana_dim_eje_palanca",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_adls_dim_eje_palanca",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_dl_syn_dim_eje_palanca",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_sp_dl_dim_eje_palanca",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_EJE_PALANCA\" ",
+						"allowCopyCommand": true,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_adls_dim_eje_palanca",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_eje_palanca",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_eje_palanca",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_dl_syn_dim_eje_palanca",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT A.[GK_EJE_PALANCA]\r\n      ,A.[ID_EJE_PALANCA]\r\n      ,A.[DESC_EJE_PALANCA]\r\n      ,A.[DTM_FECHA_INI_VIGENCIA_PALANCA]\r\n      ,A.[DTM_FECHA_FIN_VIGENCIA_PALANCA]\r\n      ,A.[DTM_FECHACARGA]\r\n      ,A.[DESC_ORIGEN]\r\n      ,A.[FK_TIPOSINCONSISTENCIA]\r\n\t  ,B.[NUM_ORDEN]\r\n\r\nFROM [ATOMO].[STG.DIM_EJE_PALANCA] A\r\nLEFT JOIN [ATOMO].[STG.DIM_EJE_PALANCA_UX] B\r\n\tON A.[GK_EJE_PALANCA] = B.[GK_EJE_PALANCA]\r\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_EJE_PALANCA\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_EJE_PALANCA",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_EJE_PALANCA",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_EJE_PALANCA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_EJE_PALANCA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_EJE_PALANCA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_EJE_PALANCA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_INI_VIGENCIA_PALANCA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_INI_VIGENCIA_PALANCA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_PALANCA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_FIN_VIGENCIA_PALANCA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FK_TIPOSINCONSISTENCIA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "NUM_ORDEN",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "NUM_ORDEN",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_eje_palanca",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_eje_palanca",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO/PLSimples_Dim"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:20Z"
+	}
+}

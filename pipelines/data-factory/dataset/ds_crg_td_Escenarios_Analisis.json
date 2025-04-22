@@ -1,0 +1,19 @@
+{
+	"name": "ds_crg_td_Escenarios_Analisis",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dbaeuecpuatatomotd",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO_UX/DS_SRC"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "TD",
+			"table": "EscenariosAnalisis"
+		}
+	}
+}

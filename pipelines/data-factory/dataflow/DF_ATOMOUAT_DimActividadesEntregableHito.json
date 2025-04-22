@@ -1,0 +1,87 @@
+{
+	"name": "DF_ATOMOUAT_DimActividadesEntregableHito",
+	"properties": {
+		"folder": {
+			"name": "APP_ATOMO_UAT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_Excel_Actividades_Entregables",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoActividadesEntregables"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimActividadesEntregableHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimActividadesEntregableHito"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimActividadesEntregableHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouAtomoDimActividadesEntregableHitoComodin"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SOURCE_ATOMOUAT_SQL_DimEntregablesHito",
+						"type": "DatasetReference"
+					},
+					"name": "SouDImEntregable"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimActividadesEntregableHito",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAtomoDimActividadesEntregableHitoType0"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SINK_ATOMOUAT_SQL_DimActividadesEntregableHito",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAtomoDimActividadesEntregableHitoType1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SltConvertirAtributos"
+				},
+				{
+					"name": "UniSltConSouAtomoDimActividadesEntregableHitoComodin"
+				},
+				{
+					"name": "DrcLimpiezaDatos"
+				},
+				{
+					"name": "JoiActividadesEntregablesDimActividadesEntregableHito"
+				},
+				{
+					"name": "Split1"
+				},
+				{
+					"name": "AltFilasType1"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\tEntregable as string,\n\t\t{ID Entregable} as string,\n\t\t{ID Actividad} as string,\n\t\t{Descripción Actividad} as string,\n\t\t{Fecha de Actividad} as date,\n\t\t{Fecha de Ejecución Actividad} as date,\n\t\t{Comentarios de la Actividad} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> SouAtomoActividadesEntregables\nsource(output(\n\t\tgkActividadEntregableHito as integer,\n\t\tidActividad as integer,\n\t\tfkEntregableHito as integer,\n\t\tdescActividad as string,\n\t\tdtmFechaActividad as timestamp,\n\t\tdtmFechaEjecucionActividad as timestamp,\n\t\tdescCumplePendiente as string,\n\t\tdescComentariosActividad as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouAtomoDimActividadesEntregableHito\nsource(output(\n\t\tsrc_idActividad as string,\n\t\tsrc_fkEntregableHito as string,\n\t\tsrc_descActividad as string,\n\t\tsrc_dtmFechaActividad as date,\n\t\tsrc_dtmFechaEjecucionActividad as date,\n\t\tsrc_descCumplePendiente as string,\n\t\tsrc_descComentariosActividad as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT \\nCAST(\\'-999\\' AS VARCHAR(4000)) src_idActividad,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_fkEntregableHito,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descActividad,\\nCAST(Null AS DATE) src_dtmFechaActividad,\\nCAST(Null AS DATE) src_dtmFechaEjecucionActividad,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descCumplePendiente,\\nCAST(\\'SIN CLASIFICAR\\' AS VARCHAR(4000)) src_descComentariosActividad',\n\tformat: 'query') ~> SouAtomoDimActividadesEntregableHitoComodin\nsource(output(\n\t\tgkEntregableHito as integer,\n\t\tidEntregable as integer,\n\t\tfkIndicador as integer,\n\t\tfkParamIndicador as integer,\n\t\tdtmFechaUsar as timestamp,\n\t\tdescEntregable as string,\n\t\tdescResponsableEntregable as string,\n\t\tdescCorreoResponsableEntregable as string,\n\t\tdtmFechaEntregable as timestamp,\n\t\tvlrPesoEntregable as decimal(30,10),\n\t\tdescUnidadMedida as string,\n\t\tvlrPlanEntregable as decimal(30,10),\n\t\tdtmFechaEjecucionEntregable as timestamp,\n\t\tprcCumplimientoEntregable as decimal(30,10),\n\t\tdescComentariosEntregable as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SouDImEntregable\nSouAtomoActividadesEntregables select(mapColumn(\n\t\tsrc_idActividad = {ID Actividad},\n\t\tsrc_fkEntregableHito = {ID Entregable},\n\t\tsrc_descActividad = {Descripción Actividad},\n\t\tsrc_dtmFechaActividad = {Fecha de Actividad},\n\t\tsrc_dtmFechaEjecucionActividad = {Fecha de Ejecución Actividad},\n\t\tsrc_descComentariosActividad = {Comentarios de la Actividad}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SltConvertirAtributos\nSouAtomoDimActividadesEntregableHitoComodin, SltConvertirAtributos union(byName: true)~> UniSltConSouAtomoDimActividadesEntregableHitoComodin\nUniSltConSouAtomoDimActividadesEntregableHitoComodin derive(src_idActividad = toInteger(src_idActividad),\n\t\tsrc_fkEntregableHito = toInteger(src_fkEntregableHito),\n\t\tsrc_descActividad = trim(src_descActividad),\n\t\tsrc_descComentariosActividad = trim(src_descComentariosActividad),\n\t\tsrc_descOrigen = 'DMTD_Plantilla_EntregablesActividades_Hitos.xlsx||Actividades_Entregables',\n\t\tsrc_fkTiposInconsistencia = 0) ~> DrcLimpiezaDatos\nConditionalSplit1@NOTNULL, SouAtomoDimActividadesEntregableHito join(src_idActividad == idActividad,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoiActividadesEntregablesDimActividadesEntregableHito\nJoiActividadesEntregablesDimActividadesEntregableHito split(src_idActividad==idActividad,\n\tdisjoint: false) ~> Split1@(Match, NoMatch)\nSplit1@Match alterRow(updateIf(1==1)) ~> AltFilasType1\nDrcLimpiezaDatos, SouDImEntregable join(src_fkEntregableHito == idEntregable,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join1\nJoin1 derive(fkEntregable = iif(isNull(gkEntregableHito), 1, gkEntregableHito)) ~> DerivedColumn1\nDerivedColumn1 split(isNull(src_idActividad),\n\tdisjoint: false) ~> ConditionalSplit1@(NULL, NOTNULL)\nSplit1@NoMatch sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkActividadEntregableHito as integer,\n\t\tidActividad as integer,\n\t\tfkEntregableHito as integer,\n\t\tdescActividad as string,\n\t\tdtmFechaActividad as timestamp,\n\t\tdtmFechaEjecucionActividad as timestamp,\n\t\tdescCumplePendiente as string,\n\t\tdescComentariosActividad as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidActividad = src_idActividad,\n\t\tfkEntregableHito = fkEntregable,\n\t\tdescActividad = src_descActividad,\n\t\tdtmFechaActividad = src_dtmFechaActividad,\n\t\tdtmFechaEjecucionActividad = src_dtmFechaEjecucionActividad,\n\t\tdescComentariosActividad = src_descComentariosActividad,\n\t\tdescOrigen = src_descOrigen,\n\t\tfkTiposInconsistencia = src_fkTiposInconsistencia\n\t)) ~> SinkAtomoDimActividadesEntregableHitoType0\nAltFilasType1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tgkActividadEntregableHito as integer,\n\t\tidActividad as integer,\n\t\tfkEntregableHito as integer,\n\t\tdescActividad as string,\n\t\tdtmFechaActividad as timestamp,\n\t\tdtmFechaEjecucionActividad as timestamp,\n\t\tdescCumplePendiente as string,\n\t\tdescComentariosActividad as string,\n\t\tdtmFechacarga as timestamp,\n\t\tdescOrigen as string,\n\t\tfkTiposInconsistencia as string\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['idActividad'],\n\tformat: 'table',\n\tpreSQLs:[' '],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tidActividad = src_idActividad,\n\t\tfkEntregableHito = fkEntregable,\n\t\tdescActividad = src_descActividad,\n\t\tdtmFechaActividad = src_dtmFechaActividad,\n\t\tdtmFechaEjecucionActividad = src_dtmFechaEjecucionActividad,\n\t\tdescComentariosActividad = src_descComentariosActividad\n\t)) ~> SinkAtomoDimActividadesEntregableHitoType1"
+		}
+	}
+}

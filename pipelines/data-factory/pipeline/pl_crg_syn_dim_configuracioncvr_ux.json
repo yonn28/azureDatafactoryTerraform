@@ -1,0 +1,380 @@
+{
+	"name": "pl_crg_syn_dim_configuracioncvr_ux",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_th_syn_stg_dim_configuracioncvr_ux",
+				"description": "  ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_CONFIGURACION_CVR_UX\" ",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkCvr",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_CVR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "descVersion",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "prcLimiteInferiorCvr",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_LIMITE_INFERIOR_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "prcLimiteSuperiorCvr",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_LIMITE_SUPERIOR_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "prcMetaCvr",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_META_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmVigencia",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechacarga",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descOrigen",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "decEstandar",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "DEC_ESTANDAR",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "emailAsociadoCVR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "EMAIL_ASOCIADO_CVR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descUsuarioCreacion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_CREACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "dtmFechaModificacion",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_MODIFICACION",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "descUsuarioModificacion",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_MODIFICACION",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_td_dim_configuracioncvr",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_configuracioncvr_ux",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_configuracioncvr",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_th_syn_stg_dim_configuracioncvr_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"sqlReaderQuery": "SELECT A.[GK_CVR],\n\t A.[DESC_VERSION],\n\t A.[PRC_LIMITE_INFERIOR_CVR] ,\n\t A.[PRC_LIMITE_SUPERIOR_CVR] ,\n\t A.[PRC_META_CVR] ,\n\t A.[DTM_VIGENCIA_DESDE] ,\n\t A.[DTM_FECHACARGA] ,\n\t A.[DESC_ORIGEN] ,\n\t A.[DEC_ESTANDAR] ,\n     A.[EMAIL_ASOCIADO_CVR] ,\n     A.[DESC_USUARIO_CREACION] ,\n     A.[DTM_FECHA_MODIFICACION] ,\n     A.[DESC_USUARIO_MODIFICACION],\n\t B.[DESCDETALLEINDICADORHITO]\n\nFROM [ATOMO].[STG.DIM_CONFIGURACION_CVR_UX] A\n\tLEFT JOIN [ATOMO].[STG.DIM_CVR_INDICADOR_HITO] B\n\t\tON  A.[GK_CVR] = B.[fkConfigCVR]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_CONFIGURACION_CVR\"",
+						"writeBehavior": "Insert",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_CVR",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_CVR",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VERSION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PRC_LIMITE_INFERIOR_CVR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_LIMITE_INFERIOR_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "PRC_LIMITE_SUPERIOR_CVR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_LIMITE_SUPERIOR_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "PRC_META_CVR",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PRC_META_CVR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "DTM_VIGENCIA_DESDE",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHACARGA",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ORIGEN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DEC_ESTANDAR",
+									"type": "Boolean"
+								},
+								"sink": {
+									"name": "DEC_ESTANDAR",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "EMAIL_ASOCIADO_CVR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "EMAIL_ASOCIADO_CVR",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_USUARIO_CREACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_CREACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DTM_FECHA_MODIFICACION",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DTM_FECHA_MODIFICACION",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_USUARIO_MODIFICACION",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_USUARIO_MODIFICACION",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DESCDETALLEINDICADORHITO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESCDETALLEINDICADORHITO",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_configuracioncvr_ux",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_configuracioncvr",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_UX"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:12Z"
+	}
+}

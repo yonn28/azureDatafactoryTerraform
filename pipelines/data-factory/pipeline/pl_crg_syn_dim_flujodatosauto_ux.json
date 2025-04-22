@@ -1,0 +1,291 @@
+{
+	"name": "pl_crg_syn_dim_flujodatosauto_ux",
+	"properties": {
+		"activities": [
+			{
+				"name": "cd_th_syn_stg_dim_flujodatosauto_ux",
+				"description": " ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"STG.DIM_FLUJODATOSAUTO_UX\" ",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "gkFlujoDatosAuto",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "GK_FLUJO_DATOS_AUTO",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"name": "dscDatamart",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_DATAMART",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descNombrePaquete",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_NOMBREPAQUETE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descVistaCalculada",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_VISTACALCULADA",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descRespVistaCalc",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPVISTACALC",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descEstadoCons",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_ESTADOCONS",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descRespParam",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_RESPPARAM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "descSisFuente",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DESC_SISFUENTE",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_td_flujodatosauto",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_flujodatosauto_ux",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "cd_syn_stg_dwh_dim_flujodatosauto_ux",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "cd_th_syn_stg_dim_flujodatosauto_ux",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlDWSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlDWSink",
+						"preCopyScript": "TRUNCATE TABLE \"ATOMO\".\"DWH.DIM_FLUJODATOSAUTO_UX\"",
+						"writeBehavior": "Insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "GK_FLUJO_DATOS_AUTO",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "GK_FLUJO_DATOS_AUTO",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_DATAMART",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_DATAMART",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_NOMBREPAQUETE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_NOMBREPAQUETE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_VISTACALCULADA",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_VISTACALCULADA",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPVISTACALC",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPVISTACALC",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_ESTADOCONS",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_ESTADOCONS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_RESPPARAM",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_RESPPARAM",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DESC_SISFUENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "DESC_SISFUENTE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_syn_stg_dim_flujodatosauto_ux",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_syn_dwh_dim_flujodatosauto_ux",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "ATOMO_UX"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-06-02T13:07:09Z"
+	}
+}

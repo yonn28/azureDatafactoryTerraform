@@ -1,0 +1,106 @@
+{
+	"name": "ds_adls_dim_componente",
+	"properties": {
+		"description": " ",
+		"linkedServiceName": {
+			"referenceName": "StagingService",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ATOMO/DS_ADLS"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "componente",
+				"folderPath": "ECP/TOMADEDECISIONES",
+				"container": "raw"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "GK_COMPONENTE",
+				"type": "INT64"
+			},
+			{
+				"name": "ID_COMPONENTE",
+				"type": "INT64"
+			},
+			{
+				"name": "DESC_NOMBRE_COMPONENTE",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_DETALLE_COMPONENTE",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_COMPONENTE",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_RESPONSABLE",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_UNIDAD_MEDIDA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_VISUALIZA_PERIODO",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_FRECUENCIA",
+				"type": "UTF8"
+			},
+			{
+				"name": "CANT_DECIMALES_CALCULO",
+				"type": "INT32"
+			},
+			{
+				"name": "CANT_DECIMALES_REPORTE",
+				"type": "INT32"
+			},
+			{
+				"name": "DESC_FUENTE_PROYECTADA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_FUENTE_REAL",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_VERSION",
+				"type": "UTF8"
+			},
+			{
+				"name": "DTM_VIGENCIA_DESDE",
+				"type": "INT96"
+			},
+			{
+				"name": "DTM_VIGENCIA_HASTA",
+				"type": "INT96"
+			},
+			{
+				"name": "DTM_FECHACARGA",
+				"type": "INT96"
+			},
+			{
+				"name": "DESC_ORIGEN",
+				"type": "UTF8"
+			},
+			{
+				"name": "FK_TIPOSINCONSISTENCIA",
+				"type": "UTF8"
+			},
+			{
+				"name": "DESC_TIPO_COMPONENTE",
+				"type": "UTF8"
+			}
+		]
+	}
+}
